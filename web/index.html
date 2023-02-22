@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>WebGL Build Example</title>
+</head>
+<body>
+<canvas id="canvas" width="640" height="480"></canvas>
+<script src="your_webgl_build.js"></script>
+<script>
+    var canvas = document.getElementById("canvas");
+    Module.canvas = canvas; // Set the canvas element for Emscripten
+
+    // Call the Emscripten-generated function to start the WebGL application
+    Module._main();
+</script>
+</body>
+</html>
