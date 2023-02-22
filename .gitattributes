@@ -1,2 +1,4 @@
 * text=auto eol=lf
 dependencies/** linguist-vendored
+*.h linguist-vendored
+*.cpp linguist-vendored
