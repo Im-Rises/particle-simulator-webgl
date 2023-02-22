@@ -13,14 +13,8 @@ file(GLOB_RECURSE HEADERS "${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/*.h")
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/dependencies/glfw" build)
 find_package(OpenGL 4.6 REQUIRED)
-find_program(EMSCRIPTEN emcc)
-find_program(EMSCRIPTEN_COMPILER emcc)
-
-if(NOT EMSCRIPTEN)
-    message(FATAL_ERROR "Emscripten compiler not found")
-else()
-    message("Emscripten toolchain file: ${CMAKE_TOOLCHAIN_FILE}")
-endif()
+#find_program(EMSCRIPTEN emcc)
+#find_program(EMSCRIPTEN_COMPILER emcc)
 
 add_compile_options("-s WASM=1")
 
