@@ -13,8 +13,7 @@ file(GLOB_RECURSE HEADERS "${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/*.h")
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/dependencies/glfw" build)
 find_package(OpenGL 4.6 REQUIRED)
-#find_program(EMSCRIPTEN emcc)
-#find_program(EMSCRIPTEN_COMPILER emcc)
+#find_package(Threads REQUIRED)
 
 add_compile_options("-s WASM=1")
 
