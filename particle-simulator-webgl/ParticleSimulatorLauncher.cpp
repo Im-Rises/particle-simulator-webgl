@@ -12,6 +12,7 @@
 #include <cstdlib>
 #define GL_SILENCE_DEPRECATION
 #include <GLES2/gl2.h>
+#define GLFW_INCLUDE_ES2
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
 #include <iostream>
 

@@ -13,7 +13,8 @@ file(GLOB_RECURSE HEADERS "${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/*.h")
 
 #add_subdirectory("${CMAKE_SOURCE_DIR}/dependencies/glfw" build)
 #add_subdirectory("${CMAKE_SOURCE_DIR}/dependencies/glfw" "${CMAKE_BINARY_DIR}/glfw")
-find_package(OpenGL 4.3 REQUIRED)
+#find_package(OpenGL 4.3 REQUIRED)
+#find_package(OpenGL REQUIRED)
 find_package(glfw3 3.3 REQUIRED)
 #find_package(Threads REQUIRED)
 
@@ -21,7 +22,9 @@ add_compile_options("-s WASM=1")# should be add_link_options("-s WASM=1")
 
 add_executable(${PROJECT_NAME} ${SRCS} ${HEADERS} ${SRCS_HEADERS_IMGUI} ${SRCS_HEADERS_GLAD})
 
-target_link_libraries(${PROJECT_NAME} OpenGL::GL)
+#target_link_libraries(${PROJECT_NAME} OpenGL::GL)
+#target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::EGL OpenGL::GLESv2)
+#target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} glfw ${CMAKE_DL_LIBS})
 target_link_libraries(${PROJECT_NAME} "-s USE_GLFW=3" "-s MIN_WEBGL_VERSION=2" "-s MAX_WEBGL_VERSION=2")#should be add_link_options()
 #target_link_libraries(${PROJECT_NAME} Threads::Threads)
