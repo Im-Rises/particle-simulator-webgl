@@ -3,9 +3,9 @@
 // If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.
 // Read online: https://github.com/ocornut/imgui/tree/master/docs
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
+#include "dependencies/imgui/imgui.h"
+#include "dependencies/imgui/backends/imgui_impl_glfw.h"
+#include "dependencies/imgui/backends/imgui_impl_opengl3.h"
 #include <stdio.h>
 #define GL_SILENCE_DEPRECATION
 #if defined(IMGUI_IMPL_OPENGL_ES2)
@@ -22,7 +22,7 @@
 
 // This example can also compile and run with Emscripten! See 'Makefile.emscripten' for details.
 #ifdef __EMSCRIPTEN__
-#include "../libs/emscripten/emscripten_mainloop_stub.h"
+#include "dependencies/imgui/libs/emscripten/emscripten_mainloop_stub.h"
 #endif
 
 static void glfw_error_callback(int error, const char* description)
