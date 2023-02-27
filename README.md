@@ -26,9 +26,11 @@ You also need to have CMake installed. You can find instructions on how to
 install CMake here:  
 <https://cmake.org/install/>
 
-Once you have Emscripten and CMake installed, you can build the project.
+Once you have Emscripten and CMake installed, you can build the project in two ways.
 
-Run this command in the build-emscripten directory:
+### Method 1: Using CMake toolchain file
+
+Run this command in the `emscripten-toolchain` directory:
 
 ```bash
 cmake -DCMAKE_TOOLCHAIN_FILE=/path/to/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DCMAKE_BUILD_TYPE=Release ..
@@ -45,6 +47,24 @@ Then run this command in the same directory:
 ```bash
 make
 ```
+
+The build artifacts will be generated in the `emscripten-toolchain` directory.
+
+### Method 2: Using CMake command line
+
+Run this command in the `build-commandline` directory:
+
+```bash
+emcmake cmake ..
+```
+
+Then run this command in the same directory:
+
+```bash
+emmake make
+```
+
+The build artifacts will be generated in the `build-commandline` directory.
 
 ## Libraries
 
