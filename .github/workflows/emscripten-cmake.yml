@@ -1,0 +1,30 @@
+name: Emscripten-CMake
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mymindstorm/setup-emsdk@v11
+
+      - name: Verify
+        run: emcc -v
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: |
+          cd build-commandline
+          emcmake cmake ..
+          emmake make
+
+#      - name: Upload to branch
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: emscripten-cmake
+#          path: build-commandline
