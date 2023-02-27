@@ -1,26 +1,44 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.0)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+project(particle-simulator-webgl)
 
-find_program(EMSCRIPTEN emcc)
-find_program(EMSCRIPTEN_COMPILER emcc)
+include_directories(dependencies/glad/include)
 
-if (NOT EMSCRIPTEN)
-    message(FATAL_ERROR "emcc not found")
+set(CMAKE_CXX_STANDARD 11)
+
+set(IMGUI_DIR dependencies/imgui)
+set(GLAD_DIR dependencies/glad)
+
+add_executable(${PROJECT_NAME}
+        main.cpp
+        ${IMGUI_DIR}/imgui.cpp
+        ${IMGUI_DIR}/imgui_demo.cpp
+        ${IMGUI_DIR}/imgui_draw.cpp
+        ${IMGUI_DIR}/imgui_tables.cpp
+        ${IMGUI_DIR}/imgui_widgets.cpp
+        ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
+        ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+        ${GLAD_DIR}/src/glad.c
+        )
+
+target_include_directories(${PROJECT_NAME}
+        PRIVATE ${IMGUI_DIR}
+        PRIVATE ${IMGUI_DIR}/backends)
+
+#find_package(OpenGL REQUIRED)
+#target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL)
+
+if(UNIX)
+    target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE IMGUI_IMPL_OPENGL_LOADER_GLAD)
 endif()
 
-if (NOT EMSCRIPTEN_COMPILER)
-    message(FATAL_ERROR "emcc not found")
+if(APPLE)
+    target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Cocoa" "-framework IOKit" "-framework CoreVideo")
 endif()
 
-get_filename_component(EMSCRIPTEN_COMPILER_DIR ${EMSCRIPTEN_COMPILER} DIRECTORY)
-
-message(STATUS "EMSCRIPTEN_COMPILER_DIR: ${EMSCRIPTEN_COMPILER_DIR}")
-set(CMAKE_C_COMPILER emcc)
-set(CMAKE_CXX_COMPILER em++)
-
-project("particle-simulator-webgl" VERSION 0.1.0)
-
-add_subdirectory(${PROJECT_NAME})
+if(EMSCRIPTEN)
+    set(CMAKE_EXECUTABLE_SUFFIX ".html")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_GLFW=3 -s FULL_ES3=1")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s USE_GLFW=3 -s FULL_ES3=1 -s WASM=0 -s ALLOW_MEMORY_GROWTH=1")
+endif()

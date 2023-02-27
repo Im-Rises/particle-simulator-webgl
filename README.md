@@ -3,8 +3,9 @@
 <p align="center">
       <img src="https://user-images.githubusercontent.com/59691442/183268126-b3d19e66-8f2d-463a-805e-ae6ef7cc6c01.png" alt="cmakeLogo" style="height:60px;"/>
       <img src="https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="cppLogo" style="height:60px;"/>
-      <img src="https://user-images.githubusercontent.com/59691442/190315010-0a84e171-a2bc-42a4-91c8-bb850960209c.png" alt="openglLogo" style="height:60px;"/>
+      <img src="https://img.shields.io/badge/OpenGL-FFFFFF?style=for-the-badge&logo=opengl" alt="openglLogo" style="height:60px;"/>
       <img src="https://user-images.githubusercontent.com/59691442/190315147-ec9dc33f-0090-4f0d-98ab-514eb1463e01.png" alt="glfwLogo" style="height:60px;"/>
+
 </p>
 
 ## Description
@@ -25,17 +26,25 @@ You also need to have CMake installed. You can find instructions on how to
 install CMake here:  
 <https://cmake.org/install/>
 
-Once you have Emscripten and CMake installed, you can build the project by running
-the following commands:
+Once you have Emscripten and CMake installed, you can build the project.
 
-<!--
+Run this command in the build-emscripten directory:
+
 ```bash
-mkdir build
-cd build
-emcmake cmake ..
+cmake -DCMAKE_TOOLCHAIN_FILE=/path/to/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DCMAKE_BUILD_TYPE=Release ..
+```
+
+Example:
+
+```bash
+cmake -DCMAKE_TOOLCHAIN_FILE=~/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DCMAKE_BUILD_TYPE=Release ..
+```
+
+Then run this command in the same directory:
+
+```bash
 make
 ```
--->
 
 ## Libraries
 

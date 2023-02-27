@@ -5,7 +5,6 @@ out/
 [Ll]ibraries/
 [Dd]ocumentations/
 *.idea/
-.cmake/
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,intellij+all,cmake
