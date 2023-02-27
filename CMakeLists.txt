@@ -1,10 +1,13 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(example_glfw_opengl3)
+project(particle-simulator-webgl)
+
+include_directories(dependencies/glad/include)
 
 set(CMAKE_CXX_STANDARD 11)
 
 set(IMGUI_DIR dependencies/imgui)
+set(GLAD_DIR dependencies/glad)
 
 add_executable(${PROJECT_NAME}
         main.cpp
@@ -14,7 +17,9 @@ add_executable(${PROJECT_NAME}
         ${IMGUI_DIR}/imgui_tables.cpp
         ${IMGUI_DIR}/imgui_widgets.cpp
         ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
-        ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp)
+        ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+        ${GLAD_DIR}/src/glad.c
+        )
 
 target_include_directories(${PROJECT_NAME}
         PRIVATE ${IMGUI_DIR}

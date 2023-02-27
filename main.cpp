@@ -11,6 +11,7 @@
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <GLES2/gl2.h>
 #endif
+#include <glad/glad.h> // Initialize with gladLoadGL()
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
 
 // [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and compatibility with old VS compilers.
@@ -66,6 +67,10 @@ int main(int, char**)
         return 1;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
+
+    // Initialize OpenGL loader
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        return 1;
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
