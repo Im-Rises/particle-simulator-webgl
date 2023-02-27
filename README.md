@@ -5,7 +5,6 @@
       <img src="https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="cppLogo" style="height:60px;"/>
       <img src="https://img.shields.io/badge/OpenGL-FFFFFF?style=for-the-badge&logo=opengl" alt="openglLogo" style="height:60px;"/>
       <img src="https://user-images.githubusercontent.com/59691442/190315147-ec9dc33f-0090-4f0d-98ab-514eb1463e01.png" alt="glfwLogo" style="height:60px;"/>
-
 </p>
 
 ## Description
@@ -28,7 +27,8 @@ PLACEHOLDER
 
 ## Building
 
-To build the project, you need to have Emscripten installed. You can find
+To build the project, you need to use a UNIX system, like Ubuntu or if you're on Windows you can use WSL. 
+Then you have to install Emscripten. You can find
 instructions on how to install Emscripten here:  
 <https://emscripten.org/docs/getting_started/downloads.html>
 

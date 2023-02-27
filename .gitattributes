@@ -1,2 +1,4 @@
 * text=auto eol=lf
 dependencies/** linguist-vendored
+ParticleSimulator/** linguist-vendored
+web/** linguist-vendored
