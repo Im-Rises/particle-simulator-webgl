@@ -27,7 +27,7 @@ PLACEHOLDER
 
 ## Building
 
-To build the project, you need to use a UNIX system, like Ubuntu or if you're on Windows you can use WSL. 
+To build the project, you need to use a UNIX system, like Ubuntu or if you're on Windows you can use WSL.
 Then you have to install Emscripten. You can find
 instructions on how to install Emscripten here:  
 <https://emscripten.org/docs/getting_started/downloads.html>
@@ -50,11 +50,26 @@ emmake make
 
 [//]: # (The build artifacts will be generated in the `build-commandline` directory.)
 
+
+## To test the website locally
+
+To test the website locally, you need to have Python installed. You can find instructions on how to install Python here:
+
+<https://www.python.org/downloads/>
+
+Once you have Python installed, run this command in the project build directory:
+
+```bash
+python -m http.server
+```
+
+Then open your browser and go to this address:
+
+<http://localhost:8000/>
+
 ## GitHub Actions
 
 This project uses GitHub Actions to build the project and deploy it to GitHub
-
-## Github-Actions
 
 [![CodeQL](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/codeql.yml)
 [![CMake](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/cmake.yml/badge.svg?branch=main)](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/cmake.yml)
