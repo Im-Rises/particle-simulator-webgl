@@ -1,17 +1,23 @@
-include_directories("${CMAKE_SOURCE_DIR}/dependencies")
-include_directories("${CMAKE_SOURCE_DIR}/dependencies/imgui")
-include_directories("${CMAKE_SOURCE_DIR}/dependencies/imgui/backends")
-include_directories("${CMAKE_SOURCE_DIR}/dependencies/glad/include")
+set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/dependencies/imgui)
+set(GLAD_DIR ${CMAKE_SOURCE_DIR}/dependencies/glad)
 
-file(GLOB_RECURSE SRCS_HEADERS_IMGUI "${CMAKE_SOURCE_DIR}/dependencies/imgui/*.cpp" "${CMAKE_SOURCE_DIR}/dependencies/imgui/*.h")
-file(GLOB_RECURSE SRCS_HEADERS_GLAD "${CMAKE_SOURCE_DIR}/dependencies/glad/*.c" "${CMAKE_SOURCE_DIR}/dependencies/glad/*.h")
+include_directories(${CMAKE_SOURCE_DIR}/dependencies/glad/include)
+include_directories(${CMAKE_SOURCE_DIR}/dependencies)
 
-file(GLOB_RECURSE SRCS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
-file(GLOB_RECURSE HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+add_executable(${PROJECT_NAME}
+        main.cpp
+        ${IMGUI_DIR}/imgui.cpp
+        ${IMGUI_DIR}/imgui_demo.cpp
+        ${IMGUI_DIR}/imgui_draw.cpp
+        ${IMGUI_DIR}/imgui_tables.cpp
+        ${IMGUI_DIR}/imgui_widgets.cpp
+        ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
+        ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+        ${GLAD_DIR}/src/glad.c
+        )
 
-#set(OpenGL_GL_PREFERENCE GLVND)
-#find_package(OpenGL 4.3 REQUIRED)
-
-add_executable(${PROJECT_NAME} main.cpp ${SRCS} ${HEADERS} ${SRCS_HEADERS_IMGUI} ${SRCS_HEADERS_GLAD})
+target_include_directories(${PROJECT_NAME}
+        PRIVATE ${IMGUI_DIR}
+        PRIVATE ${IMGUI_DIR}/backends)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
