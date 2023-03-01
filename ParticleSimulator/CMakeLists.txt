@@ -1,31 +1,23 @@
-include_directories("${CMAKE_SOURCE_DIR}/dependencies")
-include_directories("${CMAKE_SOURCE_DIR}/dependencies/glad/include")
-include_directories("${CMAKE_SOURCE_DIR}/dependencies/glfw/include")
+set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/dependencies/imgui)
+set(GLAD_DIR ${CMAKE_SOURCE_DIR}/dependencies/glad)
 
-file(GLOB_RECURSE SRCS_HEADERS_IMGUI "${CMAKE_SOURCE_DIR}/dependencies/imgui/*.cpp" "${CMAKE_SOURCE_DIR}/dependencies/imgui/*.h")
-file(GLOB_RECURSE SRCS_HEADERS_GLAD "${CMAKE_SOURCE_DIR}/dependencies/glad/*.c" "${CMAKE_SOURCE_DIR}/dependencies/glad/*.h")
+include_directories(${CMAKE_SOURCE_DIR}/dependencies/glad/include)
+include_directories(${CMAKE_SOURCE_DIR}/dependencies)
 
-file(GLOB_RECURSE SRCS "${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/*.cpp")
-file(GLOB_RECURSE HEADERS "${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/*.h")
+add_executable(${PROJECT_NAME}
+        main.cpp
+        ${IMGUI_DIR}/imgui.cpp
+        ${IMGUI_DIR}/imgui_demo.cpp
+        ${IMGUI_DIR}/imgui_draw.cpp
+        ${IMGUI_DIR}/imgui_tables.cpp
+        ${IMGUI_DIR}/imgui_widgets.cpp
+        ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
+        ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+        ${GLAD_DIR}/src/glad.c
+        )
 
-set(OpenGL_GL_PREFERENCE GLVND)
-find_package(OpenGL 4.3 REQUIRED)
+target_include_directories(${PROJECT_NAME}
+        PRIVATE ${IMGUI_DIR}
+        PRIVATE ${IMGUI_DIR}/backends)
 
-add_executable(${PROJECT_NAME} ${SRCS} ${HEADERS} ${SRCS_HEADERS_IMGUI} ${SRCS_HEADERS_GLAD})
-
-target_link_libraries(${PROJECT_NAME} OpenGL::GL)
-
-if (WIN32)
-    if (MSVC)
-        target_link_libraries(${PROJECT_NAME} "${CMAKE_SOURCE_DIR}/dependencies/glfw/lib-vc2019/glfw3.lib")
-    elseif (MINGW)
-        target_link_libraries(${PROJECT_NAME} "${CMAKE_SOURCE_DIR}/dependencies/glfw/lib-mingw-w64/libglfw3.a")
-    endif ()
-elseif (UNIX)
-    find_package(glfw3 3.3 REQUIRED)
-    target_link_libraries(${PROJECT_NAME} glfw ${CMAKE_DL_LIBS})
-else ()
-    message(FATAL_ERROR "OS not configured in CMakeLists.txt")
-endif ()
-
-set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
