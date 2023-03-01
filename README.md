@@ -10,7 +10,8 @@
 ## Description
 
 This is a particle simulator written in C++ and compiled to WebGL using
-Emscripten. It is a port of my particle simulator written in C++ and OpenGL which can be found [here](https://github.com/Im-Rises/ParticleSimulator).
+Emscripten. It is a port of my particle simulator written in C++ and OpenGL which can be
+found [here](https://github.com/Im-Rises/ParticleSimulator).
 
 You can find the build of the project [here](https://im-rises.github.io/particle-simulator-webgl/).
 
@@ -50,7 +51,6 @@ emmake make
 
 [//]: # (The build artifacts will be generated in the `build-commandline` directory.)
 
-
 ## To test the website locally
 
 To test the website locally, you need to have Python installed. You can find instructions on how to install Python here:
@@ -76,7 +76,7 @@ This project uses GitHub Actions to build the project and deploy it to GitHub
 [![flawfinder](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/flawfinder.yml/badge.svg?branch=main)](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/flawfinder.yml)
 [![cpp-linter](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/cpp-linter.yml/badge.svg?branch=main)](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/cpp-linter.yml)
 [![Emscripten-CMake](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/emscripten-cmake.yml/badge.svg)](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/emscripten-cmake.yml)
-[![pages-build-deployment](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/pages/pages-build-deployment)
+[![pages-build-deployment](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/static/badge.svg)](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/static)
 
 The project is set with a set of different scripts:
 
