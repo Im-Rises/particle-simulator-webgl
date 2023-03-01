@@ -19,8 +19,7 @@ jobs:
 
       - name: Build
         run: |
-          cd build-commandline
-          emcmake cmake ..
+          emcmake cmake .
           emmake make
 
 #      - name: Upload to branch
