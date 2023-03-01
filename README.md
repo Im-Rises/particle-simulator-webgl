@@ -49,8 +49,6 @@ Then run this command in the same directory:
 emmake make
 ```
 
-[//]: # (The build artifacts will be generated in the `build-commandline` directory.)
-
 ## To test the website locally
 
 To test the website locally, you need to have Python installed. You can find instructions on how to install Python here:
@@ -66,6 +64,19 @@ python -m http.server
 Then open your browser and go to this address:
 
 <http://localhost:8000/>
+
+## Controls
+
+The speed and some parameters can be modified directly in the ImGui windows.
+
+| Action              | Key                                 |
+|---------------------|-------------------------------------|
+| Translate camera    | WASD (← → ↑ ↓)                      |
+| Pause/Resume        | P                                   |
+| Move up/down camera | SPACE/SHIFT                         |
+| Rotate camera       | Right Mouse Button + Mouse movement |
+| Fullscreen          | F11                                 |
+| Drag particles      | Left Mouse Button + Mouse movement  |
 
 ## GitHub Actions
 

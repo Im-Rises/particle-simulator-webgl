@@ -6,9 +6,9 @@ out/
 [Dd]ocumentations/
 *.idea/
 .cmake/
-./web/*.js
-./web/*.html.mem
-makefile
+web/*.js
+web/*.js.mem
+[Mm]akefile
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,intellij+all,cmake
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,intellij+all,cmake
