@@ -76,7 +76,7 @@ This project uses GitHub Actions to build the project and deploy it to GitHub
 [![flawfinder](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/flawfinder.yml/badge.svg?branch=main)](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/flawfinder.yml)
 [![cpp-linter](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/cpp-linter.yml/badge.svg?branch=main)](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/cpp-linter.yml)
 [![Emscripten-CMake](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/emscripten-cmake.yml/badge.svg)](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/emscripten-cmake.yml)
-[![Deploy static content to Pages](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/static.yml/badge.svg)](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/static.yml)
+[![Emscripten-Publish](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/emscripten-publish.yml/badge.svg)](https://github.com/Im-Rises/particle-simulator-webgl/actions/workflows/emscripten-publish.yml)
 
 The project is set with a set of different scripts:
 
@@ -87,7 +87,7 @@ The project is set with a set of different scripts:
 - Microsoft C++ Code Analysis: This script is used to check the code for security issues.
 - Cpp Linter: This script is used to check the code for security issues.
 - Emscripten CMake: This script is used to test build of the project using Emscripten toolchain.
-- Deploy static content to Pages: This script is used to publish the project on GitHub Pages.
+- Emscripten-Publish: This script build to webgl and publish the project on GitHub Pages.
 
 ## Libraries
 

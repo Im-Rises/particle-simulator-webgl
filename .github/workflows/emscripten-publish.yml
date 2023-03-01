@@ -1,4 +1,4 @@
-name: Emscripten-CMake
+name: Emscripten-Publish
 
 on:
   push:
