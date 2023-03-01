@@ -2,3 +2,4 @@
 dependencies/** linguist-vendored
 ParticleSimulator/** linguist-vendored
 web/** linguist-vendored
+shaders/** linguist-vendored
