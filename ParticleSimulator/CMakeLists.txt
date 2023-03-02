@@ -18,7 +18,7 @@ set(IMGUI_SOURCES
         ${IMGUI_DIR}/imgui_impl_opengl3.cpp
         )
 
-file(GLOB_RECURSE SRCS ${CMAKE_CURRENT_SOURCE_DIR}*.cpp)
+file(GLOB_RECURSE SRCS ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
 add_executable(${PROJECT_NAME}
         main.cpp
