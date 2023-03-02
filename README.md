@@ -13,7 +13,7 @@ This is a particle simulator written in C++ and compiled to WebGL using
 Emscripten. It is a port of my particle simulator written in C++ and OpenGL which can be
 found [here](https://github.com/Im-Rises/ParticleSimulator).
 
-You can find the build of the project [here](https://im-rises.github.io/particle-simulator-webgl/).
+## 🚀🚀[you can try the webgl build online by clicking here](https://im-rises.github.io/particle-simulator-webgl/) 🚀🚀
 
 > **Note:**   
 > This project is still in development.
@@ -33,9 +33,15 @@ Then you have to install Emscripten. You can find
 instructions on how to install Emscripten here:  
 <https://emscripten.org/docs/getting_started/downloads.html>
 
-You also need to have CMake installed. You can find instructions on how to
+You also need to have CMake and make installed. You can find instructions on how to
 install CMake here:  
 <https://cmake.org/install/>
+
+Make can be installed by running this command in the terminal:
+
+```bash
+sudo apt install make
+```
 
 Once you have Emscripten and CMake installed run this command in the project root directory:
 
