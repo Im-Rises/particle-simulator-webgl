@@ -59,7 +59,7 @@ for /d /r %%i in (.cmake) do (
 
 rem Delete directories ending with .cbp
 for /r %%i in (*.cbp) do (
-    rd "%%i"
+    del "%%i"
 )
 
 rem Delete directories with name cmake-build-*
