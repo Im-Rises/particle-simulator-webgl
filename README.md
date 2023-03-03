@@ -7,6 +7,12 @@
       <img src="https://user-images.githubusercontent.com/59691442/190315147-ec9dc33f-0090-4f0d-98ab-514eb1463e01.png" alt="glfwLogo" style="height:60px;"/>
 </p>
 
+> *Warning*   
+> This branch is a working version of the project for opengl es 3.1.
+> WebGL 2.0 use OpenGL ES 3.0, so this branch is not compatible with WebGL 2.0.
+> This branch will be merged to main when OpenGL ES 3.1 will be supported by WebGL 2.0 or
+> if the project is ported to platform that support OpenGL ES 3.1 (like Android).
+
 ## Description
 
 This is a particle simulator written in C++ and compiled to WebGL using
