@@ -1,6 +1,5 @@
 #include "ParticleSimulatorLauncher.h"
 
-#include "Scene/Scene.h"
 #include "InputManager.h"
 
 #include <imgui/imgui.h>
@@ -15,6 +14,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
 #include <iostream>
+#include "Scene/Scene.h"
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
