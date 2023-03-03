@@ -9,6 +9,7 @@ out/
 web/*.js
 web/*.js.mem
 [Mm]akefile
+*.cbp
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,intellij+all,cmake
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,intellij+all,cmake

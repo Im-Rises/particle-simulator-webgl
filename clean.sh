@@ -35,8 +35,8 @@ find . -type d -name '_deps' -exec rm -rf {} +
 # Delete .cmake directories
 find . -type d -name '.cmake' -exec rm -rf {} +
 
-# Delete directories ending with .cbp
-find . -type d -name '*.cbp' -exec rm -rf {} +
+# Delete files ending with .cbp
+find . -type f -name '*.cbp' -delete
 
 # Delete directories ending with .cbp
 find . -type d -name 'cmake-build-*' -exec rm -rf {} +
