@@ -137,6 +137,12 @@ learnopengl (OpenGL tutorial):
 unrealistic.dev (Change CMake working directory):  
 <https://unrealistic.dev/posts/setting-debug-parameters-with-cmake-tools-for-visual-studio>
 
+OpenGL ES 2.0 Reference Pages:  
+<https://www.khronos.org/registry/OpenGL-Refpages/es2.0/>
+
+Wikipedia (OpenGL versions):
+<https://en.wikipedia.org/wiki/OpenGL_Shading_Language>
+
 ## Contributors
 
 Quentin MOREL:
