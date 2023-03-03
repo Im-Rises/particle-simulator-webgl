@@ -3,7 +3,7 @@
 #include <random>
 #include <iostream>
 
-ParticleSimulator::ParticleSimulator(int particleCount) : Entity("shaders/ParticleSimulator.vert", "shaders/ParticleSimulator.frag") {
+ParticleSimulator::ParticleSimulator(int particleCount) : Entity(vertexShaderParticle, fragmentShaderParticle) {
     position = glm::vec3(0.0f, 0.0f, 0.0f);
 
     // Resize the particles vector
