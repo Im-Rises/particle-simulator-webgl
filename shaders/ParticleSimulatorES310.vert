@@ -1,5 +1,11 @@
 #version 310 es
 
+/*
+* This is the Vertex Shader of the Particle Simulator. It is an implementation of the one from the ParticleSimulator project.
+* Check the original Shader in the following link: https://github.com/Im-Rises/ParticleSimulator/shaders/ParticleSimulator.vert
+* to have a better view of the code and the comments.
+*/
+
 precision highp float;
 
 struct Particle {
