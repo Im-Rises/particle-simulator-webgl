@@ -13,7 +13,7 @@ This is a particle simulator written in C++ and compiled to WebGL using
 Emscripten. It is a port of my particle simulator written in C++ and OpenGL which can be
 found [here](https://github.com/Im-Rises/ParticleSimulator).
 
-You can find the build of the project [here](https://im-rises.github.io/particle-simulator-webgl/).
+## 🚀🚀[you can try the webgl build online by clicking here](https://im-rises.github.io/particle-simulator-webgl/) 🚀🚀
 
 > **Note:**   
 > This project is still in development.
@@ -33,9 +33,15 @@ Then you have to install Emscripten. You can find
 instructions on how to install Emscripten here:  
 <https://emscripten.org/docs/getting_started/downloads.html>
 
-You also need to have CMake installed. You can find instructions on how to
+You also need to have CMake and make installed. You can find instructions on how to
 install CMake here:  
 <https://cmake.org/install/>
+
+Make can be installed by running this command in the terminal:
+
+```bash
+sudo apt install make
+```
 
 Once you have Emscripten and CMake installed run this command in the project root directory:
 
@@ -48,8 +54,6 @@ Then run this command in the same directory:
 ```bash
 emmake make
 ```
-
-[//]: # (The build artifacts will be generated in the `build-commandline` directory.)
 
 ## To test the website locally
 
@@ -66,6 +70,19 @@ python -m http.server
 Then open your browser and go to this address:
 
 <http://localhost:8000/>
+
+## Controls
+
+The speed and some parameters can be modified directly in the ImGui windows.
+
+| Action              | Key                                 |
+|---------------------|-------------------------------------|
+| Translate camera    | WASD (← → ↑ ↓)                      |
+| Pause/Resume        | P                                   |
+| Move up/down camera | SPACE/SHIFT                         |
+| Rotate camera       | Right Mouse Button + Mouse movement |
+| Fullscreen          | F11                                 |
+| Drag particles      | Left Mouse Button + Mouse movement  |
 
 ## GitHub Actions
 
@@ -119,6 +136,12 @@ learnopengl (OpenGL tutorial):
 
 unrealistic.dev (Change CMake working directory):  
 <https://unrealistic.dev/posts/setting-debug-parameters-with-cmake-tools-for-visual-studio>
+
+OpenGL ES 2.0 Reference Pages:  
+<https://www.khronos.org/registry/OpenGL-Refpages/es2.0/>
+
+Wikipedia (OpenGL versions):
+<https://en.wikipedia.org/wiki/OpenGL_Shading_Language>
 
 ## Contributors
 
