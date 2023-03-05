@@ -17,6 +17,7 @@ const char* vertexShader = "#version 300 es\n"
                            "{\n"
                            "    gl_Position = u_mvp * vec4(a_position, 1.0);\n"
                            "    v_velocity = a_velocity;\n"
+                           "    gl_PointSize = 1.0f;\n"
                            "}\n\0";
 
 const char* fragmentShader = "#version 300 es\n"

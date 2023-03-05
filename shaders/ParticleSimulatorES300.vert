@@ -13,4 +13,5 @@ void main()
 {
     gl_Position = u_mvp * vec4(a_position, 1.0);
     v_velocity = a_velocity;
+    gl_PointSize = 1.0f;
 }
