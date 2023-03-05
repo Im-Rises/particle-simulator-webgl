@@ -1,17 +1,9 @@
 #version 300 es
 
-/*
-* UBO are too small to hold all the particles... and SSBO are not supported on OpenGL ES 3.0.
-*/
-
 precision highp float;
 
-struct Particle {
-    vec3 position;
-    vec3 velocity;
-};
-
-layout(location = 0) in Particle particles;
+layout(location = 0) in vec3 a_position;
+layout(location = 1) in vec3 a_velocity;
 
 uniform mat4 u_mvp;
 
@@ -19,7 +11,6 @@ out vec3 v_velocity;
 
 void main()
 {
-    gl_Position = u_mvp * vec4(particle.position, 1.0);
-
-    v_velocity = particle.velocity;
+    gl_Position = u_mvp * vec4(a_position, 1.0);
+    v_velocity = a_velocity;
 }
