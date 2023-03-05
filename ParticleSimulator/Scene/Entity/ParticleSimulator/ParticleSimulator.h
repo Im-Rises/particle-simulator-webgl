@@ -8,7 +8,7 @@
 
 class ParticleSimulator : public Entity {
 private:
-    GLuint VAO;
+    GLuint VAO, VBO;
 
     struct Particle {
         glm::vec3 position;

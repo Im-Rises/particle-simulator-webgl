@@ -42,16 +42,25 @@ ParticleSimulator::ParticleSimulator(int particleCount) : Entity(vertexShader, f
     // Init the particles
     randomizeParticles();
 
-    // Init the VAO and VBO
+    // Init the VAO
     glGenVertexArrays(1, &VAO);
+
+    // Init the VBO
+    glGenBuffers(1, &VBO);
+
+    // Bind the VBO
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     // Bind the VAO
     glBindVertexArray(VAO);
 
+    // Set the VBO data
+    glBufferData(GL_ARRAY_BUFFER, particles.size() * sizeof(Particle), particles.data(), GL_STATIC_DRAW);
+
     // Set the VAO attributes
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (void*)offsetof(Particle, position));
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (void*)offsetof(Particle, velocity));
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (void*)offsetof(Particle, velocity));
     glEnableVertexAttribArray(1);
 
     // Unbind the VAO
@@ -60,6 +69,7 @@ ParticleSimulator::ParticleSimulator(int particleCount) : Entity(vertexShader, f
 
 ParticleSimulator::~ParticleSimulator() {
     glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
 }
 
 void ParticleSimulator::update(const float& deltaTime) {
@@ -110,9 +120,4 @@ void ParticleSimulator::randomizeParticles() {
 void ParticleSimulator::reset() {
     // Reset the particles positions and velocities
     randomizeParticles();
-
-    //    // Resend to the GPU
-    //    glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
-    //    glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, particles.size() * sizeof(Particle), particles.data()); // We use glBufferSubData because the buffer is already allocated, and we want to update it
-    //    glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
