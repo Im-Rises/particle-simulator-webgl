@@ -9,20 +9,15 @@
 class ParticleSimulator : public Entity {
 private:
     GLuint VAO;
-    GLuint ssbo;
 
-    // Can't use directly vec3 in SSBO (indexed by 4 bytes not 3): https://computergraphics.stackexchange.com/questions/5810/shader-storage-buffer-indexing-by-4-bytes-instead-of-3
     struct Particle {
         glm::vec3 position;
-        float offset1;
         glm::vec3 velocity;
-        float offset2;
-        Particle() : position(glm::vec3(0.0f)), velocity(glm::vec3(0.0f)) {}
+        Particle() : position(glm::vec3(0.0f)), velocity(glm::vec3(1.0f, 1.0f, 1.0f)) {}
     };
 
     std::vector<Particle> particles;
 
-    float deltaTime;
     glm::vec3 pointOfGravity;
 
     float isPaused = 0.0f;

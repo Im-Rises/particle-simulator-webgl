@@ -122,7 +122,7 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     //    glEnable(GL_POINT_SMOOTH); // Deprecated
-//    glPointSize(1.0f); // Not working in OpenGL ES
+//    glPointSize(1.0f); // Not working in OpenGL ES 3.0
 }
 
 ParticleSimulatorLauncher::~ParticleSimulatorLauncher() {
@@ -334,15 +334,15 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 }
 
 void ParticleSimulatorLauncher::updateGame(float deltaTime) {
-    //    const float fixedDeltaTime = 1.0f / fixedUpdate;
-    //    static float accumulator = 0.0f;
-    //    accumulator += deltaTime;
-    //    while (accumulator >= fixedDeltaTime)
-    //    {
-    //        scene->update(fixedDeltaTime);
-    //        accumulator -= fixedDeltaTime;
-    //    }
-    scene->update(deltaTime);
+    const float fixedDeltaTime = 1.0f / fixedUpdate;
+    static float accumulator = 0.0f;
+    accumulator += deltaTime;
+    while (accumulator >= fixedDeltaTime)
+    {
+        scene->update(fixedDeltaTime);
+        accumulator -= fixedDeltaTime;
+    }
+    //    scene->update(deltaTime);
 }
 
 void ParticleSimulatorLauncher::updateScreen() {

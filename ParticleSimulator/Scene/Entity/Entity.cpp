@@ -2,9 +2,9 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Entity::Entity(const std::string &vertexShaderPath, const std::string &fragmentShaderPath) : shader(
-        vertexShaderPath.c_str(),
-        fragmentShaderPath.c_str()) {
+Entity::Entity(const std::string & vertexSource, const std::string & fragmentSource) : shader(
+                                                                                             vertexSource.c_str(),
+                                                                                         fragmentSource.c_str()) {
     updateModelMatrix();
 }
 

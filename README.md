@@ -18,10 +18,6 @@ found [here](https://github.com/Im-Rises/ParticleSimulator).
 > **Note:**   
 > This project is still in development.
 
-## Todo
-
-- [ ] Replace code to not use ssbo 
-
 ## Images
 
 PLACEHOLDER

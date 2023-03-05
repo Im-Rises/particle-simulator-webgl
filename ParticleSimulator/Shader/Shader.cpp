@@ -2,9 +2,11 @@
 
 #include <glad/glad.h>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
-Shader::Shader(const char* vertexCode, const char* fragmentCode) {
-    create(vertexCode, fragmentCode);
+Shader::Shader(const char* vertexSource, const char* fragmentSource) {
+    create(vertexSource, fragmentSource);
 }
 
 void Shader::create(const char* vertexCode, const char* fragmentCode) {

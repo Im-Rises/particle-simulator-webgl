@@ -10,7 +10,7 @@ private:
     unsigned int ID;
 
 public:
-    Shader(const char *vertexCode, const char *fragmentCode);
+    Shader(const char * vertexSource, const char * fragmentSource);
 
     void create(const char *vertexCode, const char *fragmentCode);
 

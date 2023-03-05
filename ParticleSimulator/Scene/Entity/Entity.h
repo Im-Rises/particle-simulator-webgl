@@ -16,7 +16,7 @@ protected:
     Shader shader;
 
 public:
-    Entity(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
+    Entity(const std::string& vertexSource, const std::string& fragmentSource);
     ~Entity();
     virtual void update(const float& deltaTime) = 0;
     //    virtual void fixedUpdate(float fixedDeltaTime) = 0;
