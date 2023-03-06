@@ -71,9 +71,15 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     // Center window
     centerWindow();
 
+#ifdef __EMSCRIPTEN__
+    // Initialize OpenGL loader
+    if (!gladLoadGLES2Loader((GLADloadproc)glfwGetProcAddress))
+        exit(1);
+#else
     // Initialize OpenGL loader
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         exit(1);
+#endif
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -230,53 +236,53 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     }
 
     {
-        //        ImGui::Begin("Camera settings");
-        //
-        //        static bool wireframe = false;
-        //        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "View settings");
-        //        ImGui::Checkbox("Wireframe", &wireframe);
-        //        if (wireframe)
-        //        {
-        //            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        //        }
-        //        else
-        //        {
-        //            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        //        }
-        //        ImGui::NewLine();
-        //
-        //        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Camera settings");
-        //
-        //        ImGui::Text("Position:");
-        //        ImGui::DragFloat3("##position", (float*)&scene->camera.position);
-        //
-        //        ImGui::NewLine();
-        //        ImGui::Text("Pitch:");
-        //        ImGui::Checkbox("Pitch constrained", &scene->camera.constrainPitch);
-        //        ImGui::DragFloat("##pitch", &scene->camera.pitch);
-        //
-        //        ImGui::Text("Yaw:");
-        //        ImGui::DragFloat("##yaw", &scene->camera.yaw);
-        //
-        //        ImGui::NewLine();
-        //        ImGui::Text("FOV:");
-        //        ImGui::DragFloat("##fov", &scene->camera.fov);
-        //
-        //        ImGui::NewLine();
-        //        ImGui::Text("Near plane:");
-        //        ImGui::DragFloat("##near", &scene->camera.nearPlane);
-        //
-        //        ImGui::Text("Far plane:");
-        //        ImGui::DragFloat("##far", &scene->camera.farPlane);
-        //
-        //        ImGui::NewLine();
-        //        ImGui::Text("Speed:");
-        //        ImGui::DragFloat("##speed", &scene->camera.movementSpeed);
-        //
-        //        ImGui::Text("Sensitivity: ");
-        //        ImGui::DragFloat("##sensitivity", &scene->camera.rotationSpeed, 0.1f);
-        //
-        //        ImGui::End();
+                ImGui::Begin("Camera settings");
+
+                static bool wireframe = false;
+                ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "View settings");
+//                ImGui::Checkbox("Wireframe", &wireframe);
+//                if (wireframe)
+//                {
+//                    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+//                }
+//                else
+//                {
+//                    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+//                }
+//                ImGui::NewLine();
+
+                ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Camera settings");
+
+                ImGui::Text("Position:");
+                ImGui::DragFloat3("##position", (float*)&scene->camera.position);
+
+                ImGui::NewLine();
+                ImGui::Text("Pitch:");
+                ImGui::Checkbox("Pitch constrained", &scene->camera.constrainPitch);
+                ImGui::DragFloat("##pitch", &scene->camera.pitch);
+
+                ImGui::Text("Yaw:");
+                ImGui::DragFloat("##yaw", &scene->camera.yaw);
+
+                ImGui::NewLine();
+                ImGui::Text("FOV:");
+                ImGui::DragFloat("##fov", &scene->camera.fov);
+
+                ImGui::NewLine();
+                ImGui::Text("Near plane:");
+                ImGui::DragFloat("##near", &scene->camera.nearPlane);
+
+                ImGui::Text("Far plane:");
+                ImGui::DragFloat("##far", &scene->camera.farPlane);
+
+                ImGui::NewLine();
+                ImGui::Text("Speed:");
+                ImGui::DragFloat("##speed", &scene->camera.movementSpeed);
+
+                ImGui::Text("Sensitivity: ");
+                ImGui::DragFloat("##sensitivity", &scene->camera.rotationSpeed, 0.1f);
+
+                ImGui::End();
     }
 
     {

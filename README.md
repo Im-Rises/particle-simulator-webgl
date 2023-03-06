@@ -18,6 +18,12 @@ found [here](https://github.com/Im-Rises/ParticleSimulator).
 > **Note:**   
 > This project is still in development.
 
+## Todo
+
+- [ ] Add particle physic
+- [ ] Add OpenMP for particle parallelization
+- [ ] Add particle color in fragment shader
+
 ## Images
 
 PLACEHOLDER
