@@ -23,6 +23,11 @@ private:
     float isPaused = 0.0f;
     float isTargeting = 0.0f;
 
+    const float gravity = 1000.0f;
+    const float m1 = 1000.0f;
+    const float m2 = 1.0f;
+    const float distanceOffset = 100.0f;
+
 public:
     explicit ParticleSimulator(int particleCount = 100000);
     ~ParticleSimulator();

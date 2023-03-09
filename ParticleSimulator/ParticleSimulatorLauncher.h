@@ -9,7 +9,7 @@ class Scene;
 struct GLFWwindow;
 
 constexpr const std::string_view PROJECT_NAME = "Particle Simulator 3D";
-constexpr const std::string_view PROJECT_VERSION = "1.0.0";
+constexpr const std::string_view PROJECT_VERSION = "1.1.1";
 constexpr const std::string_view PROJECT_GITHUB = "https://github.com/Im-Rises/ParticleSimulator";
 constexpr const std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
@@ -57,7 +57,7 @@ private:
 private:
     void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);
     glm::vec3 projectMouse(const double& xMouse, const double& yMouse);
-    
+
 private:
     std::string_view getOpenGLVendor();
     std::string_view getOpenGLVersion();
