@@ -340,18 +340,18 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 }
 
 void ParticleSimulatorLauncher::updateGame(float deltaTime) {
-    // Fixed update
-    const float fixedDeltaTime = 1.0f / fixedUpdate;
-    static float accumulator = 0.0f;
-    accumulator += deltaTime;
-    while (accumulator >= fixedDeltaTime)
-    {
-        scene->update(fixedDeltaTime);
-        accumulator -= fixedDeltaTime;
-    }
+    //    // Fixed update
+    //    const float fixedDeltaTime = 1.0f / fixedUpdate;
+    //    static float accumulator = 0.0f;
+    //    accumulator += deltaTime;
+    //    while (accumulator >= fixedDeltaTime)
+    //    {
+    //        scene->update(fixedDeltaTime);
+    //        accumulator -= fixedDeltaTime;
+    //    }
 
-    //    // Update
-    //    scene->update(deltaTime);
+    // Update
+    scene->update(deltaTime);
 }
 
 void ParticleSimulatorLauncher::updateScreen() {
