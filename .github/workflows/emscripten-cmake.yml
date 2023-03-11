@@ -14,9 +14,9 @@ jobs:
       - name: Verify
         run: emcc -v
 
-      - name: Install libs
-        run: |
-          sudo apt-get install libglfw3-dev
+      #      - name: Install libs
+      #        run: |
+      #          sudo apt-get install libglfw3-dev
 
       - name: Checkout
         uses: actions/checkout@v2
