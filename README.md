@@ -90,6 +90,9 @@ The speed and some parameters can be modified directly in the ImGui windows.
 | Fullscreen          | F11                                 |
 | Drag particles      | Left Mouse Button + Mouse movement  |
 
+> **Note**
+> The translation commands are set for QWERTY keyboard layout.
+
 ## GitHub Actions
 
 This project uses GitHub Actions to build the project and deploy it to GitHub
