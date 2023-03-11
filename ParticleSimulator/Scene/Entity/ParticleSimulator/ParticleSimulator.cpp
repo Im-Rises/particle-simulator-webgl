@@ -1,6 +1,7 @@
 #include "ParticleSimulator.h"
 
 #include <random>
+#include <iostream>
 
 const char* vertexShader = "#version 300 es\n"
                            "\n"
@@ -74,11 +75,37 @@ ParticleSimulator::~ParticleSimulator() {
 }
 
 void ParticleSimulator::update(const float& deltaTime) {
+    if (isPaused == 1.0f)
+        return;
+    for (auto& particle : particles)
+    {
+        // Calculate the distance between the particle and the point of gravity
+        glm::vec3 r = pointOfGravity - particle.position;
+        float rSquared = glm::dot(r, r) + distanceOffset;
+
+        // Calculate the force
+        glm::vec3 force = ((gravity * m1 * m2 * glm::normalize(r)) / rSquared) * isTargeting;
+
+        // Calculate the acceleration
+        glm::vec3 acceleration = force / m1;
+
+        // Calculate the position
+        particle.position += particle.velocity * deltaTime + 0.5f * acceleration * deltaTime * deltaTime;
+
+        // Calculate the velocity
+        particle.velocity += acceleration * deltaTime;
+    }
 }
 
 void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
     // Bind the VAO
     glBindVertexArray(VAO);
+
+    // Bind the VBO
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+    // Set the VBO data
+    glBufferData(GL_ARRAY_BUFFER, particles.size() * sizeof(Particle), particles.data(), GL_STATIC_DRAW);
 
     // Bind the shader
     shader.use();
@@ -91,6 +118,9 @@ void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
 
     // Unbind the VAO
     glBindVertexArray(0);
+
+    // Unbind the VBO
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void ParticleSimulator::randomizeParticles() {
