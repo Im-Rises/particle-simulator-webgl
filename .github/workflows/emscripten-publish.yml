@@ -30,13 +30,17 @@ jobs:
       - name: Verify
         run: emcc -v
 
+      #      - name: Install libs
+      #        run: |
+      #          sudo apt-get install libglfw3-dev
+
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build
-        run: |
-          emcmake cmake .
-          emmake make
+      #      - name: Build
+      #        run: |
+      #          emcmake cmake .
+      #          emmake make
       #          rm ./web/particle-simulator-webgl.html
 
       - name: Setup Pages
