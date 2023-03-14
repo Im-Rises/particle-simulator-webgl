@@ -13,8 +13,8 @@
 #endif
 #include <glad/glad.h>
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
-#include <iostream>
 #include "Scene/Scene.h"
+#include <iostream>
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
@@ -22,6 +22,7 @@
 
 #ifdef __EMSCRIPTEN__
 #include "imgui/libs/emscripten/emscripten_mainloop_stub.h"
+#include <emscripten/html5.h>
 #endif
 
 static void glfw_error_callback(int error, const char* description) {
@@ -54,8 +55,14 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
 #endif
 
     // Set display size
+#ifdef __EMSCRIPTEN__
+    // According to canvas
+    emscripten_get_canvas_element_size("#canvas", &displayWidth, &displayHeight);
+#else
+    // According to init windowSize
     displayWidth = windowWidth;
     displayHeight = windowHeight;
+#endif
 
     // Create window with graphics context
     window = glfwCreateWindow(displayWidth, displayHeight, PROJECT_NAME.data(), NULL, NULL);
@@ -195,11 +202,12 @@ void ParticleSimulatorLauncher::handleInputs() {
     if (InputManager::isDownKeyPressed(window))
         scene->camera.moveDown();
 
-    /* Get mouse position*/
+    /* Read and update mouse controls */
+    // Get mouse position
     double mouseX = 0, mouseY = 0;
     InputManager::getMousePosition(window, mouseX, mouseY);
 
-    /* Get mouse delta */
+    // Get mouse delta
     double mouseDeltaX = 0, mouseDeltaY = 0;
     calculateMouseMovement(mouseX, mouseY, mouseDeltaX, mouseDeltaY);
 
@@ -225,6 +233,11 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     ImGui::NewFrame();
 
     {
+#ifdef __EMSCRIPTEN__
+        static bool isCollapsed = true;
+        ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
+        ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
         ImGui::Begin("Window info");
         ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0f / deltaTime);
         ImGui::Text("Window width: %d", displayWidth);
@@ -236,10 +249,14 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     }
 
     {
+#ifdef __EMSCRIPTEN__
+        static bool isCollapsed = true;
+        ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
+        ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
         ImGui::Begin("Camera settings");
-
-        static bool wireframe = false;
         ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "View settings");
+        //        static bool wireframe = false;
         //                ImGui::Checkbox("Wireframe", &wireframe);
         //                if (wireframe)
         //                {
@@ -286,6 +303,11 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     }
 
     {
+#ifdef __EMSCRIPTEN__
+        static bool isCollapsed = true;
+        ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
+        ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
         ImGui::Begin("Particle simulator settings");
 
         ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulator.getParticleCount()).c_str());
@@ -319,6 +341,11 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     }
 
     {
+#ifdef __EMSCRIPTEN__
+        static bool isCollapsed = true;
+        ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
+        ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
         ImGui::Begin("Mouse controls");
 
         ImGui::Text("Is targeting: %s", scene->particleSimulator.getIsTargeting() ? "true" : "false");
@@ -420,7 +447,11 @@ bool ParticleSimulatorLauncher::isWindowMinimized() {
 }
 
 void ParticleSimulatorLauncher::updateViewport() {
+#ifdef __EMSCRIPTEN__
+    emscripten_get_canvas_element_size("#canvas", &displayWidth, &displayHeight);
+#else
     glfwGetFramebufferSize(window, &displayWidth, &displayHeight);
+#endif
     scene->updateProjectionMatrix(displayWidth, displayHeight);
     glViewport(0, 0, displayWidth, displayHeight);
 }
