@@ -20,9 +20,16 @@ found [here](https://github.com/Im-Rises/ParticleSimulator).
 
 ## Todo
 
-- [ ] Add particle physic
+- [x] Add particle physic
+- [x] Add particle color in fragment shader
+- [x] Adapt canvas size to window size and viewport to canvas size
+- [ ] Test mouse position in the canvas (Currently not working on the published version), there might be a bug about the
+  mouse position in the canvas because the mouse position is already normalized in the canvas (between -1 and 1).
+- [ ] Test correct resize of the viewport (should be good)
+- [ ] Check fullscreen issues with ImGui or viewport or mouse position on screen
+- [ ] Add a way to keep the previous window size when going back to windowed mode
 - [ ] Add OpenMP for particle parallelization
-- [ ] Add particle color in fragment shader
+- [ ] Add more particles
 
 ## Images
 
