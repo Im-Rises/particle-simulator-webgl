@@ -6,9 +6,9 @@ out/
 [Dd]ocumentations/
 *.idea/
 .cmake/
-#web/*.js
-#web/*.js.mem
-#web/*.wasm
+web/*.js
+web/*.js.mem
+web/*.wasm
 [Mm]akefile
 *.cbp
 
