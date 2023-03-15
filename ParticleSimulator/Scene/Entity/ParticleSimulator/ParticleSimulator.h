@@ -43,8 +43,7 @@ public:
 
 public:
     void setIsTargeting(const bool& value) { this->isTargeting = (float)value; }
-    bool getIsTargeting() const { return (bool)this->isTargeting; }
-    //    void setIsRunning(const bool& value) { this->isRunning = (float)value; }
+    [[nodiscard]] bool getIsTargeting() const { return (bool)this->isTargeting; }
     void setIsPaused(const bool& value) { this->isPaused = (float)value; }
 
     [[nodiscard]] size_t getParticleCount() const { return particles.size(); }
