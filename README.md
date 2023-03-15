@@ -12,6 +12,7 @@
 This is a particle simulator written in C++ and compiled to WebGL using
 Emscripten. It is a port of my particle simulator written in C++ and OpenGL which can be
 found [here](https://github.com/Im-Rises/ParticleSimulator).
+This version is displaying 100 000 particles less than the desktop version.
 
 ## 🚀🚀[you can try the webgl build online by clicking here](https://im-rises.github.io/particle-simulator-webgl/) 🚀🚀
 
@@ -23,6 +24,8 @@ found [here](https://github.com/Im-Rises/ParticleSimulator).
 - [ ] Correct mouse position in the canvas for mobile (it seems the coordinate are already normalized)
 - [ ] Use Emscripten to get touch screen events
 - [ ] Correct UI placement in Emscripten build
+- [ ] Correct windowed mode crash
+- [ ] Copy a lot of code to the Original project `ParticleSimulator` ParticleSimulatorLauncher class)
 
 ## Images
 
