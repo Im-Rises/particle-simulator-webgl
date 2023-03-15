@@ -21,11 +21,11 @@ This version is displaying 100 000 particles less than the desktop version.
 
 ## Todo
 
-- [ ] Correct mouse position in the canvas for mobile (it seems the coordinate are already normalized)
-- [ ] Use Emscripten to get touch screen events
+- [ ] Use Emscripten to get touch screen events for mobile devices
 - [ ] Correct UI placement in Emscripten build
 - [ ] Correct windowed mode crash
 - [ ] Copy a lot of code to the Original project `ParticleSimulator` ParticleSimulatorLauncher class)
+- [ ] Add a way to change the number of particles
 
 ## Images
 

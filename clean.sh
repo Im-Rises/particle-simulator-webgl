@@ -23,5 +23,5 @@ declare -a to_delete=(
 # Loop through array and delete files and directories
 for pattern in "${to_delete[@]}"
 do
-  find . -type f -name "${pattern}" -delete -o -type d -name "${pattern}" -exec rm -rf {} \; -prune
+  find . -type f -name "${pattern}" -delete -o -type d -name "${pattern}" -exec rm -rf {} \; # -prune
 done

@@ -24,21 +24,24 @@
 #include "imgui/libs/emscripten/emscripten_mainloop_stub.h"
 #include <emscripten/html5.h>
 
-// EM_BOOL touchStart(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
-//     // Handle touch start event here
-//     return EM_TRUE; // Return true to allow the event to propagate
-// }
-
-EM_BOOL touchMove(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
-    // Handle touch move event here
-    std::cout << "touchMove" << std::endl;
+EM_BOOL touchStart(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
+    // Handle touch start event here
     return EM_TRUE; // Return true to allow the event to propagate
 }
 
-// EM_BOOL touchEnd(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
-//     // Handle touch end event here
-//     return EM_TRUE; // Return true to allow the event to propagate
-// }
+EM_BOOL touchMove(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
+    // Handle touch move event here
+    //    for (int i = 0; i < touchEvent->numTouches; i++)
+    //    {
+    //        std::cout << "Touch " << i << " x: " << touchEvent->touches[i].canvasX << " y: " << touchEvent->touches[i].canvasY << std::endl;
+    //    }
+    return EM_TRUE; // Return true to allow the event to propagate
+}
+
+EM_BOOL touchEnd(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
+    // Handle touch end event here
+    return EM_TRUE; // Return true to allow the event to propagate
+}
 #endif
 
 static void glfw_error_callback(int error, const char* description) {
@@ -91,9 +94,20 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glfwSetWindowUserPointer(window, this);
     glfwSetKeyCallback(window, InputManager::key_callback);
 #ifdef __EMSCRIPTEN__
-    //    emscripten_set_touchstart_callback("#canvas", NULL, EM_FALSE, touchStart);
-    emscripten_set_touchmove_callback("#canvas", NULL, EM_FALSE, touchMove);
-//    emscripten_set_touchend_callback("#canvas", NULL, EM_FALSE, touchEnd);
+    if (emscripten_set_touchstart_callback("#canvas", NULL, EM_FALSE, touchStart))
+        std::cout << "touchStart callback set" << std::endl;
+    else
+        std::cout << "touchStart callback not set" << std::endl;
+
+    if (emscripten_set_touchmove_callback("#canvas", NULL, EM_FALSE, touchMove))
+        std::cout << "touchMove callback set" << std::endl;
+    else
+        std::cout << "touchMove callback not set" << std::endl;
+
+    if (emscripten_set_touchend_callback("#canvas", NULL, EM_FALSE, touchEnd))
+        std::cout << "touchEnd callback set" << std::endl;
+    else
+        std::cout << "touchEnd callback not set" << std::endl;
 #endif
 
     // Center window
