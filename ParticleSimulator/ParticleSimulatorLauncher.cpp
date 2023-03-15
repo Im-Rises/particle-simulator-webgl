@@ -230,139 +230,137 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    if (!(isFullscreen || isWindowMinimized()))
     {
-        {
-            // #ifdef __EMSCRIPTEN__
-            //         static bool isCollapsed = true;
-            //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
-            //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-            // #endif
-            ImGui::Begin("Window info");
-            ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0f / deltaTime);
-            ImGui::Text("Window width: %d", displayWidth);
-            ImGui::Text("Window height: %d", displayHeight);
-            ImGui::Text("GPU: %s", getOpenGLVendor().data());
-            ImGui::Text("OpenGL version: %s", getOpenGLVersion().data());
-            ImGui::Text("GLSL version: %s", getGLSLVersion().data());
-            ImGui::End();
-        }
-
-        {
-            // #ifdef __EMSCRIPTEN__
-            //         static bool isCollapsed = true;
-            //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
-            //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-            // #endif
-            ImGui::Begin("Camera settings");
-            ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "View settings");
-            //        static bool wireframe = false;
-            //                ImGui::Checkbox("Wireframe", &wireframe);
-            //                if (wireframe)
-            //                {
-            //                    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            //                }
-            //                else
-            //                {
-            //                    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            //                }
-            //                ImGui::NewLine();
-
-            ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Camera settings");
-
-            ImGui::Text("Position:");
-            ImGui::DragFloat3("##position", (float*)&scene->camera.position);
-
-            ImGui::NewLine();
-            ImGui::Text("Pitch:");
-            ImGui::Checkbox("Pitch constrained", &scene->camera.constrainPitch);
-            ImGui::DragFloat("##pitch", &scene->camera.pitch);
-
-            ImGui::Text("Yaw:");
-            ImGui::DragFloat("##yaw", &scene->camera.yaw);
-
-            ImGui::NewLine();
-            ImGui::Text("FOV:");
-            ImGui::DragFloat("##fov", &scene->camera.fov);
-
-            ImGui::NewLine();
-            ImGui::Text("Near plane:");
-            ImGui::DragFloat("##near", &scene->camera.nearPlane);
-
-            ImGui::Text("Far plane:");
-            ImGui::DragFloat("##far", &scene->camera.farPlane);
-
-            ImGui::NewLine();
-            ImGui::Text("Speed:");
-            ImGui::DragFloat("##speed", &scene->camera.movementSpeed);
-
-            ImGui::Text("Sensitivity: ");
-            ImGui::DragFloat("##sensitivity", &scene->camera.rotationSpeed, 0.1f);
-
-            ImGui::End();
-        }
-
-        {
-            // #ifdef __EMSCRIPTEN__
-            //         static bool isCollapsed = true;
-            //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
-            //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-            // #endif
-            ImGui::Begin("Particle simulator settings");
-
-            ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulator.getParticleCount()).c_str());
-            ImGui::NewLine();
-
-            ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Particle settings");
-
-            ImGui::Text("Fixed update frequency:");
-            ImGui::DragFloat("##fixedUpdate", &fixedUpdate, 1.0f, 1.0f, 1000.0f);
-
-            ImGui::Text("Reset simulation:");
-            ImGui::SameLine();
-            ImGui::Button("Reset##ResetBtn");
-            if (ImGui::IsItemClicked())
-            {
-                resetScene();
-            }
-
-            ImGui::Text("Spawn position:");
-            ImGui::DragFloat3("##spawnPosition", (float*)&scene->particleSimulator.position);
-
-            ImGui::Text("Toggle pause:");
-            ImGui::SameLine();
-            ImGui::Button(scene->getIsPaused() ? "Resume##TogglePAuseBtn" : "Pause##TogglePAuseBtn");
-            if (ImGui::IsItemClicked())
-            {
-                scene->togglePause();
-            }
-
-            ImGui::End();
-        }
-
-        {
-            // #ifdef __EMSCRIPTEN__
-            //         static bool isCollapsed = true;
-            //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
-            //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-            // #endif
-            ImGui::Begin("Mouse controls");
-
-            ImGui::Text("Is targeting: %s", scene->particleSimulator.getIsTargeting() ? "true" : "false");
-
-            ImGui::Text("Mouse position world:");
-            ImGui::Text("X: %f", mousePositionWorld.x);
-            ImGui::SameLine();
-            ImGui::Text("Y: %f", mousePositionWorld.y);
-            ImGui::SameLine();
-            ImGui::Text("Z: %f", mousePositionWorld.z);
-
-            ImGui::Text("Target distance:");
-            ImGui::DragFloat("##targetDistance", &targetDistance, 0.1f, 0.0f, 100.0f);
-
-            ImGui::End();
-        }
+        // #ifdef __EMSCRIPTEN__
+        //         static bool isCollapsed = true;
+        //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
+        //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+        // #endif
+        ImGui::Begin("Window info");
+        ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0f / deltaTime);
+        ImGui::Text("Window width: %d", displayWidth);
+        ImGui::Text("Window height: %d", displayHeight);
+        ImGui::Text("GPU: %s", getOpenGLVendor().data());
+        ImGui::Text("OpenGL version: %s", getOpenGLVersion().data());
+        ImGui::Text("GLSL version: %s", getGLSLVersion().data());
+        ImGui::End();
     }
+
+    {
+        // #ifdef __EMSCRIPTEN__
+        //         static bool isCollapsed = true;
+        //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
+        //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+        // #endif
+        ImGui::Begin("Camera settings");
+        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "View settings");
+        //        static bool wireframe = false;
+        //                ImGui::Checkbox("Wireframe", &wireframe);
+        //                if (wireframe)
+        //                {
+        //                    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        //                }
+        //                else
+        //                {
+        //                    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        //                }
+        //                ImGui::NewLine();
+
+        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Camera settings");
+
+        ImGui::Text("Position:");
+        ImGui::DragFloat3("##position", (float*)&scene->camera.position);
+
+        ImGui::NewLine();
+        ImGui::Text("Pitch:");
+        ImGui::Checkbox("Pitch constrained", &scene->camera.constrainPitch);
+        ImGui::DragFloat("##pitch", &scene->camera.pitch);
+
+        ImGui::Text("Yaw:");
+        ImGui::DragFloat("##yaw", &scene->camera.yaw);
+
+        ImGui::NewLine();
+        ImGui::Text("FOV:");
+        ImGui::DragFloat("##fov", &scene->camera.fov);
+
+        ImGui::NewLine();
+        ImGui::Text("Near plane:");
+        ImGui::DragFloat("##near", &scene->camera.nearPlane);
+
+        ImGui::Text("Far plane:");
+        ImGui::DragFloat("##far", &scene->camera.farPlane);
+
+        ImGui::NewLine();
+        ImGui::Text("Speed:");
+        ImGui::DragFloat("##speed", &scene->camera.movementSpeed);
+
+        ImGui::Text("Sensitivity: ");
+        ImGui::DragFloat("##sensitivity", &scene->camera.rotationSpeed, 0.1f);
+
+        ImGui::End();
+    }
+
+    {
+        // #ifdef __EMSCRIPTEN__
+        //         static bool isCollapsed = true;
+        //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
+        //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+        // #endif
+        ImGui::Begin("Particle simulator settings");
+
+        ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulator.getParticleCount()).c_str());
+        ImGui::NewLine();
+
+        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Particle settings");
+
+        ImGui::Text("Fixed update frequency:");
+        ImGui::DragFloat("##fixedUpdate", &fixedUpdate, 1.0f, 1.0f, 1000.0f);
+
+        ImGui::Text("Reset simulation:");
+        ImGui::SameLine();
+        ImGui::Button("Reset##ResetBtn");
+        if (ImGui::IsItemClicked())
+        {
+            resetScene();
+        }
+
+        ImGui::Text("Spawn position:");
+        ImGui::DragFloat3("##spawnPosition", (float*)&scene->particleSimulator.position);
+
+        ImGui::Text("Toggle pause:");
+        ImGui::SameLine();
+        ImGui::Button(scene->getIsPaused() ? "Resume##TogglePAuseBtn" : "Pause##TogglePAuseBtn");
+        if (ImGui::IsItemClicked())
+        {
+            scene->togglePause();
+        }
+
+        ImGui::End();
+    }
+
+    {
+        // #ifdef __EMSCRIPTEN__
+        //         static bool isCollapsed = true;
+        //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
+        //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+        // #endif
+        ImGui::Begin("Mouse controls");
+
+        ImGui::Text("Is targeting: %s", scene->particleSimulator.getIsTargeting() ? "true" : "false");
+
+        ImGui::Text("Mouse position world:");
+        ImGui::Text("X: %f", mousePositionWorld.x);
+        ImGui::SameLine();
+        ImGui::Text("Y: %f", mousePositionWorld.y);
+        ImGui::SameLine();
+        ImGui::Text("Z: %f", mousePositionWorld.z);
+
+        ImGui::Text("Target distance:");
+        ImGui::DragFloat("##targetDistance", &targetDistance, 0.1f, 0.0f, 100.0f);
+
+        ImGui::End();
+    }
+
     ImGui::Render();
 }
 
@@ -382,29 +380,24 @@ void ParticleSimulatorLauncher::updateGame(float deltaTime) {
 }
 
 void ParticleSimulatorLauncher::updateScreen() {
-    if (!isWindowMinimized())
+    updateViewport();
+
+    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    scene->render();
+
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    ImGuiIO& io = ImGui::GetIO();
+    (void)io;
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
-        updateViewport();
-
-        glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        scene->render();
-
-        if (!isFullscreen)
-        {
-            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-            ImGuiIO& io = ImGui::GetIO();
-            (void)io;
-            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-            {
-                GLFWwindow* backup_current_context = glfwGetCurrentContext();
-                ImGui::UpdatePlatformWindows();
-                ImGui::RenderPlatformWindowsDefault();
-                glfwMakeContextCurrent(backup_current_context);
-            }
-        }
+        GLFWwindow* backup_current_context = glfwGetCurrentContext();
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+        glfwMakeContextCurrent(backup_current_context);
     }
+
     glfwSwapBuffers(window);
 }
 
