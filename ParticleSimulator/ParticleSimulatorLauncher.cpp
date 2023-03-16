@@ -24,24 +24,24 @@
 #include "imgui/libs/emscripten/emscripten_mainloop_stub.h"
 #include <emscripten/html5.h>
 
-EM_BOOL touchStart(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
-    // Handle touch start event here
-    return EM_TRUE; // Return true to allow the event to propagate
-}
-
-EM_BOOL touchMove(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
-    // Handle touch move event here
-    //    for (int i = 0; i < touchEvent->numTouches; i++)
-    //    {
-    //        std::cout << "Touch " << i << " x: " << touchEvent->touches[i].canvasX << " y: " << touchEvent->touches[i].canvasY << std::endl;
-    //    }
-    return EM_TRUE; // Return true to allow the event to propagate
-}
-
-EM_BOOL touchEnd(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
-    // Handle touch end event here
-    return EM_TRUE; // Return true to allow the event to propagate
-}
+// EM_BOOL touchStart(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
+//     // Handle touch start event here
+//     return EM_TRUE; // Return true to allow the event to propagate
+// }
+//
+// EM_BOOL touchMove(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
+//     // Handle touch move event here
+//     //    for (int i = 0; i < touchEvent->numTouches; i++)
+//     //    {
+//     //        std::cout << "Touch " << i << " x: " << touchEvent->touches[i].canvasX << " y: " << touchEvent->touches[i].canvasY << std::endl;
+//     //    }
+//     return EM_TRUE; // Return true to allow the event to propagate
+// }
+//
+// EM_BOOL touchEnd(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
+//     // Handle touch end event here
+//     return EM_TRUE; // Return true to allow the event to propagate
+// }
 #endif
 
 static void glfw_error_callback(int error, const char* description) {
@@ -79,13 +79,15 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     emscripten_get_canvas_element_size("#canvas", &displayWidth, &displayHeight);
 #else
     // According to init windowSize
-    displayWidth = windowWidth;
-    displayHeight = windowHeight;
+    //    displayWidth = windowWidth;
+    //    displayHeight = windowHeight;
+    displayWidth = 1080;
+    displayHeight = 720;
 #endif
 
     // Create window with graphics context
-    window = glfwCreateWindow(displayWidth, displayHeight, PROJECT_NAME.data(), NULL, NULL);
-    if (window == NULL)
+    window = glfwCreateWindow(displayWidth, displayHeight, PROJECT_NAME.data(), nullptr, nullptr);
+    if (window == nullptr)
         exit(1);
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
@@ -94,20 +96,20 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glfwSetWindowUserPointer(window, this);
     glfwSetKeyCallback(window, InputManager::key_callback);
 #ifdef __EMSCRIPTEN__
-    if (emscripten_set_touchstart_callback("#canvas", NULL, EM_FALSE, touchStart))
-        std::cout << "touchStart callback set" << std::endl;
-    else
-        std::cout << "touchStart callback not set" << std::endl;
-
-    if (emscripten_set_touchmove_callback("#canvas", NULL, EM_FALSE, touchMove))
-        std::cout << "touchMove callback set" << std::endl;
-    else
-        std::cout << "touchMove callback not set" << std::endl;
-
-    if (emscripten_set_touchend_callback("#canvas", NULL, EM_FALSE, touchEnd))
-        std::cout << "touchEnd callback set" << std::endl;
-    else
-        std::cout << "touchEnd callback not set" << std::endl;
+//    if (emscripten_set_touchstart_callback("#canvas", NULL, EM_FALSE, touchStart))
+//        std::cout << "touchStart callback set" << std::endl;
+//    else
+//        std::cout << "touchStart callback not set" << std::endl;
+//
+//    if (emscripten_set_touchmove_callback("#canvas", NULL, EM_FALSE, touchMove))
+//        std::cout << "touchMove callback set" << std::endl;
+//    else
+//        std::cout << "touchMove callback not set" << std::endl;
+//
+//    if (emscripten_set_touchend_callback("#canvas", NULL, EM_FALSE, touchEnd))
+//        std::cout << "touchEnd callback set" << std::endl;
+//    else
+//        std::cout << "touchEnd callback not set" << std::endl;
 #endif
 
     // Center window
@@ -266,11 +268,11 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     ImGui::NewFrame();
 
     {
-        // #ifdef __EMSCRIPTEN__
-        //         static bool isCollapsed = true;
-        //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
-        //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-        // #endif
+#ifdef __EMSCRIPTEN__
+        static bool isCollapsed = true;
+        ImGui::SetNextWindowPos(ImVec2((-displayWidth / 2), (-displayHeight / 2)), ImGuiCond_Once);
+        ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
         ImGui::Begin("Window info");
         ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0f / deltaTime);
         ImGui::Text("Window width: %d", displayWidth);
@@ -282,11 +284,11 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     }
 
     {
-        // #ifdef __EMSCRIPTEN__
-        //         static bool isCollapsed = true;
-        //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
-        //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-        // #endif
+#ifdef __EMSCRIPTEN__
+        static bool isCollapsed = true;
+        ImGui::SetNextWindowPos(ImVec2((-displayWidth / 2), (-displayHeight / 2) + 20), ImGuiCond_Once);
+        ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
         ImGui::Begin("Camera settings");
         ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "View settings");
         //        static bool wireframe = false;
@@ -336,11 +338,11 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     }
 
     {
-        // #ifdef __EMSCRIPTEN__
-        //         static bool isCollapsed = true;
-        //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
-        //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-        // #endif
+#ifdef __EMSCRIPTEN__
+        static bool isCollapsed = true;
+        ImGui::SetNextWindowPos(ImVec2((-displayWidth / 2), (-displayHeight / 2) + 40), ImGuiCond_Once);
+        ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
         ImGui::Begin("Particle simulator settings");
 
         ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulator.getParticleCount()).c_str());
@@ -374,11 +376,11 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     }
 
     {
-        // #ifdef __EMSCRIPTEN__
-        //         static bool isCollapsed = true;
-        //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
-        //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-        // #endif
+#ifdef __EMSCRIPTEN__
+        static bool isCollapsed = true;
+        ImGui::SetNextWindowPos(ImVec2((-displayWidth / 2), (-displayHeight / 2) + 60), ImGuiCond_Once);
+        ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
         ImGui::Begin("Mouse controls");
 
         ImGui::Text("Is targeting: %s", scene->particleSimulator.getIsTargeting() ? "true" : "false");
@@ -415,7 +417,14 @@ void ParticleSimulatorLauncher::updateGame(float deltaTime) {
 }
 
 void ParticleSimulatorLauncher::updateScreen() {
-    updateViewport();
+//    updateViewport();
+#ifdef __EMSCRIPTEN__
+    emscripten_get_canvas_element_size("#canvas", &displayWidth, &displayHeight);
+#else
+    glfwGetFramebufferSize(window, &displayWidth, &displayHeight);
+#endif
+    scene->updateProjectionMatrix(displayWidth, displayHeight);
+    glViewport(0, 0, displayWidth, displayHeight);
 
     glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -424,7 +433,6 @@ void ParticleSimulatorLauncher::updateScreen() {
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     ImGuiIO& io = ImGui::GetIO();
-    (void)io;
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
         GLFWwindow* backup_current_context = glfwGetCurrentContext();
@@ -439,27 +447,29 @@ void ParticleSimulatorLauncher::updateScreen() {
 void ParticleSimulatorLauncher::centerWindow() {
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-    auto xPos = (mode->width - windowWidth) / 2;
-    auto yPos = (mode->height - windowHeight) / 2;
+    //    auto xPos = (mode->width - windowWidth) / 2;
+    //    auto yPos = (mode->height - windowHeight) / 2;
+    auto xPos = (mode->width - displayWidth) / 2;
+    auto yPos = (mode->height - displayHeight) / 2;
     glfwSetWindowPos(window, xPos, yPos);
 }
 
 void ParticleSimulatorLauncher::toggleFullscreen() {
-    if (isFullscreen)
-    {
-        glfwSetWindowMonitor(window, NULL, 0, 0, windowWidth, windowHeight, 0);
-        centerWindow();
-        isFullscreen = false;
-    }
-    else
-    {
-        windowWidth = displayWidth;
-        windowHeight = displayHeight;
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-        isFullscreen = true;
-    }
+    //    if (isFullscreen)
+    //    {
+    //        glfwSetWindowMonitor(window, nullptr, 0, 0, windowWidth, windowHeight, 0);
+    //        centerWindow();
+    //        isFullscreen = false;
+    //    }
+    //    else
+    //    {
+    //        windowWidth = displayWidth;
+    //        windowHeight = displayHeight;
+    //        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    //        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    //        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+    //        isFullscreen = true;
+    //    }
 }
 
 void ParticleSimulatorLauncher::resetScene() {
@@ -477,13 +487,13 @@ bool ParticleSimulatorLauncher::isWindowMinimized() {
 }
 
 void ParticleSimulatorLauncher::updateViewport() {
-#ifdef __EMSCRIPTEN__
-    emscripten_get_canvas_element_size("#canvas", &displayWidth, &displayHeight);
-#else
-    glfwGetFramebufferSize(window, &displayWidth, &displayHeight);
-#endif
-    scene->updateProjectionMatrix(displayWidth, displayHeight);
-    glViewport(0, 0, displayWidth, displayHeight);
+    // #ifdef __EMSCRIPTEN__
+    //     emscripten_get_canvas_element_size("#canvas", &displayWidth, &displayHeight);
+    // #else
+    //     glfwGetFramebufferSize(window, &displayWidth, &displayHeight);
+    // #endif
+    //     scene->updateProjectionMatrix(displayWidth, displayHeight);
+    //     glViewport(0, 0, displayWidth, displayHeight);
 }
 
 void ParticleSimulatorLauncher::calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement) {

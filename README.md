@@ -21,19 +21,21 @@ This version is displaying 100 000 particles less than the desktop version.
 
 ## Todo
 
+- [x] Correct UI placement in Emscripten build
 - [ ] Use Emscripten to get touch screen events for mobile devices
-- [ ] Correct UI placement in Emscripten build
-- [ ] Correct windowed mode crash
-- [ ] Copy a lot of code to the Original project `ParticleSimulator` ParticleSimulatorLauncher class)
 - [ ] Add a way to change the number of particles
+- [ ] Correct toggle fullscreen button in desktop build
+- [ ] Correct windowed mode crash in desktop build
+- [ ] Copy a lot of code to the Original project `ParticleSimulator` ParticleSimulatorLauncher class)
 
 ## Images
 
-PLACEHOLDER
+![Screenshot 1](https://user-images.githubusercontent.com/59691442/225486502-770ec82b-562a-452b-9ef2-f2a68c6fef18.png)
+![Screenshot 2](https://user-images.githubusercontent.com/59691442/225486505-e8ccd756-056a-4507-917a-6be6bd8decb9.png)
 
 ## Videos
 
-PLACEHOLDER
+https://user-images.githubusercontent.com/59691442/225486109-9fb793d5-878f-430b-b418-938535038aed.mp4
 
 ## Building
 
