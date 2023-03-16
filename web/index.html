@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Particle Simulator WebGL</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="icon" href="favicon.png" type="image/png">
 </head>
 <body>
 
@@ -17,18 +18,20 @@
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    canvas.addEventListener('contextmenu', function (event) {
+    // Disable right click on canvas
+    canvas.addEventListener('contextmenu', (event) => {
         event.preventDefault();
     });
 
+    // Set the canvas element as a property of the Module object
     var Module = {
-        canvas: (function () {
+        canvas: (() => {
             return document.getElementById('canvas');
         })()
     };
 
     // Add event listener to window object to resize canvas on window resize
-    window.addEventListener('resize', function () {
+    window.addEventListener('resize', () => {
         var canvas = Module.canvas;
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;

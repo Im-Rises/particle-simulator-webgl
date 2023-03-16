@@ -23,6 +23,25 @@
 #ifdef __EMSCRIPTEN__
 #include "imgui/libs/emscripten/emscripten_mainloop_stub.h"
 #include <emscripten/html5.h>
+
+// EM_BOOL touchStart(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
+//     // Handle touch start event here
+//     return EM_TRUE; // Return true to allow the event to propagate
+// }
+//
+// EM_BOOL touchMove(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
+//     // Handle touch move event here
+//     //    for (int i = 0; i < touchEvent->numTouches; i++)
+//     //    {
+//     //        std::cout << "Touch " << i << " x: " << touchEvent->touches[i].canvasX << " y: " << touchEvent->touches[i].canvasY << std::endl;
+//     //    }
+//     return EM_TRUE; // Return true to allow the event to propagate
+// }
+//
+// EM_BOOL touchEnd(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
+//     // Handle touch end event here
+//     return EM_TRUE; // Return true to allow the event to propagate
+// }
 #endif
 
 static void glfw_error_callback(int error, const char* description) {
@@ -60,13 +79,15 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     emscripten_get_canvas_element_size("#canvas", &displayWidth, &displayHeight);
 #else
     // According to init windowSize
-    displayWidth = windowWidth;
-    displayHeight = windowHeight;
+    //    displayWidth = windowWidth;
+    //    displayHeight = windowHeight;
+    displayWidth = 1080;
+    displayHeight = 720;
 #endif
 
     // Create window with graphics context
-    window = glfwCreateWindow(displayWidth, displayHeight, PROJECT_NAME.data(), NULL, NULL);
-    if (window == NULL)
+    window = glfwCreateWindow(displayWidth, displayHeight, PROJECT_NAME.data(), nullptr, nullptr);
+    if (window == nullptr)
         exit(1);
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
@@ -74,6 +95,22 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     // Callbacks
     glfwSetWindowUserPointer(window, this);
     glfwSetKeyCallback(window, InputManager::key_callback);
+#ifdef __EMSCRIPTEN__
+//    if (emscripten_set_touchstart_callback("#canvas", NULL, EM_FALSE, touchStart))
+//        std::cout << "touchStart callback set" << std::endl;
+//    else
+//        std::cout << "touchStart callback not set" << std::endl;
+//
+//    if (emscripten_set_touchmove_callback("#canvas", NULL, EM_FALSE, touchMove))
+//        std::cout << "touchMove callback set" << std::endl;
+//    else
+//        std::cout << "touchMove callback not set" << std::endl;
+//
+//    if (emscripten_set_touchend_callback("#canvas", NULL, EM_FALSE, touchEnd))
+//        std::cout << "touchEnd callback set" << std::endl;
+//    else
+//        std::cout << "touchEnd callback not set" << std::endl;
+#endif
 
     // Center window
     centerWindow();
@@ -230,139 +267,137 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    if (!(isFullscreen || isWindowMinimized()))
     {
-        {
-            // #ifdef __EMSCRIPTEN__
-            //         static bool isCollapsed = true;
-            //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
-            //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-            // #endif
-            ImGui::Begin("Window info");
-            ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0f / deltaTime);
-            ImGui::Text("Window width: %d", displayWidth);
-            ImGui::Text("Window height: %d", displayHeight);
-            ImGui::Text("GPU: %s", getOpenGLVendor().data());
-            ImGui::Text("OpenGL version: %s", getOpenGLVersion().data());
-            ImGui::Text("GLSL version: %s", getGLSLVersion().data());
-            ImGui::End();
-        }
-
-        {
-            // #ifdef __EMSCRIPTEN__
-            //         static bool isCollapsed = true;
-            //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
-            //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-            // #endif
-            ImGui::Begin("Camera settings");
-            ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "View settings");
-            //        static bool wireframe = false;
-            //                ImGui::Checkbox("Wireframe", &wireframe);
-            //                if (wireframe)
-            //                {
-            //                    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            //                }
-            //                else
-            //                {
-            //                    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            //                }
-            //                ImGui::NewLine();
-
-            ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Camera settings");
-
-            ImGui::Text("Position:");
-            ImGui::DragFloat3("##position", (float*)&scene->camera.position);
-
-            ImGui::NewLine();
-            ImGui::Text("Pitch:");
-            ImGui::Checkbox("Pitch constrained", &scene->camera.constrainPitch);
-            ImGui::DragFloat("##pitch", &scene->camera.pitch);
-
-            ImGui::Text("Yaw:");
-            ImGui::DragFloat("##yaw", &scene->camera.yaw);
-
-            ImGui::NewLine();
-            ImGui::Text("FOV:");
-            ImGui::DragFloat("##fov", &scene->camera.fov);
-
-            ImGui::NewLine();
-            ImGui::Text("Near plane:");
-            ImGui::DragFloat("##near", &scene->camera.nearPlane);
-
-            ImGui::Text("Far plane:");
-            ImGui::DragFloat("##far", &scene->camera.farPlane);
-
-            ImGui::NewLine();
-            ImGui::Text("Speed:");
-            ImGui::DragFloat("##speed", &scene->camera.movementSpeed);
-
-            ImGui::Text("Sensitivity: ");
-            ImGui::DragFloat("##sensitivity", &scene->camera.rotationSpeed, 0.1f);
-
-            ImGui::End();
-        }
-
-        {
-            // #ifdef __EMSCRIPTEN__
-            //         static bool isCollapsed = true;
-            //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
-            //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-            // #endif
-            ImGui::Begin("Particle simulator settings");
-
-            ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulator.getParticleCount()).c_str());
-            ImGui::NewLine();
-
-            ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Particle settings");
-
-            ImGui::Text("Fixed update frequency:");
-            ImGui::DragFloat("##fixedUpdate", &fixedUpdate, 1.0f, 1.0f, 1000.0f);
-
-            ImGui::Text("Reset simulation:");
-            ImGui::SameLine();
-            ImGui::Button("Reset##ResetBtn");
-            if (ImGui::IsItemClicked())
-            {
-                resetScene();
-            }
-
-            ImGui::Text("Spawn position:");
-            ImGui::DragFloat3("##spawnPosition", (float*)&scene->particleSimulator.position);
-
-            ImGui::Text("Toggle pause:");
-            ImGui::SameLine();
-            ImGui::Button(scene->getIsPaused() ? "Resume##TogglePAuseBtn" : "Pause##TogglePAuseBtn");
-            if (ImGui::IsItemClicked())
-            {
-                scene->togglePause();
-            }
-
-            ImGui::End();
-        }
-
-        {
-            // #ifdef __EMSCRIPTEN__
-            //         static bool isCollapsed = true;
-            //         ImGui::SetNextWindowPos(ImVec2(-displayWidth / 2, -displayHeight / 2), ImGuiCond_Once);
-            //         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-            // #endif
-            ImGui::Begin("Mouse controls");
-
-            ImGui::Text("Is targeting: %s", scene->particleSimulator.getIsTargeting() ? "true" : "false");
-
-            ImGui::Text("Mouse position world:");
-            ImGui::Text("X: %f", mousePositionWorld.x);
-            ImGui::SameLine();
-            ImGui::Text("Y: %f", mousePositionWorld.y);
-            ImGui::SameLine();
-            ImGui::Text("Z: %f", mousePositionWorld.z);
-
-            ImGui::Text("Target distance:");
-            ImGui::DragFloat("##targetDistance", &targetDistance, 0.1f, 0.0f, 100.0f);
-
-            ImGui::End();
-        }
+#ifdef __EMSCRIPTEN__
+        static bool isCollapsed = true;
+        ImGui::SetNextWindowPos(ImVec2((-displayWidth / 2), (-displayHeight / 2)), ImGuiCond_Once);
+        ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
+        ImGui::Begin("Window info");
+        ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0f / deltaTime);
+        ImGui::Text("Window width: %d", displayWidth);
+        ImGui::Text("Window height: %d", displayHeight);
+        ImGui::Text("GPU: %s", getOpenGLVendor().data());
+        ImGui::Text("OpenGL version: %s", getOpenGLVersion().data());
+        ImGui::Text("GLSL version: %s", getGLSLVersion().data());
+        ImGui::End();
     }
+
+    {
+#ifdef __EMSCRIPTEN__
+        static bool isCollapsed = true;
+        ImGui::SetNextWindowPos(ImVec2((-displayWidth / 2), (-displayHeight / 2) + 20), ImGuiCond_Once);
+        ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
+        ImGui::Begin("Camera settings");
+        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "View settings");
+        //        static bool wireframe = false;
+        //                ImGui::Checkbox("Wireframe", &wireframe);
+        //                if (wireframe)
+        //                {
+        //                    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        //                }
+        //                else
+        //                {
+        //                    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        //                }
+        //                ImGui::NewLine();
+
+        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Camera settings");
+
+        ImGui::Text("Position:");
+        ImGui::DragFloat3("##position", (float*)&scene->camera.position);
+
+        ImGui::NewLine();
+        ImGui::Text("Pitch:");
+        ImGui::Checkbox("Pitch constrained", &scene->camera.constrainPitch);
+        ImGui::DragFloat("##pitch", &scene->camera.pitch);
+
+        ImGui::Text("Yaw:");
+        ImGui::DragFloat("##yaw", &scene->camera.yaw);
+
+        ImGui::NewLine();
+        ImGui::Text("FOV:");
+        ImGui::DragFloat("##fov", &scene->camera.fov);
+
+        ImGui::NewLine();
+        ImGui::Text("Near plane:");
+        ImGui::DragFloat("##near", &scene->camera.nearPlane);
+
+        ImGui::Text("Far plane:");
+        ImGui::DragFloat("##far", &scene->camera.farPlane);
+
+        ImGui::NewLine();
+        ImGui::Text("Speed:");
+        ImGui::DragFloat("##speed", &scene->camera.movementSpeed);
+
+        ImGui::Text("Sensitivity: ");
+        ImGui::DragFloat("##sensitivity", &scene->camera.rotationSpeed, 0.1f);
+
+        ImGui::End();
+    }
+
+    {
+#ifdef __EMSCRIPTEN__
+        static bool isCollapsed = true;
+        ImGui::SetNextWindowPos(ImVec2((-displayWidth / 2), (-displayHeight / 2) + 40), ImGuiCond_Once);
+        ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
+        ImGui::Begin("Particle simulator settings");
+
+        ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulator.getParticleCount()).c_str());
+        ImGui::NewLine();
+
+        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Particle settings");
+
+        ImGui::Text("Fixed update frequency:");
+        ImGui::DragFloat("##fixedUpdate", &fixedUpdate, 1.0f, 1.0f, 1000.0f);
+
+        ImGui::Text("Reset simulation:");
+        ImGui::SameLine();
+        ImGui::Button("Reset##ResetBtn");
+        if (ImGui::IsItemClicked())
+        {
+            resetScene();
+        }
+
+        ImGui::Text("Spawn position:");
+        ImGui::DragFloat3("##spawnPosition", (float*)&scene->particleSimulator.position);
+
+        ImGui::Text("Toggle pause:");
+        ImGui::SameLine();
+        ImGui::Button(scene->getIsPaused() ? "Resume##TogglePAuseBtn" : "Pause##TogglePAuseBtn");
+        if (ImGui::IsItemClicked())
+        {
+            scene->togglePause();
+        }
+
+        ImGui::End();
+    }
+
+    {
+#ifdef __EMSCRIPTEN__
+        static bool isCollapsed = true;
+        ImGui::SetNextWindowPos(ImVec2((-displayWidth / 2), (-displayHeight / 2) + 60), ImGuiCond_Once);
+        ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
+        ImGui::Begin("Mouse controls");
+
+        ImGui::Text("Is targeting: %s", scene->particleSimulator.getIsTargeting() ? "true" : "false");
+
+        ImGui::Text("Mouse position world:");
+        ImGui::Text("X: %f", mousePositionWorld.x);
+        ImGui::SameLine();
+        ImGui::Text("Y: %f", mousePositionWorld.y);
+        ImGui::SameLine();
+        ImGui::Text("Z: %f", mousePositionWorld.z);
+
+        ImGui::Text("Target distance:");
+        ImGui::DragFloat("##targetDistance", &targetDistance, 0.1f, 0.0f, 100.0f);
+
+        ImGui::End();
+    }
+
     ImGui::Render();
 }
 
@@ -382,56 +417,59 @@ void ParticleSimulatorLauncher::updateGame(float deltaTime) {
 }
 
 void ParticleSimulatorLauncher::updateScreen() {
-    if (!isWindowMinimized())
+//    updateViewport();
+#ifdef __EMSCRIPTEN__
+    emscripten_get_canvas_element_size("#canvas", &displayWidth, &displayHeight);
+#else
+    glfwGetFramebufferSize(window, &displayWidth, &displayHeight);
+#endif
+    scene->updateProjectionMatrix(displayWidth, displayHeight);
+    glViewport(0, 0, displayWidth, displayHeight);
+
+    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    scene->render();
+
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    ImGuiIO& io = ImGui::GetIO();
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
-        updateViewport();
-
-        glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        scene->render();
-
-        if (!isFullscreen)
-        {
-            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-            ImGuiIO& io = ImGui::GetIO();
-            (void)io;
-            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-            {
-                GLFWwindow* backup_current_context = glfwGetCurrentContext();
-                ImGui::UpdatePlatformWindows();
-                ImGui::RenderPlatformWindowsDefault();
-                glfwMakeContextCurrent(backup_current_context);
-            }
-        }
+        GLFWwindow* backup_current_context = glfwGetCurrentContext();
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+        glfwMakeContextCurrent(backup_current_context);
     }
+
     glfwSwapBuffers(window);
 }
 
 void ParticleSimulatorLauncher::centerWindow() {
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-    auto xPos = (mode->width - windowWidth) / 2;
-    auto yPos = (mode->height - windowHeight) / 2;
+    //    auto xPos = (mode->width - windowWidth) / 2;
+    //    auto yPos = (mode->height - windowHeight) / 2;
+    auto xPos = (mode->width - displayWidth) / 2;
+    auto yPos = (mode->height - displayHeight) / 2;
     glfwSetWindowPos(window, xPos, yPos);
 }
 
 void ParticleSimulatorLauncher::toggleFullscreen() {
-    if (isFullscreen)
-    {
-        glfwSetWindowMonitor(window, NULL, 0, 0, windowWidth, windowHeight, 0);
-        centerWindow();
-        isFullscreen = false;
-    }
-    else
-    {
-        windowWidth = displayWidth;
-        windowHeight = displayHeight;
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-        isFullscreen = true;
-    }
+    //    if (isFullscreen)
+    //    {
+    //        glfwSetWindowMonitor(window, nullptr, 0, 0, windowWidth, windowHeight, 0);
+    //        centerWindow();
+    //        isFullscreen = false;
+    //    }
+    //    else
+    //    {
+    //        windowWidth = displayWidth;
+    //        windowHeight = displayHeight;
+    //        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    //        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    //        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+    //        isFullscreen = true;
+    //    }
 }
 
 void ParticleSimulatorLauncher::resetScene() {
@@ -449,13 +487,13 @@ bool ParticleSimulatorLauncher::isWindowMinimized() {
 }
 
 void ParticleSimulatorLauncher::updateViewport() {
-#ifdef __EMSCRIPTEN__
-    emscripten_get_canvas_element_size("#canvas", &displayWidth, &displayHeight);
-#else
-    glfwGetFramebufferSize(window, &displayWidth, &displayHeight);
-#endif
-    scene->updateProjectionMatrix(displayWidth, displayHeight);
-    glViewport(0, 0, displayWidth, displayHeight);
+    // #ifdef __EMSCRIPTEN__
+    //     emscripten_get_canvas_element_size("#canvas", &displayWidth, &displayHeight);
+    // #else
+    //     glfwGetFramebufferSize(window, &displayWidth, &displayHeight);
+    // #endif
+    //     scene->updateProjectionMatrix(displayWidth, displayHeight);
+    //     glViewport(0, 0, displayWidth, displayHeight);
 }
 
 void ParticleSimulatorLauncher::calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement) {

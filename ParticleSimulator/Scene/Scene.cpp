@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), particleSimulator(20000) {
+Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), particleSimulator(500000) {
 }
 
 Scene::~Scene() {
@@ -25,7 +25,6 @@ void Scene::updateProjectionMatrix(int display_w, int display_h) {
 
 void Scene::togglePause() {
     isPaused = !isPaused;
-    //    particleSimulator.setIsRunning(!isPaused);
     particleSimulator.setIsPaused(isPaused);
 }
 
