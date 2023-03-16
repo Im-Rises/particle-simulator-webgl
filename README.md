@@ -88,9 +88,9 @@ The speed and some parameters can be modified directly in the ImGui windows.
 
 | Action              | Key                                 |
 |---------------------|-------------------------------------|
-| Translate camera    | WASD (← → ↑ ↓)                      |
+| Translate camera    | (WASD) or (↑ ← ↓ →)                 |
 | Pause/Resume        | P                                   |
-| Move up/down camera | SPACE/SHIFT                         |
+| Move up/down camera | (Space/Shift) or (Page up/down)     |
 | Rotate camera       | Right Mouse Button + Mouse movement |
 | Fullscreen          | F11                                 |
 | Drag particles      | Left Mouse Button + Mouse movement  |
@@ -154,7 +154,7 @@ unrealistic.dev (Change CMake working directory):
 OpenGL ES 2.0 Reference Pages:  
 <https://www.khronos.org/registry/OpenGL-Refpages/es2.0/>
 
-Wikipedia (OpenGL versions):
+Wikipedia (OpenGL versions):  
 <https://en.wikipedia.org/wiki/OpenGL_Shading_Language>
 
 ## Contributors
