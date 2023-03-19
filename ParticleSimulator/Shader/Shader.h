@@ -10,7 +10,7 @@ private:
     unsigned int ID;
 
 public:
-    Shader(const char * vertexSource, const char * fragmentSource);
+    Shader(const char *vertexSource, const char *fragmentSource);
 
     void create(const char *vertexCode, const char *fragmentCode);
 
@@ -22,6 +22,8 @@ public:
 
 public:
     void use();
+
+    [[nodiscard]] unsigned int getID() const;
 
 public:
     void setBool(const std::string &name, bool value) const;
@@ -48,6 +50,5 @@ public:
 
     void setMat4(const std::string &name, const glm::mat4 &mat) const;
 };
-
 
 #endif //SHADER_H

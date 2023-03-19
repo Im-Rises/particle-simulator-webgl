@@ -13,6 +13,7 @@ private:
     struct Particle {
         glm::vec3 position;
         glm::vec3 velocity;
+
         Particle() : position(glm::vec3(0.0f)), velocity(glm::vec3(1.0f, 1.0f, 1.0f)) {}
     };
 
@@ -30,23 +31,29 @@ private:
 
 public:
     explicit ParticleSimulator(int particleCount = 100000);
+
     ~ParticleSimulator();
 
 public:
-    void update(const float& deltaTime) override;
+    void update(const float &deltaTime) override;
+
     void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) override;
 
 public:
     void randomizeParticles();
+
     void reset();
-    void setTarget(const glm::vec3& target) { this->pointOfGravity = target; }
 
 public:
-    void setIsTargeting(const bool& value) { this->isTargeting = (float)value; }
-    [[nodiscard]] bool getIsTargeting() const { return (bool)this->isTargeting; }
-    void setIsPaused(const bool& value) { this->isPaused = (float)value; }
+    void setTarget(const glm::vec3 &target);
 
-    [[nodiscard]] size_t getParticleCount() const { return particles.size(); }
+    void setIsTargeting(const bool &value);
+
+    [[nodiscard]] bool getIsTargeting() const;
+
+    void setIsPaused(const bool &value);
+
+    [[nodiscard]] size_t getParticleCount() const;
 };
 
 #endif // PARTICLE_SIMULATOR_H

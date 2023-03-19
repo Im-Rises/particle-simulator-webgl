@@ -8,8 +8,7 @@ Scene::~Scene() {
 
 void Scene::update(float deltaTime) {
     camera.update(deltaTime);
-    if (isPaused)
-    {
+    if (isPaused) {
         return;
     }
     particleSimulator.update(deltaTime);
@@ -17,6 +16,7 @@ void Scene::update(float deltaTime) {
 
 void Scene::render() {
     particleSimulator.render(camera.getViewMatrix(), camera.getProjectionMatrix());
+    cube.render(camera.getViewMatrix(), camera.getProjectionMatrix());
 }
 
 void Scene::updateProjectionMatrix(int display_w, int display_h) {

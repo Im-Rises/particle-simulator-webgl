@@ -3,6 +3,7 @@
 
 #include "Camera/Camera.h"
 #include "Entity/ParticleSimulator/ParticleSimulator.h"
+#include "Entity/Cube/Cube.h"
 
 class Scene {
 private:
@@ -11,16 +12,22 @@ private:
 public:
     Camera camera;
     ParticleSimulator particleSimulator;
+    Cube cube;
 
 public:
     Scene(int display_w, int display_h);
+
     ~Scene();
+
     void update(float deltaTime);
+
     void render();
 
 public:
     void updateProjectionMatrix(int display_w, int display_h);
+
     void togglePause();
+
     void reset();
 
 public:
