@@ -28,7 +28,7 @@ const char *fragmentShaderSource = "#version 300 es\n"
 
 Cube::Cube() : Entity(vertexShaderSource, fragmentShaderSource) {
     create();
-//    position = glm::vec3(0.0F, 0.0F, 0.0F);
+    position = glm::vec3(-2.0F, 0.0F, 0.0F);
     updateModelMatrix();
 }
 
@@ -67,8 +67,7 @@ void Cube::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) 
 
     // Shader
     shader.use();
-    shader.setMat4("u_view", cameraViewMatrix);
-    shader.setMat4("u_projection", cameraProjectionMatrix);
+    shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
     shader.setMat4("u_model", modelMatrix);
 
     // Draw

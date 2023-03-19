@@ -21,12 +21,32 @@ This version is displaying 100 000 particles less than the desktop version.
 
 ## Todo
 
-- [x] Correct UI placement in Emscripten build
-- [ ] Use Emscripten to get touch screen events for mobile devices
-- [ ] Add a way to change the number of particles
-- [ ] Correct toggle fullscreen button in desktop build
-- [ ] Correct windowed mode crash in desktop build
-- [ ] Copy a lot of code to the Original project `ParticleSimulator` ParticleSimulatorLauncher class)
+Major:
+
+- &#9744; Use a transform feedback to update the position and velocity for parallelization with the GPU using ping-pong
+  buffering
+- &#9744; Use the output as next input without ping-pong buffering, by directly writing the output to the input buffer ?
+
+Important:
+
+- &#x2612; Use Emscripten to get touch screen events for mobile devices (not working, cannot set up the event listener
+  in the C++ code)
+
+Minor:
+
+- &#9745; Correct UI placement in Emscripten build
+- &#9744; Correct the UI not working correctly when toggling fullscreen (maybe it's because of the library Itself)
+- &#9744; Copy a lot of code to the Original project `ParticleSimulator` ParticleSimulatorLauncher class
+- &#9744; Add a way to change the number of particles
+- &#9744; Correct toggle fullscreen button in desktop build
+- &#9744; Correct windowed mode crash in desktop build
+- &#9744; Optimise the Shader and Entity classes
+
+---
+
+- &#9744; means that the feature is not implemented yet
+- &#x2612; means that the feature is having issues
+- &#9745; means that the feature is implemented
 
 ## Images
 

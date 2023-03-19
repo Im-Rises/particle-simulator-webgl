@@ -32,6 +32,39 @@ void Shader::create(const char *vertexCode, const char *fragmentCode) {
     glDeleteShader(fragment);
 }
 
+Shader::Shader(const std::string &vertexSource, const std::string &fragmentSource,
+               const std::vector<std::string> &varyings) {
+    unsigned int vertex, fragment;
+
+    const char *vertexSourceCstr = vertexSource.c_str();
+    const char *fragmentSourceCstr = fragmentSource.c_str();
+
+    std::vector<const char *> varyingsCStr;
+    for (const std::string &varying: varyings) {
+        varyingsCStr.push_back(varying.c_str());
+    }
+
+    vertex = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertex, 1, &vertexSourceCstr, NULL);
+    glCompileShader(vertex);
+    checkCompileErrors(vertex, "VERTEX");
+
+    fragment = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragment, 1, &fragmentSourceCstr, NULL);
+    glCompileShader(fragment);
+    checkCompileErrors(fragment, "FRAGMENT");
+
+    ID = glCreateProgram();
+    glAttachShader(ID, vertex);
+    glAttachShader(ID, fragment);
+    glTransformFeedbackVaryings(ID, varyingsCStr.size(), varyingsCStr.data(), GL_SEPARATE_ATTRIBS);
+    glLinkProgram(ID);
+    checkCompileErrors(ID, "PROGRAM");
+
+    glDeleteShader(vertex);
+    glDeleteShader(fragment);
+}
+
 Shader::~Shader() {
     destroy();
 }
@@ -62,10 +95,10 @@ void Shader::checkCompileErrors(unsigned int shader, std::string type) {
     }
 }
 
+
 void Shader::use() {
     glUseProgram(ID);
 }
-
 
 unsigned int Shader::getID() const {
     return ID;

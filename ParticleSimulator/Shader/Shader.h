@@ -2,6 +2,7 @@
 #define SHADER_H
 
 #include <string>
+#include <vector>
 
 #include <glm/glm.hpp>
 
@@ -11,6 +12,9 @@ private:
 
 public:
     Shader(const char *vertexSource, const char *fragmentSource);
+
+    Shader(const std::string &vertexSource, const std::string &fragmentSource,
+           const std::vector<std::string> &varyings);
 
     void create(const char *vertexCode, const char *fragmentCode);
 
