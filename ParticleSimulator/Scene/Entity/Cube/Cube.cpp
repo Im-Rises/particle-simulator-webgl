@@ -3,28 +3,32 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 
-const char *vertexShaderSource = "#version 300 es\n"
-                                 "\n"
-                                 "layout (location = 0) in vec3 a_Pos;\n"
-                                 "\n"
-                                 "uniform mat4 u_mvp;\n"
-                                 "uniform mat4 u_model;\n"
-                                 "\n"
-                                 "void main()\n"
-                                 "{\n"
-                                 "\tgl_Position = u_mvp * u_model * vec4(a_Pos, 1.0);\n"
-                                 "}\n\0";
+const char *Cube::vertexShaderSource = R"(
+    #version 300 es
 
-const char *fragmentShaderSource = "#version 300 es\n"
-                                   "\n"
-                                   "precision highp float;\n"
-                                   "\n"
-                                   "out vec4 o_fragColor;\n"
-                                   "\n"
-                                   "void main()\n"
-                                   "{\n"
-                                   "\to_fragColor = vec4(1.0, 0.5, 0.2, 1.0);\n"
-                                   "}";
+    layout (location = 0) in vec3 a_Pos;
+
+    uniform mat4 u_mvp;
+    uniform mat4 u_model;
+
+    void main()
+    {
+        gl_Position = u_mvp * u_model * vec4(a_Pos, 1.0);
+    }
+)";
+
+const char *Cube::fragmentShaderSource = R"(
+    #version 300 es
+
+    precision highp float;
+
+    out vec4 o_fragColor;
+
+    void main()
+    {
+        o_fragColor = vec4(1.0, 0.5, 0.2, 1.0);
+    }
+)";
 
 Cube::Cube() : Entity(vertexShaderSource, fragmentShaderSource) {
     create();

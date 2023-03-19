@@ -16,11 +16,15 @@ protected:
     Shader shader;
 
 public:
-    Entity(const std::string& vertexSource, const std::string& fragmentSource);
+    Entity(const std::string &vertexSource, const std::string &fragmentSource);
+
     ~Entity();
-    virtual void update(const float& deltaTime) = 0;
+
+    virtual void update(const float &deltaTime) = 0;
+
     //    virtual void fixedUpdate(float fixedDeltaTime) = 0;
     virtual void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) = 0;
+
     void updateModelMatrix();
 };
 

@@ -8,6 +8,9 @@
 
 class Cube : public Entity {
 private:
+    static const char *vertexShaderSource;
+    static const char *fragmentShaderSource;
+
     unsigned int VAO, VBO;
 
     static constexpr std::array<float, 108> vertices = {
@@ -53,6 +56,7 @@ private:
             -0.5f, 0.5f, 0.5f,
             -0.5f, 0.5f, -0.5f,
     };
+
 
 public:
     Cube();

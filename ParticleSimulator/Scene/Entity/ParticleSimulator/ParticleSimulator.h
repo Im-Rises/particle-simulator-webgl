@@ -8,6 +8,9 @@
 
 class ParticleSimulator : public Entity {
 private:
+    static const char *vertexShaderSource;
+    static const char *fragmentShaderSource;
+
     GLuint VAO, VBO;
 
     struct Particle {

@@ -3,37 +3,40 @@
 #include <random>
 #include <iostream>
 
-const char *vertexShader = "#version 300 es\n"
-                           "\n"
-                           "precision highp float;\n"
-                           "\n"
-                           "layout(location = 0) in vec3 a_position;\n"
-                           "layout(location = 1) in vec3 a_velocity;\n"
-                           "\n"
-                           "uniform mat4 u_mvp;\n"
-                           "\n"
-                           "out vec3 v_velocity;\n"
-                           "\n"
-                           "void main()\n"
-                           "{\n"
-                           "    gl_Position = u_mvp * vec4(a_position, 1.0);\n"
-                           "    v_velocity = a_velocity;\n"
-                           "    gl_PointSize = 1.0f;\n"
-                           "}\n\0";
+const char *vertexShader = R"(
+    #version 300 es
 
-const char *fragmentShader = "#version 300 es\n"
-                             "\n"
-                             "precision highp float;\n"
-                             "\n"
-                             "in vec3 v_velocity;\n"
-                             "\n"
-                             "out vec4 o_fragColor;\n"
-                             "\n"
-                             "void main() {\n"
-                             "    vec3 v_color = vec3(min(v_velocity.y, 0.8f), max(v_velocity.x, 0.5f), min(v_velocity.z, 0.5f));\n"
-                             "    o_fragColor = vec4(v_color, 1.0f);\n"
-                             "}\n\0";
+    precision highp float;
 
+    layout(location = 0) in vec3 a_position;
+    layout(location = 1) in vec3 a_velocity;
+
+    uniform mat4 u_mvp;
+
+    out vec3 v_velocity;
+
+    void main()
+    {
+        gl_Position = u_mvp * vec4(a_position, 1.0);
+        v_velocity = a_velocity;
+        gl_PointSize = 1.0f;
+    }
+)";
+
+const char *fragmentShader = R"(
+    #version 300 es
+
+    precision highp float;
+
+    in vec3 v_velocity;
+
+    out vec4 o_fragColor;
+
+    void main() {
+        vec3 v_color = vec3(min(v_velocity.y, 0.8f), max(v_velocity.x, 0.5f), min(v_velocity.z, 0.5f));
+        o_fragColor = vec4(v_color, 1.0f);
+    }
+)";
 
 ParticleSimulator::ParticleSimulator(int particleCount) : Entity(vertexShader, fragmentShader) {
     position = glm::vec3(0.0f, 0.0f, 0.0f);

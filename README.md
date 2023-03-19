@@ -41,6 +41,7 @@ Minor:
 - &#9744; Correct toggle fullscreen button in desktop build
 - &#9744; Correct windowed mode crash in desktop build
 - &#9744; Optimise the Shader and Entity classes
+- &#9744; Change the position of the shader in the CPP files
 
 ---
 
