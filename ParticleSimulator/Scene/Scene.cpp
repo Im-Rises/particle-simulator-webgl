@@ -17,6 +17,7 @@ void Scene::update(float deltaTime) {
 void Scene::render() {
     particleSimulator.render(camera.getViewMatrix(), camera.getProjectionMatrix());
     cube.render(camera.getViewMatrix(), camera.getProjectionMatrix());
+    transformFeedback.render(camera.getViewMatrix(), camera.getProjectionMatrix());
 }
 
 void Scene::updateProjectionMatrix(int display_w, int display_h) {

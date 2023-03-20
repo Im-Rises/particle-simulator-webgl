@@ -8,31 +8,18 @@
 #include "../Entity.h"
 
 class TransformFeedback : public Entity {
-//    static const char *vertexShaderSource;
-//    static const char *fragmentShaderSource;
+    static const char *vertexShaderSource;
+    static const char *fragmentShaderSource;
 
     unsigned int VAO, VBO;
 
-    static constexpr std::array<float, 18> vertices = {
-            -0.5f, -0.5f, -0.5f,
-            0.5f, -0.5f, -0.5f,
-            0.5f, 0.5f, -0.5f,
-            0.5f, 0.5f, -0.5f,
-            -0.5f, 0.5f, -0.5f,
-            -0.5f, -0.5f, -0.5f,
-    };
+    static const std::array<float, 18> vertices;
 
 public:
     TransformFeedback();
 
-private:
-    void create();
-
 public:
     ~TransformFeedback();
-
-private:
-    void destroy();
 
 public:
     void update(const float &deltaTime) override;

@@ -13,16 +13,12 @@ private:
 public:
     Shader(const char *vertexSource, const char *fragmentSource);
 
-    Shader(const std::string &vertexSource, const std::string &fragmentSource,
+    Shader(const char *vertexSource, const char *fragmentSource,
            const std::vector<std::string> &varyings);
-
-    void create(const char *vertexCode, const char *fragmentCode);
 
     ~Shader();
 
-    void destroy();
-
-    void checkCompileErrors(unsigned int shader, std::string type);
+    void checkCompileErrors(unsigned int shader, const std::string &type);
 
 public:
     void use();

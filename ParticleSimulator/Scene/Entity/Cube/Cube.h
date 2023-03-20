@@ -18,14 +18,8 @@ private:
 public:
     Cube();
 
-private:
-    void create();
-
 public:
     ~Cube();
-
-private:
-    void destroy();
 
 public:
     void update(const float &deltaTime) override;

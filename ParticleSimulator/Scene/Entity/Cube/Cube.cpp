@@ -75,12 +75,6 @@ const std::array<float, 108> Cube::vertices = {
 };
 
 Cube::Cube() : Entity(vertexShaderSource, fragmentShaderSource) {
-    create();
-    position = glm::vec3(-2.0F, 0.0F, 0.0F);
-    updateModelMatrix();
-}
-
-void Cube::create() {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
 
@@ -95,13 +89,11 @@ void Cube::create() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glBindVertexArray(0);
+    position = glm::vec3(-2.0F, 0.0F, 0.0F);
+    updateModelMatrix();
 }
 
 Cube::~Cube() {
-    destroy();
-}
-
-void Cube::destroy() {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
 }

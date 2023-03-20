@@ -4,6 +4,7 @@
 #include "Camera/Camera.h"
 #include "Entity/ParticleSimulator/ParticleSimulator.h"
 #include "Entity/Cube/Cube.h"
+#include "Entity/TransformFeedback/TransformFeedback.h"
 
 class Scene {
 private:
@@ -13,6 +14,7 @@ public:
     Camera camera;
     ParticleSimulator particleSimulator;
     Cube cube;
+    TransformFeedback transformFeedback;
 
 public:
     Scene(int display_w, int display_h);

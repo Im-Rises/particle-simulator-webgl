@@ -6,19 +6,15 @@
 #include <sstream>
 
 Shader::Shader(const char *vertexSource, const char *fragmentSource) {
-    create(vertexSource, fragmentSource);
-}
-
-void Shader::create(const char *vertexCode, const char *fragmentCode) {
     unsigned int vertex, fragment;
 
     vertex = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertex, 1, &vertexCode, NULL);
+    glShaderSource(vertex, 1, &vertexSource, NULL);
     glCompileShader(vertex);
     checkCompileErrors(vertex, "VERTEX");
 
     fragment = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragment, 1, &fragmentCode, NULL);
+    glShaderSource(fragment, 1, &fragmentSource, NULL);
     glCompileShader(fragment);
     checkCompileErrors(fragment, "FRAGMENT");
 
@@ -32,12 +28,8 @@ void Shader::create(const char *vertexCode, const char *fragmentCode) {
     glDeleteShader(fragment);
 }
 
-Shader::Shader(const std::string &vertexSource, const std::string &fragmentSource,
-               const std::vector<std::string> &varyings) {
+Shader::Shader(const char *vertexSource, const char *fragmentSource, const std::vector<std::string> &varyings) {
     unsigned int vertex, fragment;
-
-    const char *vertexSourceCstr = vertexSource.c_str();
-    const char *fragmentSourceCstr = fragmentSource.c_str();
 
     std::vector<const char *> varyingsCStr;
     for (const std::string &varying: varyings) {
@@ -45,12 +37,12 @@ Shader::Shader(const std::string &vertexSource, const std::string &fragmentSourc
     }
 
     vertex = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertex, 1, &vertexSourceCstr, NULL);
+    glShaderSource(vertex, 1, &vertexSource, nullptr);
     glCompileShader(vertex);
     checkCompileErrors(vertex, "VERTEX");
 
     fragment = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragment, 1, &fragmentSourceCstr, NULL);
+    glShaderSource(fragment, 1, &fragmentSource, nullptr);
     glCompileShader(fragment);
     checkCompileErrors(fragment, "FRAGMENT");
 
@@ -66,14 +58,11 @@ Shader::Shader(const std::string &vertexSource, const std::string &fragmentSourc
 }
 
 Shader::~Shader() {
-    destroy();
-}
-
-void Shader::destroy() {
     glDeleteProgram(ID);
 }
 
-void Shader::checkCompileErrors(unsigned int shader, std::string type) {
+
+void Shader::checkCompileErrors(unsigned int shader, const std::string &type) {
     int success;
     char infoLog[1024];
     if (type != "PROGRAM") {
@@ -94,7 +83,6 @@ void Shader::checkCompileErrors(unsigned int shader, std::string type) {
         }
     }
 }
-
 
 void Shader::use() {
     glUseProgram(ID);
