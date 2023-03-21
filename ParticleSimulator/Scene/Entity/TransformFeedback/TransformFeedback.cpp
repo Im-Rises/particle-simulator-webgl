@@ -87,13 +87,13 @@ void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
 
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, feedbackBuffer);
     glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, query);
-    glEnable(GL_RASTERIZER_DISCARD);
+//    glEnable(GL_RASTERIZER_DISCARD);
     glBeginTransformFeedback(GL_POINTS);
 
     glDrawArrays(GL_POINTS, 0, particlesCount);
 
     glEndTransformFeedback();
-    glDisable(GL_RASTERIZER_DISCARD);
+//    glDisable(GL_RASTERIZER_DISCARD);
     glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
     glGetQueryObjectuiv(query, GL_QUERY_RESULT, reinterpret_cast<GLuint *>(&particlesCount));
 
