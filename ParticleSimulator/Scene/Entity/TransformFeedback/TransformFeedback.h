@@ -8,12 +8,17 @@
 #include "../Entity.h"
 
 class TransformFeedback : public Entity {
-    static const std::array<float, 18> vertices;
-
     static const char *vertexShaderSource;
     static const char *fragmentShaderSource;
 
     unsigned int VAO, VBO;
+
+    GLuint feedbackBuffer;
+    GLuint query;
+
+    std::vector<glm::vec3> positions;
+
+    int particlesCount = 100;
 
 //    // Set transform feedback variables
 //    const std::vector<std::string> transformFeedbackVariables = {"out_pos"};

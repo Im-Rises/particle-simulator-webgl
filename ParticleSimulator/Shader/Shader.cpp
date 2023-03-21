@@ -49,7 +49,7 @@ Shader::Shader(const char *vertexSource, const char *fragmentSource, const std::
     ID = glCreateProgram();
     glAttachShader(ID, vertex);
     glAttachShader(ID, fragment);
-    glTransformFeedbackVaryings(ID, varyingsCStr.size(), varyingsCStr.data(), GL_SEPARATE_ATTRIBS);
+    glTransformFeedbackVaryings(ID, varyingsCStr.size(), varyingsCStr.data(), GL_INTERLEAVED_ATTRIBS);
     glLinkProgram(ID);
     checkCompileErrors(ID, "PROGRAM");
 

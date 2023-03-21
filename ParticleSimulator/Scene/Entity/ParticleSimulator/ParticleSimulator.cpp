@@ -39,7 +39,7 @@ const char *fragmentShader = R"(
 )";
 
 ParticleSimulator::ParticleSimulator(int particleCount) : Entity(vertexShader, fragmentShader) {
-    position = glm::vec3(0.0f, 0.0f, 0.0f);
+    position = glm::vec3(6.0f, 0.0f, 0.0f);
 
     // Resize the particles vector
     particles.resize(particleCount);

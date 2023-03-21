@@ -74,7 +74,7 @@ const char *Cube::fragmentShaderSource = R"(
 )";
 
 Cube::Cube() : Entity(vertexShaderSource, fragmentShaderSource) {
-    position = glm::vec3(-2.0F, 0.0F, 0.0F);
+    position = glm::vec3(-6.0F, 0.0F, 0.0F);
     updateModelMatrix();
 
     glGenVertexArrays(1, &VAO);
