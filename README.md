@@ -33,6 +33,7 @@ Important:
 
 - &#x2612; Use Emscripten to get touch screen events for mobile devices (not working, cannot set up the event listener
   in the C++ code)
+- &#9744; Reformat all the code with the clang-tidy file
 
 Minor:
 
@@ -41,9 +42,9 @@ Minor:
 - &#9744; Copy a lot of code to the Original project `ParticleSimulator` ParticleSimulatorLauncher class
 - &#9744; Add a way to change the number of particles
 - &#9744; Correct toggle fullscreen button in desktop build
-- &#9744; Correct windowed mode crash in desktop build
+- &#9745; Correct windowed mode crash in desktop build for linux
+- &#9744; Correct windowed mode crash in desktop build for windows
 - &#9744; Optimise the Shader and Entity classes
-- &#9744; Change the position of the shader in the CPP files
 
 ---
 

@@ -26,7 +26,6 @@ Checks: >
 #  -modernize-use-trailing-return-type,
 #  -readability-named-parameter,
 
-
 # Turn all the warnings from the checks above into errors.
 WarningsAsErrors: "*"
 
