@@ -70,6 +70,9 @@ ParticleSimulator::ParticleSimulator(int particleCount) : Entity(vertexShader, f
 
     // Unbind the VAO
     glBindVertexArray(0);
+
+    // Unbind the VBO
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 ParticleSimulator::~ParticleSimulator() {

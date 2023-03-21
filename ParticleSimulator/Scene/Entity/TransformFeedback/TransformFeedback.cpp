@@ -49,17 +49,17 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-
-    glBindVertexArray(VAO);
-
     glGenBuffers(1, &feedbackBuffer);
-    glBindBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, feedbackBuffer);
-    glBufferData(GL_TRANSFORM_FEEDBACK_BUFFER, particlesCount * 3 * sizeof(float), nullptr, GL_DYNAMIC_COPY);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBindVertexArray(VAO);
+
     glBufferData(GL_ARRAY_BUFFER, particlesCount * 3 * sizeof(float), positions.data(), GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
     glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, feedbackBuffer);
+    glBufferData(GL_TRANSFORM_FEEDBACK_BUFFER, particlesCount * 3 * sizeof(float), nullptr, GL_DYNAMIC_COPY);
 
     glGenQueries(1, &query);
 
@@ -70,6 +70,7 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
 TransformFeedback::~TransformFeedback() {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &feedbackBuffer);
 }
 
 
