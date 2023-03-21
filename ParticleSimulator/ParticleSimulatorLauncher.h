@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 
 class Scene;
+
 struct GLFWwindow;
 
 constexpr const std::string_view PROJECT_NAME = "Particle Simulator 3D";
@@ -15,10 +16,10 @@ constexpr const std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
 class ParticleSimulatorLauncher {
 private:
-    GLFWwindow* window;
+    GLFWwindow *window;
     //    int windowWidth = 1280, windowHeight = 720;
     int displayWidth, displayHeight;
-    bool isFullscreen = false;
+//    bool isFullscreen = false;
 
     std::unique_ptr<Scene> scene;
     float fixedUpdate = 60.0f;
@@ -35,36 +36,48 @@ private:
 
 public:
     explicit ParticleSimulatorLauncher();
+
     ~ParticleSimulatorLauncher();
+
     void start();
 
 private:
     void handleInputs();
+
     void handleUi(float deltaTime);
+
     void updateGame(float deltaTime);
+
     void updateScreen();
 
 public:
     void toggleFullscreen();
+
     void resetScene();
+
     void toggleScenePause();
 
 private:
     void centerWindow();
-    bool isWindowMinimized();
-    void updateViewport();
 
 private:
-    void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);
-    glm::vec3 projectMouse(const double& xMouse, const double& yMouse);
+    void calculateMouseMovement(const double &xMouse, const double &yMouse, double &xMovement, double &yMovement);
+
+    glm::vec3 projectMouse(const double &xMouse, const double &yMouse);
 
 private:
     std::string_view getOpenGLVendor();
+
     std::string_view getOpenGLVersion();
+
     std::string_view getGLSLVersion();
+
     std::string getGLFWVersion();
+
     std::string_view getGladVersion();
+
     std::string getImGuiVersion();
+
     std::string getGLMVersion();
 };
 

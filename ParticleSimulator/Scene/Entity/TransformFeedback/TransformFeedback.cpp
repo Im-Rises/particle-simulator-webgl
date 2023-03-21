@@ -3,7 +3,7 @@
 const char *TransformFeedback::vertexShaderSource = R"(
     #version 300 es
 
-    in vec3 a_Pos;
+    in vec3 a_pos;
 
     out vec3 out_pos;
 
@@ -12,8 +12,8 @@ const char *TransformFeedback::vertexShaderSource = R"(
 
     void main()
     {
-        gl_Position = u_mvp * u_model * vec4(a_Pos, 1.0);
-        out_pos = a_Pos;
+        gl_Position = u_mvp * u_model * vec4(a_pos, 1.0);
+        out_pos = a_pos;
     }
 )";
 
@@ -49,9 +49,11 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
-
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
     glEnableVertexAttribArray(0);
+
+    // Link to input variable a_pos
+    glBindAttribLocation(shader.getID(), 0, "a_pos");
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -76,4 +78,6 @@ void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     shader.setMat4("u_model", modelMatrix);
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    glBindVertexArray(0);
 }
