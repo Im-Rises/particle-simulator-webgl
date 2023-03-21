@@ -16,10 +16,10 @@ constexpr const std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
 class ParticleSimulatorLauncher {
 private:
-    GLFWwindow *window;
+    GLFWwindow* window;
     //    int windowWidth = 1280, windowHeight = 720;
     int displayWidth, displayHeight;
-//    bool isFullscreen = false;
+    //    bool isFullscreen = false;
 
     std::unique_ptr<Scene> scene;
     float fixedUpdate = 60.0F;
@@ -61,9 +61,9 @@ private:
     void centerWindow();
 
 private:
-    void calculateMouseMovement(const double &xMouse, const double &yMouse, double &xMovement, double &yMovement);
+    void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);
 
-    auto projectMouse(const double &xMouse, const double &yMouse) -> glm::vec3;
+    auto projectMouse(const double& xMouse, const double& yMouse) -> glm::vec3;
 
 private:
     auto getOpenGLVendor() -> std::string_view;
@@ -78,7 +78,7 @@ private:
 
     auto getImGuiVersion() -> std::string;
 
-    auto getGLMVersion() -> std::string;
+    static auto getGLMVersion() -> std::string;
 };
 
 #endif // PARTICLE_EMISSION_H

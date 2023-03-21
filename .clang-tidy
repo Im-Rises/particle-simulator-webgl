@@ -19,6 +19,7 @@ Checks: >
   -readability-braces-around-statements,
   -misc-non-private-member-variables-in-classes,
   -clang-diagnostic-uninitialized-union,
+  -cppcoreguidelines-avoid-magic-numbers,
 #  -modernize-use-trailing-return-type,
 #  -readability-named-parameter,
 

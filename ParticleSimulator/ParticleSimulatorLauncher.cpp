@@ -46,7 +46,7 @@
 // }
 #endif
 
-static void glfw_error_callback(int error, const char *description) {
+static void glfw_error_callback(int error, const char* description) {
     fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 }
 
@@ -68,7 +68,7 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // 3.2+ only
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);           // Required on Mac
 #else
-    const char *glsl_version = "#version 330";
+    const char* glsl_version = "#version 330";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // 3.2+ only
@@ -123,15 +123,15 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
         exit(1);
 #else
     // Initialize OpenGL loader
-    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         exit(1);
 #endif
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
-    (void) io;
+    ImGuiIO& io = ImGui::GetIO();
+    (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
     // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;   // Enable Docking
@@ -144,8 +144,9 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     // ImGui::StyleColorsLight();
 
     // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
-    ImGuiStyle &style = ImGui::GetStyle();
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+    ImGuiStyle& style = ImGui::GetStyle();
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
         style.WindowRounding = 0.0f;
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
@@ -157,13 +158,13 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     // Print OpenGL version
     printf("OpenGL vendor: %s\nOpenGL version: %s\nGLSL version: %s\nGLFW version: %s\n"
            "Glad version: %s\nImGui version: %s\nGLM version: %s\n",
-           getOpenGLVendor().data(),
-           getOpenGLVersion().data(),
-           getGLSLVersion().data(),
-           getGLFWVersion().data(),
-           getGladVersion().data(),
-           getImGuiVersion().data(),
-           getGLMVersion().data());
+        getOpenGLVendor().data(),
+        getOpenGLVersion().data(),
+        getGLSLVersion().data(),
+        getGLFWVersion().data(),
+        getGladVersion().data(),
+        getImGuiVersion().data(),
+        getGLMVersion().data());
 
     // Setup OpenGL state
     glEnable(GL_DEPTH_TEST);
@@ -250,8 +251,9 @@ void ParticleSimulatorLauncher::handleInputs() {
     calculateMouseMovement(mouseX, mouseY, mouseDeltaX, mouseDeltaY);
 
     // Read mouse inputs and update camera
-    if (InputManager::isKeyMouseMovementPressed(window)) {
-        scene->camera.processMouseMovement((float) mouseDeltaX, (float) mouseDeltaY);
+    if (InputManager::isKeyMouseMovementPressed(window))
+    {
+        scene->camera.processMouseMovement((float)mouseDeltaX, (float)mouseDeltaY);
     }
 
     // Read mouse inputs and update particle simulator target
@@ -306,7 +308,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Camera settings");
 
         ImGui::Text("Position:");
-        ImGui::DragFloat3("##position", (float *) &scene->camera.position);
+        ImGui::DragFloat3("##position", (float*)&scene->camera.position);
 
         ImGui::NewLine();
         ImGui::Text("Pitch:");
@@ -356,17 +358,19 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::Text("Reset simulation:");
         ImGui::SameLine();
         ImGui::Button("Reset##ResetBtn");
-        if (ImGui::IsItemClicked()) {
+        if (ImGui::IsItemClicked())
+        {
             resetScene();
         }
 
         ImGui::Text("Spawn position:");
-        ImGui::DragFloat3("##spawnPosition", (float *) &scene->particleSimulator.position);
+        ImGui::DragFloat3("##spawnPosition", (float*)&scene->particleSimulator.position);
 
         ImGui::Text("Toggle pause:");
         ImGui::SameLine();
         ImGui::Button(scene->getIsPaused() ? "Resume##TogglePAuseBtn" : "Pause##TogglePAuseBtn");
-        if (ImGui::IsItemClicked()) {
+        if (ImGui::IsItemClicked())
+        {
             scene->togglePause();
         }
 
@@ -424,15 +428,16 @@ void ParticleSimulatorLauncher::updateScreen() {
     glViewport(0, 0, displayWidth, displayHeight);
 
     glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w,
-                 clear_color.w);
+        clear_color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     scene->render();
 
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-    ImGuiIO &io = ImGui::GetIO();
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-        GLFWwindow *backup_current_context = glfwGetCurrentContext();
+    ImGuiIO& io = ImGui::GetIO();
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        GLFWwindow* backup_current_context = glfwGetCurrentContext();
         ImGui::UpdatePlatformWindows();
         ImGui::RenderPlatformWindowsDefault();
         glfwMakeContextCurrent(backup_current_context);
@@ -442,8 +447,8 @@ void ParticleSimulatorLauncher::updateScreen() {
 }
 
 void ParticleSimulatorLauncher::centerWindow() {
-    GLFWmonitor *monitor = glfwGetPrimaryMonitor();
-    const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
     //    auto xPos = (mode->width - windowWidth) / 2;
     //    auto yPos = (mode->height - windowHeight) / 2;
     auto xPos = (mode->width - displayWidth) / 2;
@@ -477,8 +482,8 @@ void ParticleSimulatorLauncher::toggleScenePause() {
     scene->togglePause();
 }
 
-void ParticleSimulatorLauncher::calculateMouseMovement(const double &xMouse, const double &yMouse, double &xMovement,
-                                                       double &yMovement) {
+void ParticleSimulatorLauncher::calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement,
+    double& yMovement) {
     static double lastMouseX = 0.0;
     static double lastMouseY = 0.0;
 
@@ -489,7 +494,7 @@ void ParticleSimulatorLauncher::calculateMouseMovement(const double &xMouse, con
     lastMouseY = yMouse;
 }
 
-glm::vec3 ParticleSimulatorLauncher::projectMouse(const double &xMouse, const double &yMouse) {
+glm::vec3 ParticleSimulatorLauncher::projectMouse(const double& xMouse, const double& yMouse) {
     // Convert the mouse coordinates from screen space to NDC space
     float normalized_x = (2.0f * xMouse) / displayWidth - 1.0f;
     float normalized_y = 1.0f - (2.0f * yMouse) / displayHeight;
@@ -511,32 +516,32 @@ glm::vec3 ParticleSimulatorLauncher::projectMouse(const double &xMouse, const do
     return scene->camera.position + camera_to_mouse * targetDistance;
 }
 
-std::string_view ParticleSimulatorLauncher::getOpenGLVendor() {
-    return reinterpret_cast<const char *>(glGetString(GL_RENDERER));
+auto ParticleSimulatorLauncher::getOpenGLVendor() -> std::string_view {
+    return reinterpret_cast<const char*>(glGetString(GL_RENDERER));
 }
 
-std::string_view ParticleSimulatorLauncher::getOpenGLVersion() {
-    return reinterpret_cast<const char *>(glGetString(GL_VERSION));
+auto ParticleSimulatorLauncher::getOpenGLVersion() -> std::string_view {
+    return reinterpret_cast<const char*>(glGetString(GL_VERSION));
 }
 
-std::string_view ParticleSimulatorLauncher::getGLSLVersion() {
-    return reinterpret_cast<const char *>(glGetString(GL_SHADING_LANGUAGE_VERSION));
+auto ParticleSimulatorLauncher::getGLSLVersion() -> std::string_view {
+    return reinterpret_cast<const char*>(glGetString(GL_SHADING_LANGUAGE_VERSION));
 }
 
-std::string ParticleSimulatorLauncher::getGLFWVersion() {
+auto ParticleSimulatorLauncher::getGLFWVersion() -> std::string {
     return std::to_string(GLFW_VERSION_MAJOR) + "." + std::to_string(GLFW_VERSION_MINOR) + "." +
            std::to_string(GLFW_VERSION_REVISION);
 }
 
-std::string_view ParticleSimulatorLauncher::getGladVersion() {
+auto ParticleSimulatorLauncher::getGladVersion() -> std::string_view {
     return "0.1.36";
 }
 
-std::string ParticleSimulatorLauncher::getImGuiVersion() {
+auto ParticleSimulatorLauncher::getImGuiVersion() -> std::string {
     return IMGUI_VERSION;
 }
 
-std::string ParticleSimulatorLauncher::getGLMVersion() {
+auto ParticleSimulatorLauncher::getGLMVersion() -> std::string {
     return std::to_string(GLM_VERSION_MAJOR) + "." + std::to_string(GLM_VERSION_MINOR) + "." +
            std::to_string(GLM_VERSION_PATCH);
 }
