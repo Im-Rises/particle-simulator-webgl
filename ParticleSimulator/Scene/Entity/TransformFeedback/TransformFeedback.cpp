@@ -57,14 +57,14 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
     // Generate and bind the buffer object for position input and set the data for the first pass
     glGenBuffers(1, &posInputVBO);
     glBindBuffer(GL_ARRAY_BUFFER, posInputVBO);
-    glBufferData(GL_ARRAY_BUFFER, particlesCount * 3 * sizeof(float), positions.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, particlesCount * 3 * sizeof(float), positions.data(), GL_STREAM_COPY);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Create the output buffer empty for the first pass
     glGenBuffers(1, &posOutputVBO);
     glBindBuffer(GL_ARRAY_BUFFER, posOutputVBO);
-    glBufferData(GL_ARRAY_BUFFER, particlesCount * 3 * sizeof(float), nullptr, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, particlesCount * 3 * sizeof(float), nullptr, GL_STREAM_COPY);
 
     // Create the transform feedback object and set the output buffer
     glGenTransformFeedbacks(1, &transformFeedback);
