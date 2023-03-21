@@ -181,6 +181,12 @@ OpenGL ES 3.0 Reference Pages:
 Wikipedia (OpenGL versions):  
 <https://en.wikipedia.org/wiki/OpenGL_Shading_Language>
 
+pwambach (WebGL 2 Particles):  
+<https://github.com/pwambach/webgl2-particles/tree/gh-pages>
+
+webglsamples:  
+http://webglsamples.org/WebGL2Samples/#transform_feedback_separated_2
+
 <!--
 https://ogldev.org/www/tutorial28/tutorial28.html
 -->
