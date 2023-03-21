@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-const char *TransformFeedback::vertexShaderSource =
-        R"(#version 300 es
+const char* TransformFeedback::vertexShaderSource =
+    R"(#version 300 es
 in vec3 a_pos;
 //    in vec3 a_vel;
 
@@ -20,8 +20,8 @@ void main()
 }
 )";
 
-const char *TransformFeedback::fragmentShaderSource =
-        R"(#version 300 es
+const char* TransformFeedback::fragmentShaderSource =
+    R"(#version 300 es
 
 precision highp float;
 
@@ -33,21 +33,21 @@ void main()
 }
 )";
 
-TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShaderSource, {"out_pos"}) {
-//    position = glm::vec3(2.0f, 0.0f, 0.0f);
+TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShaderSource, { "out_pos" }) {
+    //    position = glm::vec3(2.0f, 0.0f, 0.0f);
     positions.resize(particlesCount);
-//    velocities.resize(particlesCount);
+    //    velocities.resize(particlesCount);
 
     // Set random seed
     srand(time(NULL));
     // Set random positions in range [-1, 1]
-    for (int i = 0; i < particlesCount; i++) {
+    for (int i = 0; i < particlesCount; i++)
+    {
         positions[i] = glm::vec3(
-                (float) rand() / (float) RAND_MAX * 2.0f - 1.0f,
-                (float) rand() / (float) RAND_MAX * 2.0f - 1.0f,
-                (float) rand() / (float) RAND_MAX * 2.0f - 1.0f
-        );
-//        velocities[i] = glm::vec3(10.0f, 0.0f, 0.0f);
+            (float)rand() / (float)RAND_MAX * 2.0f - 1.0f,
+            (float)rand() / (float)RAND_MAX * 2.0f - 1.0f,
+            (float)rand() / (float)RAND_MAX * 2.0f - 1.0f);
+        //        velocities[i] = glm::vec3(10.0f, 0.0f, 0.0f);
     }
 
     // Generate and bind the vertex array object
@@ -85,8 +85,7 @@ TransformFeedback::~TransformFeedback() {
 }
 
 
-void TransformFeedback::update(const float &deltaTime) {
-
+void TransformFeedback::update(const float& deltaTime) {
 }
 
 void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
@@ -99,7 +98,6 @@ void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
 
     // Set output buffer
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, transformFeedback);
-    glBindBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, posOutputVBO);
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, posOutputVBO);
 
     // Begin transform feedback with input buffer
@@ -114,6 +112,6 @@ void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     // Unbind
     glBindVertexArray(0);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
-//    glBindBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, 0);
+    glBindBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
