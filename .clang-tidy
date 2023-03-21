@@ -10,14 +10,18 @@ Checks: >
   cppcoreguidelines-*,
   clang-diagnostic-*
   clang-analyzer-*,
+  bugprone-*
   -google-readability-namespace-comments,
   -google-runtime-int,
   -google-runtime-references,
-  -misc-non-private-member-variables-in-classes,
-  -readability-named-parameter,
+  -readability-magic-numbers,
+  -readability-redundant-access-specifiers,
   -readability-braces-around-statements,
-  -readability-magic-numbers
-  -modernize-use-trailing-return-type,bugprone-*
+  -misc-non-private-member-variables-in-classes,
+  -clang-diagnostic-uninitialized-union,
+#  -modernize-use-trailing-return-type,
+#  -readability-named-parameter,
+
 
 # Turn all the warnings from the checks above into errors.
 WarningsAsErrors: "*"
@@ -28,13 +32,13 @@ CheckOptions:
   - { key: readability-identifier-naming.StructCase,             value: CamelCase }
   #  - { key: readability-identifier-naming.TemplateParameterCase,  value: CamelCase }
   #  - { key: readability-identifier-naming.FunctionCase,           value: CamelCase }
-  - { key: readability-identifier-naming.VariableCase,           value: CamelCase }
+  #  - { key: readability-identifier-naming.VariableCase,           value: CamelCase }
   #  - { key: readability-identifier-naming.PrivateMemberSuffix,    value: _ }
   #  - { key: readability-identifier-naming.ProtectedMemberSuffix,  value: _ }
   - { key: readability-identifier-naming.MacroDefinitionCase,    value: UPPER_CASE }
   - { key: readability-identifier-naming.EnumConstantCase,         value: CamelCase }
   #  - { key: readability-identifier-naming.EnumConstantPrefix,       value: k }
-  - { key: readability-identifier-naming.ConstexprVariableCase,    value: CamelCase }
+  - { key: readability-identifier-naming.ConstexprVariableCase,    value: UPPER_CASE }
   #  - { key: readability-identifier-naming.ConstexprVariablePrefix,  value: k }
   - { key: readability-identifier-naming.GlobalConstantCase,       value: CamelCase }
   #  - { key: readability-identifier-naming.GlobalConstantPrefix,     value: k }

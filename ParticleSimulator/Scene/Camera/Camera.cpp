@@ -5,7 +5,7 @@ Camera::Camera(int display_w, int display_h) {
     updateProjectionMatrix(display_w, display_h);
 }
 
-//Camera::~Camera() = default;
+// Camera::~Camera() = default;
 
 void Camera::update(float deltaTime) {
     position += movementBuffer * movementSpeed * deltaTime;
@@ -22,8 +22,8 @@ void Camera::updateProjectionMatrix(int display_w, int display_h) {
      * Update the projection matrix when the window is resized
      */
     projectionMatrix = glm::perspective(glm::radians(fov / 2),
-                                        static_cast<float>(display_w) / static_cast<float>(display_h), nearPlane,
-                                        farPlane);
+        static_cast<float>(display_w) / static_cast<float>(display_h), nearPlane,
+        farPlane);
 }
 
 void Camera::moveForward() {
@@ -54,28 +54,26 @@ void Camera::processMouseMovement(float xMovement, float yMovement) {
     yaw += xMovement * rotationSpeed;
     pitch += yMovement * rotationSpeed;
 
-    if (constrainPitch) {
-        if (pitch > 89.0F) {
+    if (constrainPitch)
+    {
+        if (pitch > 89.0F)
             pitch = 89.0F;
-        }
-        if (pitch < -89.0F) {
+        if (pitch < -89.0F)
             pitch = -89.0F;
-        }
-    } else {
-        if (pitch > 360.0F) {
+    }
+    else
+    {
+        if (pitch > 360.0F)
             pitch -= 360.0F;
-        }
-        if (pitch < -360.0F) {
+        if (pitch < -360.0F)
             pitch += 360.0F;
-        }
     }
 
-    if (yaw > 360.0F) {
+    if (yaw > 360.0F)
         yaw -= 360.0F;
-    }
-    if (yaw < -360.0F) {
+    if (yaw < -360.0F)
         yaw += 360.0F;
-    }
+
 
     cameraFrontBuffer.x = static_cast<float>(cos(glm::radians(yaw)) * cos(glm::radians(pitch)));
     cameraFrontBuffer.y = static_cast<float>(sin(glm::radians(pitch)));

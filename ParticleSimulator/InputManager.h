@@ -8,25 +8,32 @@ public:
     /*
      * Callback function for key window events
      */
-    static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
 
 public:
     /*
      * Functions to check if a key is pressed (used for each game loop iteration)
      */
-    static bool isForwardKeyPressed(GLFWwindow* window);
-    static bool isBackwardKeyPressed(GLFWwindow* window);
-    static bool isLeftKeyPressed(GLFWwindow* window);
-    static bool isRightKeyPressed(GLFWwindow* window);
-    static bool isUpKeyPressed(GLFWwindow* window);
-    static bool isDownKeyPressed(GLFWwindow* window);
+    static auto isForwardKeyPressed(GLFWwindow *window) -> bool;
+
+    static auto isBackwardKeyPressed(GLFWwindow *window) -> bool;
+
+    static auto isLeftKeyPressed(GLFWwindow *window) -> bool;
+
+    static auto isRightKeyPressed(GLFWwindow *window) -> bool;
+
+    static auto isUpKeyPressed(GLFWwindow *window) -> bool;
+
+    static auto isDownKeyPressed(GLFWwindow *window) -> bool;
 
     /*
      * Functions for mouse movement (used for each game loop iteration)
      */
-    static void getMousePosition(GLFWwindow* window, double& x, double& y);
-    static bool isKeyMouseMovementPressed(GLFWwindow* window);
-    static bool isKeyMouseSetTargetPressed(GLFWwindow* window);
+    static void getMousePosition(GLFWwindow *window, double &xPos, double &yPos);
+
+    static auto isKeyMouseMovementPressed(GLFWwindow *window) -> bool;
+
+    static auto isKeyMouseSetTargetPressed(GLFWwindow *window) -> bool;
 };
 
 #endif // INPUT_MANAGER_H

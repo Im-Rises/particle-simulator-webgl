@@ -22,16 +22,16 @@ private:
 //    bool isFullscreen = false;
 
     std::unique_ptr<Scene> scene;
-    float fixedUpdate = 60.0f;
+    float fixedUpdate = 60.0F;
 
     struct {
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-        float w = 1.0f;
+        float x = 0.0F;
+        float y = 0.0F;
+        float z = 0.0F;
+        float w = 1.0F;
     } clear_color;
 
-    float targetDistance = 10.0f;
+    float targetDistance = 10.0F;
     glm::vec3 mousePositionWorld;
 
 public:
@@ -63,22 +63,22 @@ private:
 private:
     void calculateMouseMovement(const double &xMouse, const double &yMouse, double &xMovement, double &yMovement);
 
-    glm::vec3 projectMouse(const double &xMouse, const double &yMouse);
+    auto projectMouse(const double &xMouse, const double &yMouse) -> glm::vec3;
 
 private:
-    std::string_view getOpenGLVendor();
+    auto getOpenGLVendor() -> std::string_view;
 
-    std::string_view getOpenGLVersion();
+    auto getOpenGLVersion() -> std::string_view;
 
-    std::string_view getGLSLVersion();
+    auto getGLSLVersion() -> std::string_view;
 
-    std::string getGLFWVersion();
+    auto getGLFWVersion() -> std::string;
 
-    std::string_view getGladVersion();
+    auto getGladVersion() -> std::string_view;
 
-    std::string getImGuiVersion();
+    auto getImGuiVersion() -> std::string;
 
-    std::string getGLMVersion();
+    auto getGLMVersion() -> std::string;
 };
 
 #endif // PARTICLE_EMISSION_H
