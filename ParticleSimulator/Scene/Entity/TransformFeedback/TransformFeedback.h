@@ -11,12 +11,16 @@ class TransformFeedback : public Entity {
     static const char *vertexShaderSource;
     static const char *fragmentShaderSource;
 
-    unsigned int VAO, VBO;
+    unsigned int VAO;
+
+    unsigned int VBOpos;
+    unsigned int VBOvel;
 
     GLuint feedbackBuffer;
     GLuint query;
 
     std::vector<glm::vec3> positions;
+    std::vector<glm::vec3> velocities;
 
     int particlesCount = 100;
 
