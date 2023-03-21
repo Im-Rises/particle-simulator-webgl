@@ -2,8 +2,6 @@
 
 #include <glad/glad.h>
 #include <iostream>
-#include <fstream>
-#include <sstream>
 
 Shader::Shader(const char *vertexSource, const char *fragmentSource) {
     unsigned int vertex, fragment;

@@ -3,7 +3,7 @@
 #include <random>
 #include <iostream>
 
-const char *vertexShader =
+const char *ParticleSimulator::vertexShaderSource =
         R"(#version 300 es
 
 precision highp float;
@@ -23,7 +23,7 @@ void main()
 }
 )";
 
-const char *fragmentShader =
+const char *ParticleSimulator::fragmentShaderSource =
         R"(#version 300 es
 
 precision highp float;
@@ -38,7 +38,7 @@ void main() {
 }
 )";
 
-ParticleSimulator::ParticleSimulator(int particleCount) : Entity(vertexShader, fragmentShader) {
+ParticleSimulator::ParticleSimulator(int particleCount) : Entity(vertexShaderSource, fragmentShaderSource) {
     position = glm::vec3(6.0f, 0.0f, 0.0f);
 
     // Resize the particles vector

@@ -7,7 +7,7 @@
 class Camera {
 private:
     // Define the camera Up
-    const glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    const glm::vec3 cameraUp = glm::vec3(0.0F, 1.0F, 0.0F);
 
     // Matrix transformations
     glm::mat4 viewMatrix;
@@ -23,18 +23,18 @@ public:
 
     // Position and rotation of the camera
     bool constrainPitch = true;
-    float yaw = -90.0f;
-    float pitch = 0.0f;
+    float yaw = -90.0F;
+    float pitch = 0.0F;
     glm::vec3 position = glm::vec3(0.0F, 0.0F, 10.0F);
 
     // Movement buffer to take into account the deltaTime
     glm::vec3 movementBuffer;
-    glm::vec3 cameraFrontBuffer = glm::vec3(0.0f, 0.0f, -1.0f);
+    glm::vec3 cameraFrontBuffer = glm::vec3(0.0F, 0.0F, -1.0F);
 
 public:
     Camera(int display_w, int display_h);
 
-    ~Camera();
+//    ~Camera();
 
 public:
     void update(float deltaTime);
@@ -62,9 +62,9 @@ public:
 
 
 public:
-    [[nodiscard]] glm::mat4 getViewMatrix() const;
+    [[nodiscard]] auto getViewMatrix() const -> glm::mat4;
 
-    [[nodiscard]] glm::mat4 getProjectionMatrix() const;
+    [[nodiscard]] auto getProjectionMatrix() const -> glm::mat4;
 };
 
 
