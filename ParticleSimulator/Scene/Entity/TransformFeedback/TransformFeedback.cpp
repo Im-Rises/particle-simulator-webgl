@@ -8,7 +8,6 @@ const char *TransformFeedback::vertexShaderSource = R"(
     out vec3 out_pos;
 
     uniform mat4 u_mvp;
-    uniform mat4 u_model;
 
     void main()
     {
