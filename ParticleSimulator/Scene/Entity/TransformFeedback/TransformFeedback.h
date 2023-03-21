@@ -14,13 +14,13 @@ class TransformFeedback : public Entity {
     unsigned int VAO;
 
     unsigned int VBOpos;
-    unsigned int VBOvel;
+//    unsigned int VBOvel;
 
     GLuint feedbackBuffer;
     GLuint query;
 
     std::vector<glm::vec3> positions;
-    std::vector<glm::vec3> velocities;
+//    std::vector<glm::vec3> velocities;
 
     int particlesCount = 100;
 

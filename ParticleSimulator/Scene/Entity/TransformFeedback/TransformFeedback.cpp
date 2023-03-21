@@ -6,7 +6,7 @@ const char *TransformFeedback::vertexShaderSource = R"(
     #version 300 es
 
     in vec3 a_pos;
-    in vec3 a_vel;
+//    in vec3 a_vel;
 
     out vec3 out_pos;
 
@@ -15,7 +15,8 @@ const char *TransformFeedback::vertexShaderSource = R"(
     void main()
     {
         gl_Position = u_mvp * vec4(a_pos, 1.0);
-        out_pos = a_pos + a_vel + vec3(1.09, 2.04, 3.01);
+//        out_pos = a_pos + a_vel + vec3(1.09, 2.04, 3.01);
+        out_pos = a_pos + vec3(1.09, 2.04, 3.01);
         gl_PointSize = 10.0;
     }
 )";
@@ -35,7 +36,7 @@ const char *TransformFeedback::fragmentShaderSource = R"(
 TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShaderSource, {"out_pos"}) {
 //    position = glm::vec3(2.0f, 0.0f, 0.0f);
     positions.resize(particlesCount);
-    velocities.resize(particlesCount);
+//    velocities.resize(particlesCount);
 
     // Set random seed
     srand(time(NULL));
@@ -46,7 +47,7 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
                 (float) rand() / (float) RAND_MAX * 2.0f - 1.0f,
                 (float) rand() / (float) RAND_MAX * 2.0f - 1.0f
         );
-        velocities[i] = glm::vec3(10.0f, 0.0f, 0.0f);
+//        velocities[i] = glm::vec3(10.0f, 0.0f, 0.0f);
     }
 
     glGenVertexArrays(1, &VAO);
@@ -59,26 +60,24 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
 //    glEnableVertexAttribArray(0);
 
 // Generate and bind the buffer object for positions
-    GLuint posBuffer;
-    glGenBuffers(1, &posBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, posBuffer);
+    glGenBuffers(1, &VBOpos);
+    glBindBuffer(GL_ARRAY_BUFFER, VBOpos);
     glBufferData(GL_ARRAY_BUFFER, particlesCount * 3 * sizeof(float), positions.data(), GL_STATIC_DRAW);
 
-// Generate and bind the buffer object for velocities
-    GLuint velBuffer;
-    glGenBuffers(1, &velBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, velBuffer);
-    glBufferData(GL_ARRAY_BUFFER, particlesCount * 3 * sizeof(float), velocities.data(), GL_STATIC_DRAW);
-
 // Bind the position buffer to attribute location 0
-    glBindBuffer(GL_ARRAY_BUFFER, posBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, VBOpos);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-// Bind the velocity buffer to attribute location 1
-    glBindBuffer(GL_ARRAY_BUFFER, velBuffer);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+//    // Generate and bind the buffer object for velocities
+//    glGenBuffers(1, &VBOvel);
+//    glBindBuffer(GL_ARRAY_BUFFER, VBOvel);
+//    glBufferData(GL_ARRAY_BUFFER, particlesCount * 3 * sizeof(float), velocities.data(), GL_STATIC_DRAW);
+//
+//    // Bind the velocity buffer to attribute location 1
+//    glBindBuffer(GL_ARRAY_BUFFER, VBOvel);
+//    glEnableVertexAttribArray(1);
+//    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 
     glGenBuffers(1, &feedbackBuffer);
