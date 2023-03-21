@@ -5,7 +5,6 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
-#include <cstdio>
 #include <cstdlib>
 
 #define GL_SILENCE_DEPRECATION
@@ -47,12 +46,12 @@
 #endif
 
 static void glfw_error_callback(int error, const char* description) {
-    fprintf(stderr, "GLFW Error %d: %s\n", error, description);
+    std::cerr << "GLFW Error " << error << ": " << description << std::endl;
 }
 
 ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glfwSetErrorCallback(glfw_error_callback);
-    if (!glfwInit())
+    if (glfwInit() == 0)
         exit(1);
 
 // Decide GL+GLSL versions
@@ -123,7 +122,7 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
         exit(1);
 #else
     // Initialize OpenGL loader
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    if (gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == 0)
         exit(1);
 #endif
 
@@ -147,24 +146,22 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     ImGuiStyle& style = ImGui::GetStyle();
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
-        style.WindowRounding = 0.0f;
-        style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+        style.WindowRounding = 0.0F;
+        style.Colors[ImGuiCol_WindowBg].w = 1.0F;
     }
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
-    // Print OpenGL version
-    printf("OpenGL vendor: %s\nOpenGL version: %s\nGLSL version: %s\nGLFW version: %s\n"
-           "Glad version: %s\nImGui version: %s\nGLM version: %s\n",
-        getOpenGLVendor().data(),
-        getOpenGLVersion().data(),
-        getGLSLVersion().data(),
-        getGLFWVersion().data(),
-        getGladVersion().data(),
-        getImGuiVersion().data(),
-        getGLMVersion().data());
+    // Same line as above but with C++ string
+    std::cout << "OpenGL vendor: " << getOpenGLVendor() << std::endl
+              << "OpenGL version: " << getOpenGLVersion() << std::endl
+              << "GLSL version: " << getGLSLVersion() << std::endl
+              << "GLFW version: " << getGLFWVersion() << std::endl
+              << "Glad version: " << getGladVersion() << std::endl
+              << "ImGui version: " << getImGuiVersion() << std::endl
+              << "GLM version: " << getGLMVersion() << std::endl;
 
     // Setup OpenGL state
     glEnable(GL_DEPTH_TEST);
@@ -395,7 +392,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::Text("Z: %f", mousePositionWorld.z);
 
         ImGui::Text("Target distance:");
-        ImGui::DragFloat("##targetDistance", &targetDistance, 0.1f, 0.0f, 100.0f);
+        ImGui::DragFloat("##targetDistance", &targetDistance, 0.1F, 0.0F, 100.0F);
 
         ImGui::End();
     }
@@ -434,8 +431,8 @@ void ParticleSimulatorLauncher::updateScreen() {
 
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-    ImGuiIO& io = ImGui::GetIO();
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    ImGuiIO const& io = ImGui::GetIO();
+    if ((io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) != 0)
     {
         GLFWwindow* backup_current_context = glfwGetCurrentContext();
         ImGui::UpdatePlatformWindows();
@@ -494,23 +491,23 @@ void ParticleSimulatorLauncher::calculateMouseMovement(const double& xMouse, con
     lastMouseY = yMouse;
 }
 
-glm::vec3 ParticleSimulatorLauncher::projectMouse(const double& xMouse, const double& yMouse) {
+auto ParticleSimulatorLauncher::projectMouse(const double& xMouse, const double& yMouse) -> glm::vec3 {
     // Convert the mouse coordinates from screen space to NDC space
-    float normalized_x = (2.0f * xMouse) / displayWidth - 1.0f;
-    float normalized_y = 1.0f - (2.0f * yMouse) / displayHeight;
+    float const normalized_x = (2.0F * xMouse) / displayWidth - 1.0F;
+    float const normalized_y = 1.0F - (2.0F * yMouse) / displayHeight;
 
     // Create a vector representing the mouse coordinates in NDC space
-    glm::vec4 mouse_ndc(normalized_x, normalized_y, -1.0f, 1.0f);
+    glm::vec4 mouse_ndc(normalized_x, normalized_y, -1.0F, 1.0F);
 
     // Convert the mouse coordinates from NDC space to world space
-    glm::mat4 inverse_projection = glm::inverse(scene->camera.getProjectionMatrix());
-    glm::mat4 inverse_view = glm::inverse(scene->camera.getViewMatrix());
+    glm::mat4 const inverse_projection = glm::inverse(scene->camera.getProjectionMatrix());
+    glm::mat4 const inverse_view = glm::inverse(scene->camera.getViewMatrix());
     glm::vec4 mouse_world = inverse_projection * mouse_ndc;
     mouse_world = mouse_world / mouse_world.w;
     mouse_world = inverse_view * mouse_world;
 
     // Calculate the direction from the camera position to the mouse position
-    glm::vec3 camera_to_mouse = glm::normalize(glm::vec3(mouse_world) - scene->camera.position);
+    glm::vec3 const camera_to_mouse = glm::normalize(glm::vec3(mouse_world) - scene->camera.position);
 
     // Use the direction to update the position of an object in the 3D environment
     return scene->camera.position + camera_to_mouse * targetDistance;

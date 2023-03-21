@@ -19,7 +19,9 @@ __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
 #endif
 
 
-int main(int argc, char* argv[]) {
+auto main(int argc, char* argv[]) -> int {
+    (void)argc;
+    (void)argv;
     std::cout << PROJECT_NAME << " " << PROJECT_VERSION << std::endl
               << PROJECT_GITHUB << std::endl
               << PROJECT_AUTHOR << "\n"

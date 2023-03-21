@@ -76,7 +76,7 @@ private:
 
     auto getGladVersion() -> std::string_view;
 
-    auto getImGuiVersion() -> std::string;
+    static auto getImGuiVersion() -> std::string;
 
     static auto getGLMVersion() -> std::string;
 };
