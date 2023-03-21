@@ -53,11 +53,10 @@ const char *Cube::vertexShaderSource = R"(
     layout (location = 0) in vec3 a_vertex;
 
     uniform mat4 u_mvp;
-    uniform mat4 u_model;
 
     void main()
     {
-        gl_Position = u_mvp * u_model * vec4(a_vertex, 1.0);
+        gl_Position = u_mvp * vec4(a_vertex, 1.0);
     }
 )";
 
@@ -108,8 +107,7 @@ void Cube::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) 
 
     // Shader
     shader.use();
-    shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
-    shader.setMat4("u_model", modelMatrix);
+    shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix * modelMatrix);
 
     // Draw
     glDrawArrays(GL_TRIANGLES, 0, (GLsizei) vertices.size());

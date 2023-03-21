@@ -12,7 +12,7 @@ const char *TransformFeedback::vertexShaderSource = R"(
 
     void main()
     {
-        gl_Position = u_mvp * u_model * vec4(a_pos, 1.0);
+        gl_Position = u_mvp * vec4(a_pos, 1.0);
         out_pos = a_pos;
     }
 )";
@@ -74,8 +74,7 @@ void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
 
     // Shader
     shader.use();
-    shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
-    shader.setMat4("u_model", modelMatrix);
+    shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix * modelMatrix);
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
