@@ -50,21 +50,14 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
 //        velocities[i] = glm::vec3(10.0f, 0.0f, 0.0f);
     }
 
+    // Generate and bind the vertex array object
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
-//    glGenBuffers(1, &VBOpos);
-//    glBindBuffer(GL_ARRAY_BUFFER, VBOpos);
-//    glBufferData(GL_ARRAY_BUFFER, particlesCount * 3 * sizeof(float), positions.data(), GL_STATIC_DRAW);
-//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
-//    glEnableVertexAttribArray(0);
-
-    // Generate and bind the buffer object for position input
+    // Generate and bind the buffer object for position input and set the data for the first pass
     glGenBuffers(1, &posInputVBO);
     glBindBuffer(GL_ARRAY_BUFFER, posInputVBO);
     glBufferData(GL_ARRAY_BUFFER, particlesCount * 3 * sizeof(float), positions.data(), GL_STATIC_DRAW);
-
-    // Set input for the first pass
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -105,6 +98,7 @@ void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
 
     // Set output buffer
+    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, transformFeedback);
     glBindBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, posOutputVBO);
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, posOutputVBO);
 
@@ -118,7 +112,8 @@ void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     std::swap(posInputVBO, posOutputVBO);
 
     // Unbind
-    glBindBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, 0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
+//    glBindBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
