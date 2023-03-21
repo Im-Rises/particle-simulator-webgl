@@ -13,11 +13,13 @@ class TransformFeedback : public Entity {
 
     unsigned int VAO;
 
-    unsigned int VBOpos;
+    unsigned int posInputVBO;
+    unsigned int posOutputVBO;
 //    unsigned int VBOvel;
 
-    GLuint feedbackBuffer;
-    GLuint query;
+//    GLuint feedbackBuffer;
+    GLuint transformFeedback;
+//    GLuint query;
 
     std::vector<glm::vec3> positions;
 //    std::vector<glm::vec3> velocities;
