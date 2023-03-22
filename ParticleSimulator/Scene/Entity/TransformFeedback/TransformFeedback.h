@@ -11,7 +11,7 @@ class TransformFeedback : public Entity {
     static const char* const vertexShaderSource;
     static const char* const fragmentShaderSource;
 
-    GLuint VAO;
+    GLuint VAO[2];
 
     GLuint TFBO[2];
 
@@ -19,6 +19,9 @@ class TransformFeedback : public Entity {
 
     std::vector<glm::vec3> positions;
     //    std::vector<glm::vec3> velocities;
+
+    int currentVAO;
+    int currentTFBO;
 
     int particlesCount = 100;
 

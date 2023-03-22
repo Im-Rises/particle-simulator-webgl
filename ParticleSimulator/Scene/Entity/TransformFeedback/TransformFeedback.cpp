@@ -47,13 +47,14 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
         positions[i] = glm::vec3(dis(gen), dis(gen), dis(gen));
     }
 
-    glGenVertexArrays(1, &VAO);
-    glGenTransformFeedbacks(2, TFBO);
+    glGenVertexArrays(2, VAO);
     glGenBuffers(2, VBO);
+    glGenTransformFeedbacks(2, TFBO);
+    //    glCreateTransformFeedbacks(2, TFBO);
 
     for (int i = 0; i < 2; i++)
     {
-        glBindVertexArray(VAO);
+        glBindVertexArray(VAO[i]);
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO[i]);
         glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(static_cast<unsigned long>(particlesCount) * 3 * sizeof(float)), positions.data(), GL_STREAM_COPY);
@@ -68,10 +69,13 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
     glBindVertexArray(0);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    currentVAO = VAO[0];
+    currentTFBO = TFBO[1];
 }
 
 TransformFeedback::~TransformFeedback() {
-    glDeleteVertexArrays(1, &VAO);
+    glDeleteVertexArrays(2, VAO);
     glDeleteTransformFeedbacks(2, TFBO);
     glDeleteBuffers(2, VBO);
 }
@@ -81,25 +85,62 @@ void TransformFeedback::update(const float& deltaTime) {
 }
 
 void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
-    static int currentSourcdIdx = 0;
 
-    currentSourcdIdx = (currentSourcdIdx + 1) % 2;
 
     shader.use();
-
-    glBindVertexArray(VAO);
-    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, TFBO[currentSourcdIdx]);
-
-    glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, VBO[currentSourcdIdx]);
-
     shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
+
+    glBindVertexArray(currentVAO);
+    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, currentTFBO);
+
+    if (currentTFBO == TFBO[0])
+    {
+        glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, VBO[0]);
+    }
+    else
+    {
+        glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, VBO[1]);
+    }
 
     glBeginTransformFeedback(GL_POINTS);
     glDrawArrays(GL_POINTS, 0, particlesCount);
     glEndTransformFeedback();
 
-    glFlush();
+    //    glFlush();
+
+    if (currentVAO == VAO[0])
+    {
+        currentVAO = VAO[1];
+        currentTFBO = TFBO[0];
+    }
+    else
+    {
+        currentVAO = VAO[0];
+        currentTFBO = TFBO[1];
+    }
 
     glBindVertexArray(0);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
+
+    //    static int currentSourcdIdx = 0;
+    //
+    //    currentSourcdIdx = (currentSourcdIdx + 1) % 2;
+    //
+    //    shader.use();
+    //
+    //    glBindVertexArray(VAO[currentSourcdIdx]);
+    //    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, TFBO[currentSourcdIdx]);
+    //
+    //    glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, VBO[currentSourcdIdx]);
+    //
+    //    shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
+    //
+    //    glBeginTransformFeedback(GL_POINTS);
+    //    glDrawArrays(GL_POINTS, 0, particlesCount);
+    //    glEndTransformFeedback();
+    //
+    //    glFlush();
+    //
+    //    glBindVertexArray(0);
+    //    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
 }
