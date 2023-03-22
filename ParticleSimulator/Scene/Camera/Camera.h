@@ -7,7 +7,7 @@
 class Camera {
 private:
     // Define the camera Up
-    const glm::vec3 cameraUp = glm::vec3(0.0F, 1.0F, 0.0F);
+    glm::vec3 cameraUp = glm::vec3(0.0F, 1.0F, 0.0F);
 
     // Matrix transformations
     glm::mat4 viewMatrix;
@@ -34,7 +34,7 @@ public:
 public:
     Camera(int display_w, int display_h);
 
-//    ~Camera();
+    //    ~Camera();
 
 public:
     void update(float deltaTime);

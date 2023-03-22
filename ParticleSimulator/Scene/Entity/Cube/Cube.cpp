@@ -4,51 +4,124 @@
 #include <glm/glm.hpp>
 
 const std::array<float, 108> Cube::vertices = {
-        -0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f, 0.5f, -0.5f,
-        0.5f, 0.5f, -0.5f,
-        -0.5f, 0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
+    -0.5F,
+    -0.5F,
+    -0.5F,
+    0.5F,
+    -0.5F,
+    -0.5F,
+    0.5F,
+    0.5F,
+    -0.5F,
+    0.5F,
+    0.5F,
+    -0.5F,
+    -0.5F,
+    0.5F,
+    -0.5F,
+    -0.5F,
+    -0.5F,
+    -0.5F,
 
-        -0.5f, -0.5f, 0.5f,
-        0.5f, -0.5f, 0.5f,
-        0.5f, 0.5f, 0.5f,
-        0.5f, 0.5f, 0.5f,
-        -0.5f, 0.5f, 0.5f,
-        -0.5f, -0.5f, 0.5f,
+    -0.5F,
+    -0.5F,
+    0.5F,
+    0.5F,
+    -0.5F,
+    0.5F,
+    0.5F,
+    0.5F,
+    0.5F,
+    0.5F,
+    0.5F,
+    0.5F,
+    -0.5F,
+    0.5F,
+    0.5F,
+    -0.5F,
+    -0.5F,
+    0.5F,
 
-        -0.5f, 0.5f, 0.5f,
-        -0.5f, 0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f, 0.5f,
-        -0.5f, 0.5f, 0.5f,
+    -0.5F,
+    0.5F,
+    0.5F,
+    -0.5F,
+    0.5F,
+    -0.5F,
+    -0.5F,
+    -0.5F,
+    -0.5F,
+    -0.5F,
+    -0.5F,
+    -0.5F,
+    -0.5F,
+    -0.5F,
+    0.5F,
+    -0.5F,
+    0.5F,
+    0.5F,
 
-        0.5f, 0.5f, 0.5f,
-        0.5f, 0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, 0.5f,
-        0.5f, 0.5f, 0.5f,
+    0.5F,
+    0.5F,
+    0.5F,
+    0.5F,
+    0.5F,
+    -0.5F,
+    0.5F,
+    -0.5F,
+    -0.5F,
+    0.5F,
+    -0.5F,
+    -0.5F,
+    0.5F,
+    -0.5F,
+    0.5F,
+    0.5F,
+    0.5F,
+    0.5F,
 
-        -0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, 0.5f,
-        0.5f, -0.5f, 0.5f,
-        -0.5f, -0.5f, 0.5f,
-        -0.5f, -0.5f, -0.5f,
+    -0.5F,
+    -0.5F,
+    -0.5F,
+    0.5F,
+    -0.5F,
+    -0.5F,
+    0.5F,
+    -0.5F,
+    0.5F,
+    0.5F,
+    -0.5F,
+    0.5F,
+    -0.5F,
+    -0.5F,
+    0.5F,
+    -0.5F,
+    -0.5F,
+    -0.5F,
 
-        -0.5f, 0.5f, -0.5f,
-        0.5f, 0.5f, -0.5f,
-        0.5f, 0.5f, 0.5f,
-        0.5f, 0.5f, 0.5f,
-        -0.5f, 0.5f, 0.5f,
-        -0.5f, 0.5f, -0.5f,
+    -0.5F,
+    0.5F,
+    -0.5F,
+    0.5F,
+    0.5F,
+    -0.5F,
+    0.5F,
+    0.5F,
+    0.5F,
+    0.5F,
+    0.5F,
+    0.5F,
+    -0.5F,
+    0.5F,
+    0.5F,
+    -0.5F,
+    0.5F,
+    -0.5F,
 };
 
-const char *Cube::vertexShaderSource =
-        R"(#version 300 es
+
+const char* const Cube::vertexShaderSource =
+    R"(#version 300 es
 
 layout (location = 0) in vec3 a_vertex;
 
@@ -60,8 +133,8 @@ void main()
 }
 )";
 
-const char *Cube::fragmentShaderSource =
-        R"(#version 300 es
+const char* const Cube::fragmentShaderSource =
+    R"(#version 300 es
 
 precision highp float;
 
@@ -85,7 +158,7 @@ Cube::Cube() : Entity(vertexShaderSource, fragmentShaderSource) {
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -98,7 +171,7 @@ Cube::~Cube() {
     glDeleteBuffers(1, &VBO);
 }
 
-void Cube::update(const float &deltaTime) {
+void Cube::update(const float& deltaTime) {
     // No component to update
 }
 
@@ -110,7 +183,7 @@ void Cube::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) 
     shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix * modelMatrix);
 
     // Draw
-    glDrawArrays(GL_TRIANGLES, 0, (GLsizei) vertices.size());
+    glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertices.size()));
 
     glBindVertexArray(0);
 }

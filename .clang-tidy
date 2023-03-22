@@ -23,6 +23,8 @@ Checks: >
   -cppcoreguidelines-avoid-magic-numbers,
   -bugprone-easily-swappable-parameters,
   -readability-isolate-declaration,
+  -cppcoreguidelines-pro-bounds-constant-array-index,
+  -cppcoreguidelines-pro-type-union-access,
 #  -modernize-use-trailing-return-type,
 #  -readability-named-parameter,
 

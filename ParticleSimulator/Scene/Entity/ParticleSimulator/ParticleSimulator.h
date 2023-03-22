@@ -8,8 +8,8 @@
 
 class ParticleSimulator : public Entity {
 private:
-    static const char *vertexShaderSource;
-    static const char *fragmentShaderSource;
+    static const char* const vertexShaderSource;
+    static const char* const fragmentShaderSource;
 
     GLuint VAO, VBO;
 
@@ -17,20 +17,20 @@ private:
         glm::vec3 position;
         glm::vec3 velocity;
 
-        Particle() : position(glm::vec3(0.0f)), velocity(glm::vec3(1.0f, 1.0f, 1.0f)) {}
+        Particle() : position(glm::vec3(0.0F)), velocity(glm::vec3(1.0F, 1.0F, 1.0F)) {}
     };
 
     std::vector<Particle> particles;
 
     glm::vec3 pointOfGravity;
 
-    float isPaused = 0.0f;
-    float isTargeting = 0.0f;
+    float isPaused = 0.0F;
+    float isTargeting = 0.0F;
 
-    const float gravity = 1000.0f;
-    const float m1 = 1000.0f;
-    const float m2 = 1.0f;
-    const float distanceOffset = 100.0f;
+    const float gravity = 1000.0F;
+    const float m1 = 1000.0F;
+    const float m2 = 1.0F;
+    const float distanceOffset = 100.0F;
 
 public:
     explicit ParticleSimulator(int particleCount = 100000);
@@ -38,7 +38,7 @@ public:
     ~ParticleSimulator();
 
 public:
-    void update(const float &deltaTime) override;
+    void update(const float& deltaTime) override;
 
     void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) override;
 
@@ -48,15 +48,15 @@ public:
     void reset();
 
 public:
-    void setTarget(const glm::vec3 &target);
+    void setTarget(const glm::vec3& target);
 
-    void setIsTargeting(const bool &value);
+    void setIsTargeting(const bool& value);
 
-    [[nodiscard]] bool getIsTargeting() const;
+    [[nodiscard]] auto getIsTargeting() const -> bool;
 
-    void setIsPaused(const bool &value);
+    void setIsPaused(const bool& value);
 
-    [[nodiscard]] size_t getParticleCount() const;
+    [[nodiscard]] auto getParticleCount() const -> size_t;
 };
 
 #endif // PARTICLE_SIMULATOR_H

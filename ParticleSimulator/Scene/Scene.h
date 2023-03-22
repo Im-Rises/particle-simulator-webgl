@@ -19,7 +19,7 @@ public:
 public:
     Scene(int display_w, int display_h);
 
-    ~Scene();
+    //    ~Scene();
 
     void update(float deltaTime);
 
@@ -33,7 +33,7 @@ public:
     void reset();
 
 public:
-    [[nodiscard]] bool getIsPaused() const { return isPaused; }
+    [[nodiscard]] auto getIsPaused() const -> bool { return isPaused; }
 };
 
 #endif // SCENE_H

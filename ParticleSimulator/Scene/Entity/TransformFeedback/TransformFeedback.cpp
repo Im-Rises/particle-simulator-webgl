@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-const char* TransformFeedback::vertexShaderSource =
+const char* const TransformFeedback::vertexShaderSource =
     R"(#version 300 es
 in vec3 a_pos;
 //    in vec3 a_vel;
@@ -20,7 +20,7 @@ void main()
 }
 )";
 
-const char* TransformFeedback::fragmentShaderSource =
+const char* const TransformFeedback::fragmentShaderSource =
     R"(#version 300 es
 
 precision highp float;
@@ -34,12 +34,10 @@ void main()
 )";
 
 TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShaderSource, { "out_pos" }) {
-    //    position = glm::vec3(2.0f, 0.0f, 0.0f);
     positions.resize(particlesCount);
-    //    velocities.resize(particlesCount);
 
     // Set random seed
-    srand(time(NULL));
+    srand(time(nullptr));
     // Set random positions in range [-1, 1]
     for (int i = 0; i < particlesCount; i++)
     {
@@ -50,38 +48,33 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
         //        velocities[i] = glm::vec3(10.0f, 0.0f, 0.0f);
     }
 
-    // Generate and bind the vertex array object
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
+    glGenVertexArrays(2, VAO);
+    glGenTransformFeedbacks(2, TFBO);
+    glGenBuffers(2, VBO);
 
-    // Generate and bind the buffer object for position input and set the data for the first pass
-    glGenBuffers(1, &posInputVBO);
-    glBindBuffer(GL_ARRAY_BUFFER, posInputVBO);
-    glBufferData(GL_ARRAY_BUFFER, particlesCount * 3 * sizeof(float), positions.data(), GL_STREAM_COPY);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    for (int i = 0; i < 2; i++)
+    {
+        glBindVertexArray(VAO[i]);
 
-    // Create the output buffer empty for the first pass
-    glGenBuffers(1, &posOutputVBO);
-    glBindBuffer(GL_ARRAY_BUFFER, posOutputVBO);
-    glBufferData(GL_ARRAY_BUFFER, particlesCount * 3 * sizeof(float), nullptr, GL_STREAM_COPY);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO[i]);
+        glBufferData(GL_ARRAY_BUFFER, particlesCount * 3 * sizeof(float), positions.data(), GL_STREAM_COPY);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+        glEnableVertexAttribArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    // Create the transform feedback object and set the output buffer
-    glGenTransformFeedbacks(1, &transformFeedback);
-    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, transformFeedback);
-    glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, posOutputVBO);
+        glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, TFBO[i]);
+        glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, VBO[i]);
+    }
 
-    // Unbind
     glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 TransformFeedback::~TransformFeedback() {
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &posInputVBO);
-    glDeleteBuffers(1, &posOutputVBO);
-    glDeleteTransformFeedbacks(1, &transformFeedback);
+    glDeleteVertexArrays(2, VAO);
+    glDeleteTransformFeedbacks(2, TFBO);
+    glDeleteBuffers(2, VBO);
 }
 
 
@@ -89,29 +82,23 @@ void TransformFeedback::update(const float& deltaTime) {
 }
 
 void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
-    // Bind the VAO
-    glBindVertexArray(VAO);
+    static int currentSourcdIdx = 0;
 
-    // Shader
+    currentSourcdIdx = (currentSourcdIdx + 1) % 2;
+
     shader.use();
+
+    glBindVertexArray(VAO[currentSourcdIdx]);
+    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, TFBO[currentSourcdIdx]);
+
+    glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, VBO[currentSourcdIdx]);
+
     shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
 
-    // Set output buffer
-    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, transformFeedback);
-    glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, posOutputVBO);
-
-    // Begin transform feedback with input buffer
     glBeginTransformFeedback(GL_POINTS);
-    glBindBuffer(GL_ARRAY_BUFFER, posInputVBO);
     glDrawArrays(GL_POINTS, 0, particlesCount);
     glEndTransformFeedback();
 
-    // Swap input and output buffers
-    std::swap(posInputVBO, posOutputVBO);
-
-    // Unbind
     glBindVertexArray(0);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
-    glBindBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, 0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
