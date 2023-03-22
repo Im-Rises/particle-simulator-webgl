@@ -98,6 +98,8 @@ void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     glDrawArrays(GL_POINTS, 0, particlesCount);
     glEndTransformFeedback();
 
+    glFlush();
+
     glBindVertexArray(0);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
 }
