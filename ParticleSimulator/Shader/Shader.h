@@ -6,9 +6,6 @@
 
 #include <glm/glm.hpp>
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "readability-identifier-length"
-#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 class Shader {
 private:
     unsigned int ID;
@@ -21,38 +18,37 @@ public:
 
     ~Shader();
 
-    void checkCompileErrors(unsigned int shader, const std::string& type);
+    static void checkCompileErrors(unsigned int shader, const std::string& type);
 
 public:
-    void use();
+    void use() const;
 
-    [[nodiscard]] auto getID() const -> unsigned int;
+    [[maybe_unused]] [[nodiscard]] auto getID() const -> unsigned int;
 
 public:
-    void setBool(const std::string& name, bool value) const;
+    [[maybe_unused]] void setBool(const std::string& name, bool value) const;
 
-    void setInt(const std::string& name, int value) const;
+    [[maybe_unused]] void setInt(const std::string& name, int value) const;
 
-    void setFloat(const std::string& name, float value) const;
+    [[maybe_unused]] void setFloat(const std::string& name, float value) const;
 
-    void setVec2(const std::string& name, float x, float y) const;
+    [[maybe_unused]] void setVec2(const std::string& name, float x, float y) const;
 
-    void setVec3(const std::string& name, float x, float y, float z) const;
+    [[maybe_unused]] void setVec3(const std::string& name, float x, float y, float z) const;
 
-    void setVec4(const std::string& name, float x, float y, float z, float w) const;
+    [[maybe_unused]] void setVec4(const std::string& name, float x, float y, float z, float w) const;
 
-    void setVec2(const std::string& name, const glm::vec2& value) const;
+    [[maybe_unused]] void setVec2(const std::string& name, const glm::vec2& value) const;
 
-    void setVec3(const std::string& name, const glm::vec3& value) const;
+    [[maybe_unused]] void setVec3(const std::string& name, const glm::vec3& value) const;
 
-    void setVec4(const std::string& name, const glm::vec4& value) const;
+    [[maybe_unused]] void setVec4(const std::string& name, const glm::vec4& value) const;
 
-    void setMat2(const std::string& name, const glm::mat2& mat) const;
+    [[maybe_unused]] void setMat2(const std::string& name, const glm::mat2& mat) const;
 
-    void setMat3(const std::string& name, const glm::mat3& mat) const;
+    [[maybe_unused]] void setMat3(const std::string& name, const glm::mat3& mat) const;
 
-    void setMat4(const std::string& name, const glm::mat4& mat) const;
+    [[maybe_unused]] void setMat4(const std::string& name, const glm::mat4& mat) const;
 };
-#pragma clang diagnostic pop
 
 #endif // SHADER_H

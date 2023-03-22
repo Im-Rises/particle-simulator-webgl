@@ -5,15 +5,16 @@
 
 #include "../Entity.h"
 #include "../../../Shader/Shader.h"
+#include <glad/glad.h>
 
 class Cube : public Entity {
 private:
-    static const std::array<float, 108> vertices;
+    static const std::array<GLfloat, 108> Vertices;
 
-    static const char* const vertexShaderSource;
-    static const char* const fragmentShaderSource;
+    static const char* const VertexShaderSource;
+    static const char* const FragmentShaderSource;
 
-    unsigned int VAO, VBO;
+    GLuint VAO, VBO;
 
 public:
     Cube();

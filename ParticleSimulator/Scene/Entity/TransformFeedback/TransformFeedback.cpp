@@ -1,6 +1,6 @@
 #include "TransformFeedback.h"
 
-#include <iostream>
+#include <random>
 
 const char* const TransformFeedback::vertexShaderSource =
     R"(#version 300 es
@@ -37,28 +37,27 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
     positions.resize(particlesCount);
 
     // Set random seed
-    srand(time(nullptr));
-    // Set random positions in range [-1, 1]
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(-1.0, 1.0);
+
+    // Set random positions
     for (int i = 0; i < particlesCount; i++)
     {
-        positions[i] = glm::vec3(
-            (float)rand() / (float)RAND_MAX * 2.0f - 1.0f,
-            (float)rand() / (float)RAND_MAX * 2.0f - 1.0f,
-            (float)rand() / (float)RAND_MAX * 2.0f - 1.0f);
-        //        velocities[i] = glm::vec3(10.0f, 0.0f, 0.0f);
+        positions[i] = glm::vec3(dis(gen), dis(gen), dis(gen));
     }
 
-    glGenVertexArrays(2, VAO);
+    glGenVertexArrays(1, &VAO);
     glGenTransformFeedbacks(2, TFBO);
     glGenBuffers(2, VBO);
 
     for (int i = 0; i < 2; i++)
     {
-        glBindVertexArray(VAO[i]);
+        glBindVertexArray(VAO);
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO[i]);
-        glBufferData(GL_ARRAY_BUFFER, particlesCount * 3 * sizeof(float), positions.data(), GL_STREAM_COPY);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+        glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(static_cast<unsigned long>(particlesCount) * 3 * sizeof(float)), positions.data(), GL_STREAM_COPY);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -72,7 +71,7 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
 }
 
 TransformFeedback::~TransformFeedback() {
-    glDeleteVertexArrays(2, VAO);
+    glDeleteVertexArrays(1, &VAO);
     glDeleteTransformFeedbacks(2, TFBO);
     glDeleteBuffers(2, VBO);
 }
@@ -88,7 +87,7 @@ void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
 
     shader.use();
 
-    glBindVertexArray(VAO[currentSourcdIdx]);
+    glBindVertexArray(VAO);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, TFBO[currentSourcdIdx]);
 
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, VBO[currentSourcdIdx]);

@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-pro-type-vararg"
+
 #include "ParticleSimulatorLauncher.h"
 
 #include "InputManager.h"
@@ -14,6 +17,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
+#include <cmath>
 #include "Scene/Scene.h"
 #include <iostream>
 
@@ -144,7 +148,7 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
 
     // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
     ImGuiStyle& style = ImGui::GetStyle();
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    if ((io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) != 0)
     {
         style.WindowRounding = 0.0F;
         style.Colors[ImGuiCol_WindowBg].w = 1.0F;
@@ -188,7 +192,7 @@ void ParticleSimulatorLauncher::start() {
     scene = std::make_unique<Scene>(displayWidth, displayHeight);
 
     // Variables for the main loop
-    float deltaTime;
+    float deltaTime = NAN;
 
 #ifdef __EMSCRIPTEN__
     // For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the imgui.ini file.
@@ -198,7 +202,7 @@ void ParticleSimulatorLauncher::start() {
     io.IniFilename = NULL;
     EMSCRIPTEN_MAINLOOP_BEGIN
 #else
-    while (!glfwWindowShouldClose(window))
+    while (glfwWindowShouldClose(window) == 0)
 #endif
     {
         deltaTime = ImGui::GetIO().DeltaTime;
@@ -250,11 +254,11 @@ void ParticleSimulatorLauncher::handleInputs() {
     // Read mouse inputs and update camera
     if (InputManager::isKeyMouseMovementPressed(window))
     {
-        scene->camera.processMouseMovement((float)mouseDeltaX, (float)mouseDeltaY);
+        scene->camera.processMouseMovement(static_cast<float>(mouseDeltaX), static_cast<float>(mouseDeltaY));
     }
 
     // Read mouse inputs and update particle simulator target
-    bool isTargeting = InputManager::isKeyMouseSetTargetPressed(window);
+    bool const isTargeting = InputManager::isKeyMouseSetTargetPressed(window);
     scene->particleSimulator.setIsTargeting(isTargeting);
     mousePositionWorld = projectMouse(mouseX, mouseY);
     scene->particleSimulator.setTarget(mousePositionWorld);
@@ -273,7 +277,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
 #endif
         ImGui::Begin("Window info");
-        ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0f / deltaTime);
+        ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0F / deltaTime);
         ImGui::Text("Window width: %d", displayWidth);
         ImGui::Text("Window height: %d", displayHeight);
         ImGui::Text("GPU: %s", getOpenGLVendor().data());
@@ -305,7 +309,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Camera settings");
 
         ImGui::Text("Position:");
-        ImGui::DragFloat3("##position", (float*)&scene->camera.position);
+        ImGui::DragFloat3("##position", reinterpret_cast<float*>(&scene->camera.position));
 
         ImGui::NewLine();
         ImGui::Text("Pitch:");
@@ -331,7 +335,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::DragFloat("##speed", &scene->camera.movementSpeed);
 
         ImGui::Text("Sensitivity: ");
-        ImGui::DragFloat("##sensitivity", &scene->camera.rotationSpeed, 0.1f);
+        ImGui::DragFloat("##sensitivity", &scene->camera.rotationSpeed, 0.1F);
 
         ImGui::End();
     }
@@ -350,7 +354,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Particle settings");
 
         ImGui::Text("Fixed update frequency:");
-        ImGui::DragFloat("##fixedUpdate", &fixedUpdate, 1.0f, 1.0f, 1000.0f);
+        ImGui::DragFloat("##fixedUpdate", &fixedUpdate, 1.0F, 1.0F, 1000.0F);
 
         ImGui::Text("Reset simulation:");
         ImGui::SameLine();
@@ -361,7 +365,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         }
 
         ImGui::Text("Spawn position:");
-        ImGui::DragFloat3("##spawnPosition", (float*)&scene->particleSimulator.position);
+        ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->particleSimulator.position));
 
         ImGui::Text("Toggle pause:");
         ImGui::SameLine();
@@ -493,11 +497,11 @@ void ParticleSimulatorLauncher::calculateMouseMovement(const double& xMouse, con
 
 auto ParticleSimulatorLauncher::projectMouse(const double& xMouse, const double& yMouse) -> glm::vec3 {
     // Convert the mouse coordinates from screen space to NDC space
-    float const normalized_x = (2.0F * xMouse) / displayWidth - 1.0F;
-    float const normalized_y = 1.0F - (2.0F * yMouse) / displayHeight;
+    float const normalized_x = (2.0F * static_cast<float>(xMouse)) / static_cast<float>(displayWidth) - 1.0F;
+    float const normalized_y = 1.0F - (2.0F * static_cast<float>(yMouse)) / static_cast<float>(displayHeight);
 
     // Create a vector representing the mouse coordinates in NDC space
-    glm::vec4 mouse_ndc(normalized_x, normalized_y, -1.0F, 1.0F);
+    glm::vec4 const mouse_ndc(normalized_x, normalized_y, -1.0F, 1.0F);
 
     // Convert the mouse coordinates from NDC space to world space
     glm::mat4 const inverse_projection = glm::inverse(scene->camera.getProjectionMatrix());
@@ -542,3 +546,5 @@ auto ParticleSimulatorLauncher::getGLMVersion() -> std::string {
     return std::to_string(GLM_VERSION_MAJOR) + "." + std::to_string(GLM_VERSION_MINOR) + "." +
            std::to_string(GLM_VERSION_PATCH);
 }
+
+#pragma clang diagnostic pop

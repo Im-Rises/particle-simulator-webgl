@@ -61,20 +61,20 @@ private:
     void centerWindow();
 
 private:
-    void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);
+    static void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);
 
     auto projectMouse(const double& xMouse, const double& yMouse) -> glm::vec3;
 
 private:
-    auto getOpenGLVendor() -> std::string_view;
+    static auto getOpenGLVendor() -> std::string_view;
 
-    auto getOpenGLVersion() -> std::string_view;
+    static auto getOpenGLVersion() -> std::string_view;
 
-    auto getGLSLVersion() -> std::string_view;
+    static auto getGLSLVersion() -> std::string_view;
 
-    auto getGLFWVersion() -> std::string;
+    static auto getGLFWVersion() -> std::string;
 
-    auto getGladVersion() -> std::string_view;
+    static auto getGladVersion() -> std::string_view;
 
     static auto getImGuiVersion() -> std::string;
 

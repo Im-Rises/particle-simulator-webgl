@@ -18,6 +18,7 @@ Checks: >
   -readability-magic-numbers,
   -readability-redundant-access-specifiers,
   -readability-braces-around-statements,
+  -readability-identifier-length,
   -misc-non-private-member-variables-in-classes,
   -clang-diagnostic-uninitialized-union,
   -cppcoreguidelines-avoid-magic-numbers,

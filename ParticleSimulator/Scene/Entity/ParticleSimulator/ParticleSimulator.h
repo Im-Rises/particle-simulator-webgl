@@ -8,8 +8,8 @@
 
 class ParticleSimulator : public Entity {
 private:
-    static const char* const vertexShaderSource;
-    static const char* const fragmentShaderSource;
+    static const char* const VertexShaderSource;
+    static const char* const FragmentShaderSource;
 
     GLuint VAO, VBO;
 
@@ -27,10 +27,10 @@ private:
     float isPaused = 0.0F;
     float isTargeting = 0.0F;
 
-    const float gravity = 1000.0F;
-    const float m1 = 1000.0F;
-    const float m2 = 1.0F;
-    const float distanceOffset = 100.0F;
+    float gravity = 1000.0F;
+    float m1 = 1000.0F;
+    float m2 = 1.0F;
+    float distanceOffset = 100.0F;
 
 public:
     explicit ParticleSimulator(int particleCount = 100000);
