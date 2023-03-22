@@ -187,9 +187,11 @@ pwambach (WebGL 2 Particles):
 webglsamples:  
 http://webglsamples.org/WebGL2Samples/#transform_feedback_separated_2
 
-<!--
-https://ogldev.org/www/tutorial28/tutorial28.html
--->
+codepen (WebGL 2 Particles):  
+<https://codepen.io/stopyransky/pen/gBoQoO>
+
+ogldev (WebGL 2 Particles):  
+<https://ogldev.org/www/tutorial28/tutorial28.html>
 
 ## Contributors
 

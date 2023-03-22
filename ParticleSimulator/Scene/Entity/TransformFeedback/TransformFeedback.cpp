@@ -50,7 +50,6 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
     glGenVertexArrays(2, VAO);
     glGenBuffers(2, VBO);
     glGenTransformFeedbacks(2, TFBO);
-    //    glCreateTransformFeedbacks(2, TFBO);
 
     for (int i = 0; i < 2; i++)
     {
@@ -85,8 +84,6 @@ void TransformFeedback::update(const float& deltaTime) {
 }
 
 void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
-
-
     shader.use();
     shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
 
