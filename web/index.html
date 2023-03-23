@@ -24,6 +24,7 @@
     });
 
     // Set the canvas element as a property of the Module object
+    // Can't use const or let here because the Module object is defined in the Emscripten generated javascript
     var Module = {
         canvas: (() => {
             return document.getElementById('canvas');
@@ -32,7 +33,7 @@
 
     // Add event listener to window object to resize canvas on window resize
     window.addEventListener('resize', () => {
-        var canvas = Module.canvas;
+        const canvas = Module.canvas;
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     });

@@ -1,9 +1,10 @@
 # particle-simulator-webgl
 
 <p align="center">
-      <img src="https://user-images.githubusercontent.com/59691442/183268126-b3d19e66-8f2d-463a-805e-ae6ef7cc6c01.png" alt="cmakeLogo" style="height:60px;"/>
       <img src="https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="cppLogo" style="height:60px;"/>
       <img src="https://img.shields.io/badge/OpenGL-FFFFFF?style=for-the-badge&logo=opengl" alt="openglLogo" style="height:60px;"/>
+      <img src="https://user-images.githubusercontent.com/59691442/183268126-b3d19e66-8f2d-463a-805e-ae6ef7cc6c01.png" alt="cmakeLogo" style="height:60px;"/>
+      <img src="https://user-images.githubusercontent.com/59691442/226524871-c73aa62f-d191-42d3-a1b9-ebbfc216a7bb.png" alt="webglLogo" style="height:60px;"/>
       <img src="https://user-images.githubusercontent.com/59691442/190315147-ec9dc33f-0090-4f0d-98ab-514eb1463e01.png" alt="glfwLogo" style="height:60px;"/>
 </p>
 
@@ -21,12 +22,35 @@ This version is displaying 100 000 particles less than the desktop version.
 
 ## Todo
 
-- [x] Correct UI placement in Emscripten build
-- [ ] Use Emscripten to get touch screen events for mobile devices
-- [ ] Add a way to change the number of particles
-- [ ] Correct toggle fullscreen button in desktop build
-- [ ] Correct windowed mode crash in desktop build
-- [ ] Copy a lot of code to the Original project `ParticleSimulator` ParticleSimulatorLauncher class)
+Major:
+
+- &#9745; Use a transform feedback to update the position and velocity for parallelization with the GPU using ping-pong
+  buffering
+- &#9745; Use the output as next input without ping-pong buffering.
+- &#9744; Correct the transform feedback error
+
+Important:
+
+- &#x2612; Use Emscripten to get touch screen events for mobile devices (not working, cannot set up the event listener
+  in the C++ code)
+- &#9744; Reformat all the code with the clang-tidy file
+
+Minor:
+
+- &#9745; Correct UI placement in Emscripten build
+- &#9744; Correct the UI not working correctly when toggling fullscreen (maybe it's because of the library Itself)
+- &#9744; Copy a lot of code to the Original project `ParticleSimulator` ParticleSimulatorLauncher class
+- &#9744; Add a way to change the number of particles
+- &#9744; Correct toggle fullscreen button in desktop build
+- &#9745; Correct windowed mode crash in desktop build for linux
+- &#9744; Correct windowed mode crash in desktop build for windows
+- &#9744; Optimise the Shader and Entity classes
+
+---
+
+- &#9744; means that the feature is not implemented yet
+- &#x2612; means that the feature is having issues
+- &#9745; means that the feature is implemented
 
 ## Images
 
@@ -88,9 +112,9 @@ The speed and some parameters can be modified directly in the ImGui windows.
 
 | Action              | Key                                 |
 |---------------------|-------------------------------------|
-| Translate camera    | WASD (← → ↑ ↓)                      |
+| Translate camera    | (WASD) or (↑ ← ↓ →)                 |
 | Pause/Resume        | P                                   |
-| Move up/down camera | SPACE/SHIFT                         |
+| Move up/down camera | (Space/Shift) or (Page up/down)     |
 | Rotate camera       | Right Mouse Button + Mouse movement |
 | Fullscreen          | F11                                 |
 | Drag particles      | Left Mouse Button + Mouse movement  |
@@ -151,11 +175,23 @@ learnopengl (OpenGL tutorial):
 unrealistic.dev (Change CMake working directory):  
 <https://unrealistic.dev/posts/setting-debug-parameters-with-cmake-tools-for-visual-studio>
 
-OpenGL ES 2.0 Reference Pages:  
-<https://www.khronos.org/registry/OpenGL-Refpages/es2.0/>
+OpenGL ES 3.0 Reference Pages:  
+<https://www.khronos.org/registry/OpenGL-Refpages/es3.0/>
 
-Wikipedia (OpenGL versions):
+Wikipedia (OpenGL versions):  
 <https://en.wikipedia.org/wiki/OpenGL_Shading_Language>
+
+pwambach (WebGL 2 Particles):  
+<https://github.com/pwambach/webgl2-particles/tree/gh-pages>
+
+webglsamples:  
+http://webglsamples.org/WebGL2Samples/#transform_feedback_separated_2
+
+codepen (WebGL 2 Particles):  
+<https://codepen.io/stopyransky/pen/gBoQoO>
+
+ogldev (WebGL 2 Particles):  
+<https://ogldev.org/www/tutorial28/tutorial28.html>
 
 ## Contributors
 
