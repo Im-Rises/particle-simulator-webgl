@@ -24,7 +24,7 @@ class TransformFeedback : public Entity {
         Particle() : position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F, 0.0F, 0.0F)) {}
     };
 
-    std::vector<glm::vec3> positions;
+    std::vector<Particle> particles;
 
     int currentVAO;
     int currentTFBO;

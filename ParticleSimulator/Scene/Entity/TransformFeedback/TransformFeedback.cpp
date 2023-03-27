@@ -5,9 +5,10 @@
 const char* const TransformFeedback::vertexShaderSource =
     R"(#version 300 es
 in vec3 a_pos;
-//    in vec3 a_vel;
+in vec3 a_vel;
 
 out vec3 out_pos;
+out vec3 out_vel;
 
 uniform mat4 u_mvp;
 
@@ -16,9 +17,9 @@ out vec3 v_vel;
 void main()
 {
     gl_Position = u_mvp * vec4(a_pos, 1.0);
-//        out_pos = a_pos + a_vel + vec3(1.09, 2.04, 3.01);
     out_pos = a_pos + vec3(0.1, 0.2, 0.3);
     gl_PointSize = 10.0;
+    out_vel = a_vel;
     v_vel = vec3(0.0, 1.0, 1.0);
 }
 )";
@@ -38,8 +39,8 @@ void main()
 }
 )";
 
-TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShaderSource, { "out_pos" }) {
-    positions.resize(particlesCount);
+TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShaderSource, { "out_pos", "out_vel" }) {
+    particles.resize(particlesCount);
 
     // Set random seed
     std::random_device rd;
@@ -49,7 +50,8 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
     // Set random positions
     for (int i = 0; i < particlesCount; i++)
     {
-        positions[i] = glm::vec3(dis(gen), dis(gen), dis(gen));
+        particles[i].position = glm::vec3(dis(gen), dis(gen), dis(gen));
+        particles[i].velocity = glm::vec3(0.0F, 0.0F, 0.0F);
     }
 
     glGenVertexArrays(2, VAO);
@@ -61,9 +63,13 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
         glBindVertexArray(VAO[i]);
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO[i]);
-        glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(static_cast<unsigned long>(particlesCount) * 3 * sizeof(float)), positions.data(), GL_STREAM_COPY);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+        glBufferData(GL_ARRAY_BUFFER, particles.size() * sizeof(Particle), particles.data(), GL_DYNAMIC_COPY);
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (void*)offsetof(Particle, position));
         glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (void*)offsetof(Particle, velocity));
+        glEnableVertexAttribArray(1);
+
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, TFBO[i]);
