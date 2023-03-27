@@ -17,8 +17,14 @@ class TransformFeedback : public Entity {
 
     GLuint VBO[2];
 
+    struct Particle {
+        glm::vec3 position;
+        glm::vec3 velocity;
+
+        Particle() : position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F, 0.0F, 0.0F)) {}
+    };
+
     std::vector<glm::vec3> positions;
-    //    std::vector<glm::vec3> velocities;
 
     int currentVAO;
     int currentTFBO;

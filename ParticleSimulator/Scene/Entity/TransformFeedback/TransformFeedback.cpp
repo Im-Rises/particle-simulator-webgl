@@ -11,12 +11,15 @@ out vec3 out_pos;
 
 uniform mat4 u_mvp;
 
+out vec3 v_vel;
+
 void main()
 {
     gl_Position = u_mvp * vec4(a_pos, 1.0);
 //        out_pos = a_pos + a_vel + vec3(1.09, 2.04, 3.01);
     out_pos = a_pos + vec3(0.1, 0.2, 0.3);
     gl_PointSize = 10.0;
+    v_vel = vec3(0.0, 1.0, 1.0);
 }
 )";
 
@@ -25,11 +28,13 @@ const char* const TransformFeedback::fragmentShaderSource =
 
 precision highp float;
 
+in vec3 v_vel;
+
 out vec4 o_fragColor;
 
 void main()
 {
-    o_fragColor = vec4(0.0, 1.0, 1.0, 1.0);
+    o_fragColor = vec4(v_vel, 1.0);
 }
 )";
 
@@ -103,8 +108,6 @@ void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     glDrawArrays(GL_POINTS, 0, particlesCount);
     glEndTransformFeedback();
 
-    //    glFlush();
-
     if (currentVAO == VAO[0])
     {
         currentVAO = VAO[1];
@@ -118,26 +121,4 @@ void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
 
     glBindVertexArray(0);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
-
-    //    static int currentSourcdIdx = 0;
-    //
-    //    currentSourcdIdx = (currentSourcdIdx + 1) % 2;
-    //
-    //    shader.use();
-    //
-    //    glBindVertexArray(VAO[currentSourcdIdx]);
-    //    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, TFBO[currentSourcdIdx]);
-    //
-    //    glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, VBO[currentSourcdIdx]);
-    //
-    //    shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
-    //
-    //    glBeginTransformFeedback(GL_POINTS);
-    //    glDrawArrays(GL_POINTS, 0, particlesCount);
-    //    glEndTransformFeedback();
-    //
-    //    glFlush();
-    //
-    //    glBindVertexArray(0);
-    //    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
 }
