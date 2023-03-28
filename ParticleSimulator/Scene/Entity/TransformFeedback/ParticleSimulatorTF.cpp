@@ -1,9 +1,11 @@
-#include "TransformFeedback.h"
+#include "ParticleSimulatorTF.h"
 
 #include <random>
 
-const char* const TransformFeedback::vertexShaderSource =
-    R"(#version 300 es
+const char* const ParticleSimulatorTF::VertexShaderSource =
+    R"(// Vertex Shader which use transform feedback
+#version 300 es
+
 in vec3 a_pos;
 in vec3 a_vel;
 
@@ -24,8 +26,9 @@ void main()
 }
 )";
 
-const char* const TransformFeedback::fragmentShaderSource =
-    R"(#version 300 es
+const char* const ParticleSimulatorTF::FragmentShaderSource =
+    R"(// Fragment Shader which use transform feedback
+#version 300 es
 
 precision highp float;
 
@@ -39,7 +42,7 @@ void main()
 }
 )";
 
-TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShaderSource, { "out_pos", "out_vel" }) {
+ParticleSimulatorTF::ParticleSimulatorTF() : Entity(VertexShaderSource, FragmentShaderSource, { "out_pos", "out_vel" }) {
     particles.resize(particlesCount);
 
     // Set random seed
@@ -63,7 +66,7 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
         glBindVertexArray(VAO[i]);
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO[i]);
-        glBufferData(GL_ARRAY_BUFFER, particles.size() * sizeof(Particle), particles.data(), GL_DYNAMIC_COPY);
+        glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(particles.size() * sizeof(Particle)), particles.data(), GL_DYNAMIC_COPY);
 
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (void*)offsetof(Particle, position));
         glEnableVertexAttribArray(0);
@@ -84,17 +87,17 @@ TransformFeedback::TransformFeedback() : Entity(vertexShaderSource, fragmentShad
     currentTFBO = TFBO[1];
 }
 
-TransformFeedback::~TransformFeedback() {
+ParticleSimulatorTF::~ParticleSimulatorTF() {
     glDeleteVertexArrays(2, VAO);
     glDeleteTransformFeedbacks(2, TFBO);
     glDeleteBuffers(2, VBO);
 }
 
 
-void TransformFeedback::update(const float& deltaTime) {
+void ParticleSimulatorTF::update(const float& deltaTime) {
 }
 
-void TransformFeedback::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
+void ParticleSimulatorTF::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
     shader.use();
     shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
 

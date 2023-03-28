@@ -16,7 +16,12 @@ public:
     Shader(const char* vertexSource, const char* fragmentSource,
         const std::vector<std::string>& varyings);
 
-    ~Shader();
+    Shader(const Shader&) = delete;
+    auto operator=(const Shader&) -> Shader& = delete;
+    Shader(Shader&&) = delete;
+    auto operator=(Shader&&) -> Shader& = delete;
+
+    virtual ~Shader();
 
     static void checkCompileErrors(unsigned int shader, const std::string& type);
 

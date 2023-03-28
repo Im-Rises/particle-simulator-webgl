@@ -19,8 +19,12 @@ private:
 public:
     Cube();
 
-public:
-    ~Cube();
+    Cube(const Cube&) = delete;
+    auto operator=(const Cube&) -> Cube& = delete;
+    Cube(Cube&&) = delete;
+    auto operator=(Cube&&) -> Cube& = delete;
+
+    virtual ~Cube();
 
 public:
     void update(const float& deltaTime) override;

@@ -35,7 +35,12 @@ private:
 public:
     explicit ParticleSimulator(int particleCount = 100000);
 
-    ~ParticleSimulator();
+    ParticleSimulator(const ParticleSimulator&) = delete;
+    auto operator=(const ParticleSimulator&) -> ParticleSimulator& = delete;
+    ParticleSimulator(ParticleSimulator&&) = delete;
+    auto operator=(ParticleSimulator&&) -> ParticleSimulator& = delete;
+
+    virtual ~ParticleSimulator();
 
 public:
     void update(const float& deltaTime) override;

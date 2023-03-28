@@ -4,7 +4,8 @@
 #include <iostream>
 
 const char* const ParticleSimulator::VertexShaderSource =
-    R"(#version 300 es
+    R"(// Vertex shader for particle simulation
+#version 300 es
 
 precision highp float;
 
@@ -24,7 +25,8 @@ void main()
 )";
 
 const char* const ParticleSimulator::FragmentShaderSource =
-    R"(#version 300 es
+    R"(// Fragment shader for particle simulation
+#version 300 es
 
 precision highp float;
 

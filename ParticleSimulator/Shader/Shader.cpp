@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 
 #include <iostream>
+#include <array>
 
 Shader::Shader(const char* vertexSource, const char* fragmentSource) {
     const GLuint vertex = glCreateShader(GL_VERTEX_SHADER);
@@ -60,15 +61,15 @@ Shader::~Shader() {
 
 void Shader::checkCompileErrors(unsigned int shader, const std::string& type) {
     int success = 0;
-    char infoLog[1024];
+    std::array<char, 1024> infoLog{};
     if (type != "PROGRAM")
     {
         glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
         if (success == 0)
         {
-            glGetShaderInfoLog(shader, 1024, nullptr, infoLog);
+            glGetShaderInfoLog(shader, 1024, nullptr, infoLog.data());
             std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n"
-                      << infoLog
+                      << infoLog.data()
                       << "\n -- --------------------------------------------------- -- " << std::endl;
         }
     }
@@ -77,9 +78,9 @@ void Shader::checkCompileErrors(unsigned int shader, const std::string& type) {
         glGetProgramiv(shader, GL_LINK_STATUS, &success);
         if (success == 0)
         {
-            glGetProgramInfoLog(shader, 1024, nullptr, infoLog);
+            glGetProgramInfoLog(shader, 1024, nullptr, infoLog.data());
             std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n"
-                      << infoLog
+                      << infoLog.data()
                       << "\n -- --------------------------------------------------- -- " << std::endl;
         }
     }

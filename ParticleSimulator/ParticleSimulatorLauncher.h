@@ -35,7 +35,12 @@ private:
     glm::vec3 mousePositionWorld;
 
 public:
-    explicit ParticleSimulatorLauncher();
+    ParticleSimulatorLauncher();
+
+    ParticleSimulatorLauncher(const ParticleSimulatorLauncher&) = delete;
+    auto operator=(const ParticleSimulatorLauncher&) -> ParticleSimulatorLauncher& = delete;
+    ParticleSimulatorLauncher(ParticleSimulatorLauncher&&) = delete;
+    auto operator=(ParticleSimulatorLauncher&&) -> ParticleSimulatorLauncher& = delete;
 
     ~ParticleSimulatorLauncher();
 

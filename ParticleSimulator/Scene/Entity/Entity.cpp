@@ -5,7 +5,8 @@
 Entity::Entity(const std::string& vertexSource, const std::string& fragmentSource) : shader(
                                                                                          vertexSource.c_str(),
                                                                                          fragmentSource.c_str()) {
-    updateModelMatrix();
+    // Should be called in the constructor of the derived class
+    //    updateModelMatrix();
 }
 
 
@@ -13,7 +14,8 @@ Entity::Entity(const std::string& vertexSource, const std::string& fragmentSourc
     const std::vector<std::string>& varyings) : shader(vertexSource.c_str(),
                                                     fragmentSource.c_str(),
                                                     varyings) {
-    updateModelMatrix();
+    // Should be called in the constructor of the derived class
+    //    updateModelMatrix();
 }
 
 // Entity::~Entity() {

@@ -4,7 +4,7 @@
 #include "Camera/Camera.h"
 #include "Entity/ParticleSimulator/ParticleSimulator.h"
 #include "Entity/Cube/Cube.h"
-#include "Entity/TransformFeedback/TransformFeedback.h"
+#include "Entity/TransformFeedback/ParticleSimulatorTF.h"
 
 class Scene {
 private:
@@ -14,12 +14,10 @@ public:
     Camera camera;
     ParticleSimulator particleSimulator;
     Cube cube;
-    TransformFeedback transformFeedback;
+    ParticleSimulatorTF particleSimulatorTf;
 
 public:
     Scene(int display_w, int display_h);
-
-    //    ~Scene();
 
     void update(float deltaTime);
 

@@ -7,14 +7,12 @@
 
 #include "../Entity.h"
 
-class TransformFeedback : public Entity {
-    static const char* const vertexShaderSource;
-    static const char* const fragmentShaderSource;
+class ParticleSimulatorTF : public Entity {
+    static const char* const VertexShaderSource;
+    static const char* const FragmentShaderSource;
 
     GLuint VAO[2];
-
     GLuint TFBO[2];
-
     GLuint VBO[2];
 
     struct Particle {
@@ -26,16 +24,20 @@ class TransformFeedback : public Entity {
 
     std::vector<Particle> particles;
 
-    int currentVAO;
-    int currentTFBO;
+    GLuint currentVAO;
+    GLuint currentTFBO;
 
     int particlesCount = 100;
 
 public:
-    TransformFeedback();
+    ParticleSimulatorTF();
 
-public:
-    ~TransformFeedback();
+    ParticleSimulatorTF(const ParticleSimulatorTF&) = delete;
+    auto operator=(const ParticleSimulatorTF&) -> ParticleSimulatorTF& = delete;
+    ParticleSimulatorTF(ParticleSimulatorTF&&) = delete;
+    auto operator=(ParticleSimulatorTF&&) -> ParticleSimulatorTF& = delete;
+
+    virtual ~ParticleSimulatorTF();
 
 public:
     void update(const float& deltaTime) override;
