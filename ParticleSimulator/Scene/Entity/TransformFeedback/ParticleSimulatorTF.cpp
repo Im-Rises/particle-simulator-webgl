@@ -3,8 +3,7 @@
 #include <random>
 
 const char* const ParticleSimulatorTF::VertexShaderSource =
-    R"(// Vertex Shader which use transform feedback
-#version 300 es
+    R"(#version 300 es
 
 in vec3 a_pos;
 in vec3 a_vel;
@@ -15,6 +14,11 @@ out vec3 out_vel;
 uniform mat4 u_mvp;
 
 out vec3 v_vel;
+
+const float G = 1000.0f;
+const float m1 = 1000.0f;
+const float m2 = 1.0f;
+const float distanceOffset = 1000.0f;
 
 void main()
 {
@@ -27,8 +31,7 @@ void main()
 )";
 
 const char* const ParticleSimulatorTF::FragmentShaderSource =
-    R"(// Fragment Shader which use transform feedback
-#version 300 es
+    R"(#version 300 es
 
 precision highp float;
 

@@ -121,8 +121,7 @@ const std::array<float, 108> Cube::Vertices = {
 
 
 const char* const Cube::VertexShaderSource =
-    R"(// Simple vertex shader
-#version 300 es
+    R"(#version 300 es
 
 layout (location = 0) in vec3 a_vertex;
 
@@ -135,8 +134,7 @@ void main()
 )";
 
 const char* const Cube::FragmentShaderSource =
-    R"(// Simple fragment shader
-#version 300 es
+    R"(#version 300 es
 
 precision highp float;
 
