@@ -12,7 +12,7 @@ private:
 
 public:
     Camera camera;
-    ParticleSimulator particleSimulator;
+    //    ParticleSimulator particleSimulator;
     //    Cube cube;
     ParticleSimulatorTF particleSimulatorTf;
 

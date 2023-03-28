@@ -28,12 +28,10 @@ void main()
 {
     vec3 r = u_pointOfGravity - a_pos;
     float rSquared = dot(r, r) + distanceOffset;
-//    vec3 force = (G * m1 * m2 * normalize(r) / rSquared) * u_isTargeting * u_isRunning;
-    vec3 force = (G * m1 * m2 * normalize(r) / rSquared);
+    vec3 force = (G * m1 * m2 * normalize(r) / rSquared) * u_isTargeting * u_isRunning;
 
     vec3 acceleration = force / m1;
-//    vec3 position = a_pos + (a_vel * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
-    vec3 position = a_pos + (a_vel * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime);
+    vec3 position = a_pos + (a_vel * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
     vec3 velocity = a_vel + acceleration * u_deltaTime;
 
     out_pos = position;
@@ -61,8 +59,10 @@ void main()
 }
 )";
 
-ParticleSimulatorTF::ParticleSimulatorTF() : Entity(VertexShaderSource, FragmentShaderSource, { "out_pos", "out_vel" }) {
-    particles.resize(particlesCount);
+ParticleSimulatorTF::ParticleSimulatorTF(int particlesCount) : Entity(VertexShaderSource, FragmentShaderSource, { "out_pos", "out_vel" }) {
+    // Set the particles count
+    this->particlesCount = particlesCount;
+    std::vector<Particle> particles(particlesCount);
 
     // Set random seed
     std::random_device rd;
@@ -157,6 +157,9 @@ void ParticleSimulatorTF::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraPro
 }
 
 void ParticleSimulatorTF::reset() {
+    // Set the particles count
+    std::vector<Particle> particles(particlesCount);
+
     // Set random seed
     std::random_device rd;
     std::mt19937 gen(rd());

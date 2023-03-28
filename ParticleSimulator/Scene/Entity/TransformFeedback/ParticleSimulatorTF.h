@@ -22,8 +22,6 @@ class ParticleSimulatorTF : public Entity {
         Particle() : position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F, 0.0F, 0.0F)) {}
     };
 
-    std::vector<Particle> particles;
-
     GLuint currentVAO;
     GLuint currentTFBO;
 
@@ -35,7 +33,7 @@ class ParticleSimulatorTF : public Entity {
     float isPaused = 0.0F;
 
 public:
-    ParticleSimulatorTF();
+    explicit ParticleSimulatorTF(int particlesCount = 100000);
 
     ParticleSimulatorTF(const ParticleSimulatorTF&) = delete;
     auto operator=(const ParticleSimulatorTF&) -> ParticleSimulatorTF& = delete;

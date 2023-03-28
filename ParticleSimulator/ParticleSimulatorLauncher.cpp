@@ -259,9 +259,11 @@ void ParticleSimulatorLauncher::handleInputs() {
 
     // Read mouse inputs and update particle simulator target
     bool const isTargeting = InputManager::isKeyMouseSetTargetPressed(window);
-    scene->particleSimulator.setIsTargeting(isTargeting);
+    //    scene->particleSimulator.setIsTargeting(isTargeting);
+    scene->particleSimulatorTf.setIsTargeting(isTargeting);
     mousePositionWorld = projectMouse(mouseX, mouseY);
-    scene->particleSimulator.setTarget(mousePositionWorld);
+    //    scene->particleSimulator.setTarget(mousePositionWorld);
+    scene->particleSimulatorTf.setTarget(mousePositionWorld);
 }
 
 void ParticleSimulatorLauncher::handleUi(float deltaTime) {
@@ -348,7 +350,8 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 #endif
         ImGui::Begin("Particle simulator settings");
 
-        ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulator.getParticleCount()).c_str());
+        //        ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulator.getParticleCount()).c_str());
+        ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulatorTf.getParticleCount()).c_str());
         ImGui::NewLine();
 
         ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Particle settings");
@@ -365,7 +368,8 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         }
 
         ImGui::Text("Spawn position:");
-        ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->particleSimulator.position));
+        //        ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->particleSimulator.position));
+        ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->particleSimulatorTf.position));
 
         ImGui::Text("Toggle pause:");
         ImGui::SameLine();
@@ -386,7 +390,8 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 #endif
         ImGui::Begin("Mouse controls");
 
-        ImGui::Text("Is targeting: %s", scene->particleSimulator.getIsTargeting() ? "true" : "false");
+        //        ImGui::Text("Is targeting: %s", scene->particleSimulator.getIsTargeting() ? "true" : "false");
+        ImGui::Text("Is targeting: %s", scene->particleSimulatorTf.getIsTargeting() ? "true" : "false");
 
         ImGui::Text("Mouse position world:");
         ImGui::Text("X: %f", mousePositionWorld.x);
