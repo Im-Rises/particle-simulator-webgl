@@ -10,11 +10,12 @@ void Scene::update(float deltaTime) {
         return;
     }
     particleSimulator.update(deltaTime);
+    particleSimulatorTf.update(deltaTime);
 }
 
 void Scene::render() {
+    //    cube.render(camera.getViewMatrix(), camera.getProjectionMatrix());
     particleSimulator.render(camera.getViewMatrix(), camera.getProjectionMatrix());
-    cube.render(camera.getViewMatrix(), camera.getProjectionMatrix());
     particleSimulatorTf.render(camera.getViewMatrix(), camera.getProjectionMatrix());
 }
 
@@ -25,8 +26,10 @@ void Scene::updateProjectionMatrix(int display_w, int display_h) {
 void Scene::togglePause() {
     isPaused = !isPaused;
     particleSimulator.setIsPaused(isPaused);
+    particleSimulatorTf.setIsPaused(isPaused);
 }
 
 void Scene::reset() {
     particleSimulator.reset();
+    particleSimulatorTf.reset();
 }

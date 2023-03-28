@@ -40,7 +40,7 @@ public:
     ParticleSimulator(ParticleSimulator&&) = delete;
     auto operator=(ParticleSimulator&&) -> ParticleSimulator& = delete;
 
-    virtual ~ParticleSimulator();
+    ~ParticleSimulator() override;
 
 public:
     void update(const float& deltaTime) override;

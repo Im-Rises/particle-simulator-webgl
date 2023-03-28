@@ -29,6 +29,11 @@ class ParticleSimulatorTF : public Entity {
 
     int particlesCount = 100;
 
+    float deltaTime = 0.0F;
+    glm::vec3 pointOfGravity = glm::vec3(0.0F, 0.0F, 0.0F);
+    float isTargeting = 0.0F;
+    float isPaused = 0.0F;
+
 public:
     ParticleSimulatorTF();
 
@@ -37,12 +42,25 @@ public:
     ParticleSimulatorTF(ParticleSimulatorTF&&) = delete;
     auto operator=(ParticleSimulatorTF&&) -> ParticleSimulatorTF& = delete;
 
-    virtual ~ParticleSimulatorTF();
+    ~ParticleSimulatorTF() override;
 
 public:
     void update(const float& deltaTime) override;
 
     void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) override;
+
+    void reset();
+
+public:
+    void setTarget(const glm::vec3& target);
+
+    void setIsTargeting(const bool& value);
+
+    [[nodiscard]] auto getIsTargeting() const -> bool;
+
+    void setIsPaused(const bool& value);
+
+    [[nodiscard]] auto getParticleCount() const -> size_t;
 };
 
 

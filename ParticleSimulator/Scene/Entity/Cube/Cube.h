@@ -24,7 +24,7 @@ public:
     Cube(Cube&&) = delete;
     auto operator=(Cube&&) -> Cube& = delete;
 
-    virtual ~Cube();
+    ~Cube() override;
 
 public:
     void update(const float& deltaTime) override;

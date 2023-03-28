@@ -11,9 +11,13 @@ in vec3 a_vel;
 out vec3 out_pos;
 out vec3 out_vel;
 
-uniform mat4 u_mvp;
-
 out vec3 v_vel;
+
+uniform mat4 u_mvp;
+uniform float u_deltaTime;
+uniform vec3 u_pointOfGravity;
+uniform float u_isTargeting;
+uniform float u_isRunning;
 
 const float G = 1000.0f;
 const float m1 = 1000.0f;
@@ -22,11 +26,22 @@ const float distanceOffset = 1000.0f;
 
 void main()
 {
-    gl_Position = u_mvp * vec4(a_pos, 1.0);
-    out_pos = a_pos + vec3(0.1, 0.2, 0.3);
-    gl_PointSize = 10.0;
-    out_vel = a_vel;
-    v_vel = vec3(0.0, 1.0, 1.0);
+    vec3 r = u_pointOfGravity - a_pos;
+    float rSquared = dot(r, r) + distanceOffset;
+//    vec3 force = (G * m1 * m2 * normalize(r) / rSquared) * u_isTargeting * u_isRunning;
+    vec3 force = (G * m1 * m2 * normalize(r) / rSquared);
+
+    vec3 acceleration = force / m1;
+//    vec3 position = a_pos + (a_vel * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
+    vec3 position = a_pos + (a_vel * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime);
+    vec3 velocity = a_vel + acceleration * u_deltaTime;
+
+    out_pos = position;
+    out_vel = velocity;
+
+    gl_Position = u_mvp * vec4(position, 1.0);
+
+    v_vel = velocity;
 }
 )";
 
@@ -41,7 +56,8 @@ out vec4 o_fragColor;
 
 void main()
 {
-    o_fragColor = vec4(v_vel, 1.0);
+    vec3 v_color = vec3(min(v_vel.y, 0.8f), max(v_vel.x, 0.5f), min(v_vel.z, 0.5f));
+    o_fragColor = vec4(v_color, 1.0f);
 }
 )";
 
@@ -98,11 +114,16 @@ ParticleSimulatorTF::~ParticleSimulatorTF() {
 
 
 void ParticleSimulatorTF::update(const float& deltaTime) {
+    this->deltaTime = deltaTime;
 }
 
 void ParticleSimulatorTF::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
     shader.use();
     shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
+    shader.setFloat("u_deltaTime", deltaTime);
+    shader.setVec3("u_pointOfGravity", pointOfGravity);
+    shader.setFloat("u_isTargeting", isTargeting);
+    shader.setFloat("u_isRunning", !isPaused);
 
     glBindVertexArray(currentVAO);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, currentTFBO);
@@ -133,4 +154,46 @@ void ParticleSimulatorTF::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraPro
 
     glBindVertexArray(0);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
+}
+
+void ParticleSimulatorTF::reset() {
+    // Set random seed
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(-1.0, 1.0);
+
+    // Set random positions
+    for (int i = 0; i < particlesCount; i++)
+    {
+        particles[i].position = glm::vec3(dis(gen), dis(gen), dis(gen));
+        particles[i].velocity = glm::vec3(0.0F, 0.0F, 0.0F);
+    }
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(particles.size() * sizeof(Particle)), particles.data(), GL_DYNAMIC_COPY);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(particles.size() * sizeof(Particle)), particles.data(), GL_DYNAMIC_COPY);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void ParticleSimulatorTF::setTarget(const glm::vec3& target) {
+    pointOfGravity = target;
+}
+
+void ParticleSimulatorTF::setIsTargeting(const bool& value) {
+    isTargeting = static_cast<float>(value);
+}
+
+auto ParticleSimulatorTF::getIsTargeting() const -> bool {
+    return isTargeting != 0.0F;
+}
+
+void ParticleSimulatorTF::setIsPaused(const bool& value) {
+    isPaused = static_cast<float>(value);
+}
+
+auto ParticleSimulatorTF::getParticleCount() const -> size_t {
+    return particlesCount;
 }
