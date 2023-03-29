@@ -123,6 +123,8 @@ const std::array<float, 108> Cube::Vertices = {
 const char* const Cube::VertexShaderSource =
     R"(#version 300 es
 
+precision highp float;
+
 layout (location = 0) in vec3 a_vertex;
 
 uniform mat4 u_mvp;

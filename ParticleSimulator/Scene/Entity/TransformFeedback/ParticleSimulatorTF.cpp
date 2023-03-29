@@ -5,6 +5,8 @@
 const char* const ParticleSimulatorTF::VertexShaderSource =
     R"(#version 300 es
 
+precision highp float;
+
 in vec3 a_pos;
 in vec3 a_vel;
 
@@ -22,7 +24,7 @@ uniform float u_isRunning;
 const float G = 1000.0f;
 const float m1 = 1000.0f;
 const float m2 = 1.0f;
-const float distanceOffset = 1000.0f;
+const float distanceOffset = 100.0f;
 
 void main()
 {

@@ -36,6 +36,7 @@ Minor:
 - &#9744; Copy a lot of code to the Original project `ParticleSimulator` ParticleSimulatorLauncher class
 - &#9744; Add a way to change the number of particles
 - &#9744; Correct toggle fullscreen button in desktop build
+- &#9744; Correct the slow reaction of the particles
 
 ---
 
