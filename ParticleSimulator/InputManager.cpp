@@ -4,7 +4,9 @@
 #include <GLFW/glfw3.h>
 
 void InputManager::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    auto* engine = (ParticleSimulatorLauncher*)glfwGetWindowUserPointer(window);
+    (void)scancode;
+    (void)mods;
+    auto* engine = static_cast<ParticleSimulatorLauncher*>(glfwGetWindowUserPointer(window));
 
     switch (key)
     {
@@ -35,38 +37,39 @@ void InputManager::key_callback(GLFWwindow* window, int key, int scancode, int a
     }
 }
 
-bool InputManager::isForwardKeyPressed(GLFWwindow* window) {
-    return glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS;
+auto InputManager::isForwardKeyPressed(GLFWwindow* window) -> bool {
+    return glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS;
 }
 
-bool InputManager::isBackwardKeyPressed(GLFWwindow* window) {
-    return glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS;
+auto InputManager::isBackwardKeyPressed(GLFWwindow* window) -> bool {
+    return glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS;
 }
 
-bool InputManager::isLeftKeyPressed(GLFWwindow* window) {
-    return glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS;
+auto InputManager::isLeftKeyPressed(GLFWwindow* window) -> bool {
+    return glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS;
 }
 
-bool InputManager::isRightKeyPressed(GLFWwindow* window) {
-    return glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS;
+auto InputManager::isRightKeyPressed(GLFWwindow* window) -> bool {
+    return glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS;
 }
 
-bool InputManager::isUpKeyPressed(GLFWwindow* window) {
-    return glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS; // GLFW_KEY_PAGE_UP
+auto InputManager::isUpKeyPressed(GLFWwindow* window) -> bool {
+    return glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS;
 }
 
-bool InputManager::isDownKeyPressed(GLFWwindow* window) {
-    return glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS; // GLFW_KEY_PAGE_DOWN
+auto InputManager::isDownKeyPressed(GLFWwindow* window) -> bool {
+    return glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ||
+           glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS;
 }
 
-bool InputManager::isKeyMouseMovementPressed(GLFWwindow* window) {
+auto InputManager::isKeyMouseMovementPressed(GLFWwindow* window) -> bool {
     return glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS;
 }
 
-bool InputManager::isKeyMouseSetTargetPressed(GLFWwindow* window) {
+auto InputManager::isKeyMouseSetTargetPressed(GLFWwindow* window) -> bool {
     return glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
 }
 
-void InputManager::getMousePosition(GLFWwindow* window, double& x, double& y) {
-    glfwGetCursorPos(window, &x, &y);
+void InputManager::getMousePosition(GLFWwindow* window, double& xPos, double& yPos) {
+    glfwGetCursorPos(window, &xPos, &yPos);
 }

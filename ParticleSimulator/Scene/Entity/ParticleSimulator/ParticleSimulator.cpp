@@ -3,40 +3,43 @@
 #include <random>
 #include <iostream>
 
-const char* vertexShader = "#version 300 es\n"
-                           "\n"
-                           "precision highp float;\n"
-                           "\n"
-                           "layout(location = 0) in vec3 a_position;\n"
-                           "layout(location = 1) in vec3 a_velocity;\n"
-                           "\n"
-                           "uniform mat4 u_mvp;\n"
-                           "\n"
-                           "out vec3 v_velocity;\n"
-                           "\n"
-                           "void main()\n"
-                           "{\n"
-                           "    gl_Position = u_mvp * vec4(a_position, 1.0);\n"
-                           "    v_velocity = a_velocity;\n"
-                           "    gl_PointSize = 1.0f;\n"
-                           "}\n\0";
+const char* const ParticleSimulator::VertexShaderSource =
+    R"(#version 300 es
 
-const char* fragmentShader = "#version 300 es\n"
-                             "\n"
-                             "precision highp float;\n"
-                             "\n"
-                             "in vec3 v_velocity;\n"
-                             "\n"
-                             "out vec4 o_fragColor;\n"
-                             "\n"
-                             "void main() {\n"
-                             "    vec3 v_color = vec3(min(v_velocity.y, 0.8f), max(v_velocity.x, 0.5f), min(v_velocity.z, 0.5f));\n"
-                             "    o_fragColor = vec4(v_color, 1.0f);\n"
-                             "}\n\0";
+precision highp float;
 
+layout(location = 0) in vec3 a_position;
+layout(location = 1) in vec3 a_velocity;
 
-ParticleSimulator::ParticleSimulator(int particleCount) : Entity(vertexShader, fragmentShader) {
-    position = glm::vec3(0.0f, 0.0f, 0.0f);
+uniform mat4 u_mvp;
+
+out vec3 v_velocity;
+
+void main()
+{
+    gl_Position = u_mvp * vec4(a_position, 1.0);
+    v_velocity = a_velocity;
+    gl_PointSize = 1.0f;
+}
+)";
+
+const char* const ParticleSimulator::FragmentShaderSource =
+    R"(#version 300 es
+
+precision highp float;
+
+in vec3 v_velocity;
+
+out vec4 o_fragColor;
+
+void main() {
+    vec3 v_color = vec3(min(v_velocity.y, 0.8f), max(v_velocity.x, 0.5f), min(v_velocity.z, 0.5f));
+    o_fragColor = vec4(v_color, 1.0f);
+}
+)";
+
+ParticleSimulator::ParticleSimulator(int particleCount) : Entity(VertexShaderSource, FragmentShaderSource) {
+    position = glm::vec3(6.0F, 0.0F, 0.0F);
 
     // Resize the particles vector
     particles.resize(particleCount);
@@ -57,7 +60,7 @@ ParticleSimulator::ParticleSimulator(int particleCount) : Entity(vertexShader, f
     glBindVertexArray(VAO);
 
     // Set the VBO data
-    glBufferData(GL_ARRAY_BUFFER, particles.size() * sizeof(Particle), particles.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(particles.size() * sizeof(Particle)), particles.data(), GL_STATIC_DRAW);
 
     // Set the VAO attributes
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (void*)offsetof(Particle, position));
@@ -67,6 +70,9 @@ ParticleSimulator::ParticleSimulator(int particleCount) : Entity(vertexShader, f
 
     // Unbind the VAO
     glBindVertexArray(0);
+
+    // Unbind the VBO
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 ParticleSimulator::~ParticleSimulator() {
@@ -75,22 +81,22 @@ ParticleSimulator::~ParticleSimulator() {
 }
 
 void ParticleSimulator::update(const float& deltaTime) {
-    if (isPaused == 1.0f)
+    if (isPaused == 1.0F)
         return;
     for (auto& particle : particles)
     {
         // Calculate the distance between the particle and the point of gravity
-        glm::vec3 r = pointOfGravity - particle.position;
-        float rSquared = glm::dot(r, r) + distanceOffset;
+        const glm::vec3 r = pointOfGravity - particle.position;
+        const float rSquared = glm::dot(r, r) + distanceOffset;
 
         // Calculate the force
-        glm::vec3 force = ((gravity * m1 * m2 * glm::normalize(r)) / rSquared) * isTargeting;
+        const glm::vec3 force = ((gravity * m1 * m2 * glm::normalize(r)) / rSquared) * isTargeting;
 
         // Calculate the acceleration
-        glm::vec3 acceleration = force / m1;
+        const glm::vec3 acceleration = force / m1;
 
         // Calculate the position
-        particle.position += particle.velocity * deltaTime + 0.5f * acceleration * deltaTime * deltaTime;
+        particle.position += particle.velocity * deltaTime + 0.5F * acceleration * deltaTime * deltaTime;
 
         // Calculate the velocity
         particle.velocity += acceleration * deltaTime;
@@ -105,7 +111,7 @@ void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     // Set the VBO data
-    glBufferData(GL_ARRAY_BUFFER, particles.size() * sizeof(Particle), particles.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(particles.size() * sizeof(Particle)), particles.data(), GL_STATIC_DRAW);
 
     // Bind the shader
     shader.use();
@@ -114,7 +120,7 @@ void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
 
     // Draw the particles
-    glDrawArrays(GL_POINTS, 0, particles.size());
+    glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(particles.size()));
 
     // Unbind the VAO
     glBindVertexArray(0);
@@ -126,7 +132,7 @@ void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
 void ParticleSimulator::randomizeParticles() {
     // Init the random engine
     std::mt19937 randomEngine;
-    std::uniform_real_distribution<float> randomFloats(-1.0f, 1.0f);
+    std::uniform_real_distribution<float> randomFloats(-1.0F, 1.0F);
 
     // Init the particles as a cube
     for (auto& particle : particles)
@@ -135,7 +141,7 @@ void ParticleSimulator::randomizeParticles() {
                                 randomFloats(randomEngine),
                                 randomFloats(randomEngine)) +
                             position;
-        particle.velocity = glm::vec3(0.0f, 0.0f, 0.0f);
+        particle.velocity = glm::vec3(0.0F, 0.0F, 0.0F);
     }
 
     //    // Init the particles as a sphere
@@ -151,4 +157,24 @@ void ParticleSimulator::randomizeParticles() {
 void ParticleSimulator::reset() {
     // Reset the particles positions and velocities
     randomizeParticles();
+}
+
+void ParticleSimulator::setTarget(const glm::vec3& target) {
+    pointOfGravity = target;
+}
+
+void ParticleSimulator::setIsTargeting(const bool& value) {
+    isTargeting = value ? 1.0F : 0.0F;
+}
+
+auto ParticleSimulator::getIsTargeting() const -> bool {
+    return isTargeting == 1.0F;
+}
+
+void ParticleSimulator::setIsPaused(const bool& value) {
+    isPaused = value ? 1.0F : 0.0F;
+}
+
+auto ParticleSimulator::getParticleCount() const -> size_t {
+    return particles.size();
 }
