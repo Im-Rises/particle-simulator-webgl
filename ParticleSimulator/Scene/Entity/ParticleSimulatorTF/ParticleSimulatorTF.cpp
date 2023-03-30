@@ -158,20 +158,26 @@ void ParticleSimulatorTF::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraPro
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
 }
 
-void ParticleSimulatorTF::reset() {
-    // Set the particles count
+void ParticleSimulatorTF::randomizeParticles() {
     std::vector<Particle> particles(particlesCount);
 
-    // Set random seed
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(-1.0, 1.0);
+    // Init the random engine
+    std::mt19937 randomEngine;
+    std::uniform_real_distribution<float> randomFloats(0.0F, 2.0F * M_PI);
+    const std::uniform_real_distribution<float> randomFloats2(-1.0F, 1.0F);
 
-    // Set random positions
-    for (int i = 0; i < particlesCount; i++)
+    const float radius = 0.1F;
+
+    // Init the particles as a sphere
+    for (auto& particle : particles)
     {
-        particles[i].position = glm::vec3(dis(gen), dis(gen), dis(gen));
-        particles[i].velocity = glm::vec3(0.0F, 0.0F, 0.0F);
+        const float angle1 = randomFloats(randomEngine);
+        const float angle2 = randomFloats(randomEngine);
+        const float x = radius * std::sin(angle1) * std::cos(angle2);
+        const float y = radius * std::sin(angle1) * std::sin(angle2);
+        const float z = radius * std::cos(angle1);
+        particle.position = glm::vec3(x, y, z) + position;
+        particle.velocity = glm::vec3(0.0F, 0.0F, 0.0F);
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
@@ -181,6 +187,10 @@ void ParticleSimulatorTF::reset() {
     glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(particles.size() * sizeof(Particle)), particles.data(), GL_DYNAMIC_COPY);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void ParticleSimulatorTF::reset() {
+    randomizeParticles();
 }
 
 void ParticleSimulatorTF::setTarget(const glm::vec3& target) {
@@ -199,6 +209,11 @@ void ParticleSimulatorTF::setIsPaused(const bool& value) {
     isPaused = static_cast<float>(value);
 }
 
-auto ParticleSimulatorTF::getParticleCount() const -> size_t {
+void ParticleSimulatorTF::setParticlesCount(const int& value) {
+    particlesCount = value;
+    reset();
+}
+
+auto ParticleSimulatorTF::getParticlesCount() const -> size_t {
     return particlesCount;
 }

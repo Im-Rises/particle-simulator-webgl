@@ -4,7 +4,7 @@
 #include "Camera/Camera.h"
 #include "Entity/ParticleSimulator/ParticleSimulator.h"
 #include "Entity/Cube/Cube.h"
-#include "Entity/TransformFeedback/ParticleSimulatorTF.h"
+#include "Entity/ParticleSimulatorTF/ParticleSimulatorTF.h"
 
 class Scene {
 private:

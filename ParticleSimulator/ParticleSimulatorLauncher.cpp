@@ -122,7 +122,7 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
 
 #ifdef __EMSCRIPTEN__
     // Initialize OpenGL loader
-    if (!gladLoadGLES2Loader((GLADloadproc)glfwGetProcAddress))
+    if (gladLoadGLES2Loader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == 0)
         exit(1);
 #else
     // Initialize OpenGL loader
@@ -199,7 +199,7 @@ void ParticleSimulatorLauncher::start() {
     // You may manually call LoadIniSettingsFromMemory() to load settings from your own storage.
     ImGuiIO& io = ImGui::GetIO();
     (void)io;
-    io.IniFilename = NULL;
+    io.IniFilename = nullptr;
     EMSCRIPTEN_MAINLOOP_BEGIN
 #else
     while (glfwWindowShouldClose(window) == 0)
@@ -259,10 +259,8 @@ void ParticleSimulatorLauncher::handleInputs() {
 
     // Read mouse inputs and update particle simulator target
     bool const isTargeting = InputManager::isKeyMouseSetTargetPressed(window);
-    //    scene->particleSimulator.setIsTargeting(isTargeting);
     scene->particleSimulatorTf.setIsTargeting(isTargeting);
     mousePositionWorld = projectMouse(mouseX, mouseY);
-    //    scene->particleSimulator.setTarget(mousePositionWorld);
     scene->particleSimulatorTf.setTarget(mousePositionWorld);
 }
 
@@ -275,7 +273,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     {
 #ifdef __EMSCRIPTEN__
         static bool isCollapsed = true;
-        ImGui::SetNextWindowPos(ImVec2((-displayWidth / 2), (-displayHeight / 2)), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(-static_cast<float>(displayWidth) / 2, (-static_cast<float>(displayHeight) / 2)), ImGuiCond_Once);
         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
 #endif
         ImGui::Begin("Window info");
@@ -291,22 +289,22 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     {
 #ifdef __EMSCRIPTEN__
         static bool isCollapsed = true;
-        ImGui::SetNextWindowPos(ImVec2((-displayWidth / 2), (-displayHeight / 2) + 20), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(-static_cast<float>(displayWidth) / 2, (-static_cast<float>(displayHeight) / 2) + 20), ImGuiCond_Once);
         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
 #endif
         ImGui::Begin("Camera settings");
         ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "View settings");
         //        static bool wireframe = false;
-        //                ImGui::Checkbox("Wireframe", &wireframe);
-        //                if (wireframe)
-        //                {
-        //                    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        //                }
-        //                else
-        //                {
-        //                    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        //                }
-        //                ImGui::NewLine();
+        //        ImGui::Checkbox("Wireframe", &wireframe);
+        //        if (wireframe)
+        //        {
+        //            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        //        }
+        //        else
+        //        {
+        //            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        //        }
+        //        ImGui::NewLine();
 
         ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Camera settings");
 
@@ -345,13 +343,12 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     {
 #ifdef __EMSCRIPTEN__
         static bool isCollapsed = true;
-        ImGui::SetNextWindowPos(ImVec2((-displayWidth / 2), (-displayHeight / 2) + 40), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(-static_cast<float>(displayWidth) / 2, (-static_cast<float>(displayHeight) / 2) + 40), ImGuiCond_Once);
         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
 #endif
         ImGui::Begin("Particle simulator settings");
 
-        //        ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulator.getParticleCount()).c_str());
-        ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulatorTf.getParticleCount()).c_str());
+        ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulatorTf.getParticlesCount()).c_str());
         ImGui::NewLine();
 
         ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Particle settings");
@@ -385,7 +382,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     {
 #ifdef __EMSCRIPTEN__
         static bool isCollapsed = true;
-        ImGui::SetNextWindowPos(ImVec2((-displayWidth / 2), (-displayHeight / 2) + 60), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(-static_cast<float>(displayWidth) / 2, (-static_cast<float>(displayHeight) / 2) + 60), ImGuiCond_Once);
         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
 #endif
         ImGui::Begin("Mouse controls");
@@ -455,30 +452,28 @@ void ParticleSimulatorLauncher::updateScreen() {
 void ParticleSimulatorLauncher::centerWindow() {
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-    //    auto xPos = (mode->width - windowWidth) / 2;
-    //    auto yPos = (mode->height - windowHeight) / 2;
     auto xPos = (mode->width - displayWidth) / 2;
     auto yPos = (mode->height - displayHeight) / 2;
     glfwSetWindowPos(window, xPos, yPos);
 }
 
-void ParticleSimulatorLauncher::toggleFullscreen() {
-    //    if (isFullscreen)
-    //    {
-    //        glfwSetWindowMonitor(window, nullptr, 0, 0, windowWidth, windowHeight, 0);
-    //        centerWindow();
-    //        isFullscreen = false;
-    //    }
-    //    else
-    //    {
-    //        windowWidth = displayWidth;
-    //        windowHeight = displayHeight;
-    //        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-    //        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-    //        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-    //        isFullscreen = true;
-    //    }
-}
+// void ParticleSimulatorLauncher::toggleFullscreen() {
+//     if (isFullscreen)
+//     {
+//         glfwSetWindowMonitor(window, nullptr, 0, 0, windowWidth, windowHeight, 0);
+//         centerWindow();
+//         isFullscreen = false;
+//     }
+//     else
+//     {
+//         windowWidth = displayWidth;
+//         windowHeight = displayHeight;
+//         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+//         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+//         glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+//         isFullscreen = true;
+//     }
+//}
 
 void ParticleSimulatorLauncher::resetScene() {
     scene->reset();

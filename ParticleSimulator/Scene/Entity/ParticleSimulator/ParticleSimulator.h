@@ -61,7 +61,9 @@ public:
 
     void setIsPaused(const bool& value);
 
-    [[nodiscard]] auto getParticleCount() const -> size_t;
+    void setParticlesCount(const size_t& count);
+
+    [[nodiscard]] auto getParticlesCount() const -> size_t;
 };
 
 #endif // PARTICLE_SIMULATOR_H

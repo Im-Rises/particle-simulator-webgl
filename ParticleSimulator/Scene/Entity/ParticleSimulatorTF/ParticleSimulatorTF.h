@@ -47,6 +47,8 @@ public:
 
     void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) override;
 
+    void randomizeParticles();
+
     void reset();
 
 public:
@@ -58,7 +60,9 @@ public:
 
     void setIsPaused(const bool& value);
 
-    [[nodiscard]] auto getParticleCount() const -> size_t;
+    void setParticlesCount(const int& value);
+
+    [[nodiscard]] auto getParticlesCount() const -> size_t;
 };
 
 
