@@ -33,6 +33,9 @@ class ParticleSimulatorTF : public Entity {
     float isPaused = 0.0F;
 
 public:
+    float spawnRadius = 1.0F;
+
+public:
     explicit ParticleSimulatorTF(int particlesCount = 100000);
 
     ParticleSimulatorTF(const ParticleSimulatorTF&) = delete;
@@ -49,6 +52,9 @@ public:
 
     void reset();
 
+private:
+    void randomizeParticles(std::vector<Particle>& particles);
+
 public:
     void setTarget(const glm::vec3& target);
 
@@ -58,7 +64,9 @@ public:
 
     void setIsPaused(const bool& value);
 
-    [[nodiscard]] auto getParticleCount() const -> size_t;
+    void setParticlesCount(const int& value);
+
+    [[nodiscard]] auto getParticlesCount() const -> size_t;
 };
 
 

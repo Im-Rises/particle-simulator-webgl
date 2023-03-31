@@ -65,18 +65,7 @@ ParticleSimulatorTF::ParticleSimulatorTF(int particlesCount) : Entity(VertexShad
     // Set the particles count
     this->particlesCount = particlesCount;
     std::vector<Particle> particles(particlesCount);
-
-    // Set random seed
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(-1.0, 1.0);
-
-    // Set random positions
-    for (int i = 0; i < particlesCount; i++)
-    {
-        particles[i].position = glm::vec3(dis(gen), dis(gen), dis(gen));
-        particles[i].velocity = glm::vec3(0.0F, 0.0F, 0.0F);
-    }
+    randomizeParticles(particles);
 
     glGenVertexArrays(2, VAO);
     glGenBuffers(2, VBO);
@@ -159,20 +148,9 @@ void ParticleSimulatorTF::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraPro
 }
 
 void ParticleSimulatorTF::reset() {
-    // Set the particles count
     std::vector<Particle> particles(particlesCount);
 
-    // Set random seed
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(-1.0, 1.0);
-
-    // Set random positions
-    for (int i = 0; i < particlesCount; i++)
-    {
-        particles[i].position = glm::vec3(dis(gen), dis(gen), dis(gen));
-        particles[i].velocity = glm::vec3(0.0F, 0.0F, 0.0F);
-    }
+    randomizeParticles(particles);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
     glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(particles.size() * sizeof(Particle)), particles.data(), GL_DYNAMIC_COPY);
@@ -181,6 +159,25 @@ void ParticleSimulatorTF::reset() {
     glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(particles.size() * sizeof(Particle)), particles.data(), GL_DYNAMIC_COPY);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void ParticleSimulatorTF::randomizeParticles(std::vector<Particle>& particles) {
+    // Init the random engine
+    std::mt19937 randomEngine;
+    std::uniform_real_distribution<float> randomFloats(0.0F, 2.0F * M_PI);
+    const std::uniform_real_distribution<float> randomFloats2(-1.0F, 1.0F);
+
+    // Init the particles as a sphere
+    for (auto& particle : particles)
+    {
+        const float angle1 = randomFloats(randomEngine);
+        const float angle2 = randomFloats(randomEngine);
+        const float x = spawnRadius * std::sin(angle1) * std::cos(angle2);
+        const float y = spawnRadius * std::sin(angle1) * std::sin(angle2);
+        const float z = spawnRadius * std::cos(angle1);
+        particle.position = glm::vec3(x, y, z) + position;
+        particle.velocity = glm::vec3(0.0F, 0.0F, 0.0F);
+    }
 }
 
 void ParticleSimulatorTF::setTarget(const glm::vec3& target) {
@@ -199,6 +196,11 @@ void ParticleSimulatorTF::setIsPaused(const bool& value) {
     isPaused = static_cast<float>(value);
 }
 
-auto ParticleSimulatorTF::getParticleCount() const -> size_t {
+void ParticleSimulatorTF::setParticlesCount(const int& value) {
+    particlesCount = value;
+    reset();
+}
+
+auto ParticleSimulatorTF::getParticlesCount() const -> size_t {
     return particlesCount;
 }

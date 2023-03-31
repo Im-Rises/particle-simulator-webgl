@@ -17,12 +17,9 @@ constexpr const std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 class ParticleSimulatorLauncher {
 private:
     GLFWwindow* window;
-    //    int windowWidth = 1280, windowHeight = 720;
     int displayWidth, displayHeight;
-    //    bool isFullscreen = false;
 
     std::unique_ptr<Scene> scene;
-    float fixedUpdate = 60.0F;
 
     struct {
         float x = 0.0F;
@@ -33,6 +30,8 @@ private:
 
     float targetDistance = 10.0F;
     glm::vec3 mousePositionWorld;
+
+    constexpr const static int MAX_PARTICLES_COUNT = 10000000;
 
 public:
     ParticleSimulatorLauncher();
@@ -56,7 +55,7 @@ private:
     void updateScreen();
 
 public:
-    void toggleFullscreen();
+    //    void toggleFullscreen();
 
     void resetScene();
 

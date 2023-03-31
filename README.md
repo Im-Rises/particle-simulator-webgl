@@ -17,26 +17,13 @@ This version is displaying 100 000 particles less than the desktop version.
 
 ## 🚀🚀[you can try the webgl build online by clicking here](https://im-rises.github.io/particle-simulator-webgl/) 🚀🚀
 
-> **Note**   
-> This project is still in development.
-
 ## Todo
-
-Major:
-
-Important:
 
 - &#x2612; Use Emscripten to get touch screen events for mobile devices (not working, cannot set up the event listener
   in the C++ code)
-- &#9744; Reformat all the code with the clang-tidy file
-
-Minor:
-
+- &#9744; Update the effects to be prettier
+- &#9744; Update ParticleSimulator project with this code
 - &#9744; Correct the UI not working correctly when toggling fullscreen (maybe it's because of the library Itself)
-- &#9744; Copy a lot of code to the Original project `ParticleSimulator` ParticleSimulatorLauncher class
-- &#9744; Add a way to change the number of particles
-- &#9744; Correct toggle fullscreen button in desktop build
-- &#9744; Correct the slow reaction of the particles
 
 ---
 
@@ -147,9 +134,6 @@ glm:
 glad:  
 <https://glad.dav1d.de/>
 
-stb (stb_image):  
-<https://github.com/nothings/stb/blob/master/stb_image.h>
-
 Dear ImGui:  
 <https://github.com/ocornut/imgui>
 
@@ -173,17 +157,24 @@ OpenGL ES 3.0 Reference Pages:
 Wikipedia (OpenGL versions):  
 <https://en.wikipedia.org/wiki/OpenGL_Shading_Language>
 
+<!--
 pwambach (WebGL 2 Particles):  
 <https://github.com/pwambach/webgl2-particles/tree/gh-pages>
 
 webglsamples:  
 http://webglsamples.org/WebGL2Samples/#transform_feedback_separated_2
+-->
 
 codepen (WebGL 2 Particles):  
 <https://codepen.io/stopyransky/pen/gBoQoO>
 
+<!--
 ogldev (WebGL 2 Particles):  
 <https://ogldev.org/www/tutorial28/tutorial28.html>
+-->
+
+nopjiap (WebGL 2 Particles):  
+<https://github.com/nopjia/particles-mrt/blob/master/app/shaders/particleCompute.fs>
 
 ## Contributors
 
