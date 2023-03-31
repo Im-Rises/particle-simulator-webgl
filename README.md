@@ -17,9 +17,6 @@ This version is displaying 100 000 particles less than the desktop version.
 
 ## 🚀🚀[you can try the webgl build online by clicking here](https://im-rises.github.io/particle-simulator-webgl/) 🚀🚀
 
-> **Note**   
-> This project is still in development.
-
 ## Todo
 
 - &#x2612; Use Emscripten to get touch screen events for mobile devices (not working, cannot set up the event listener
@@ -27,9 +24,6 @@ This version is displaying 100 000 particles less than the desktop version.
 - &#9744; Update the effects to be prettier
 - &#9744; Update ParticleSimulator project with this code
 - &#9744; Correct the UI not working correctly when toggling fullscreen (maybe it's because of the library Itself)
-
-- &#9744; Add a way to change the spawn radius
-- &#9744; Correct init spawn different from reset spawn
 
 ---
 

@@ -129,22 +129,24 @@ void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+void ParticleSimulator::reset() {
+    randomizeParticles();
+}
+
 void ParticleSimulator::randomizeParticles() {
     // Init the random engine
     std::mt19937 randomEngine;
     std::uniform_real_distribution<float> randomFloats(0.0F, 2.0F * M_PI);
     std::uniform_real_distribution<float> const randomFloats2(-1.0F, 1.0F);
 
-    float const radius = 1.0F;
-
     // Init the particles as a sphere
     for (auto& particle : particles)
     {
         const float angle1 = randomFloats(randomEngine);
         const float angle2 = randomFloats(randomEngine);
-        const float x = radius * std::sin(angle1) * std::cos(angle2);
-        const float y = radius * std::sin(angle1) * std::sin(angle2);
-        const float z = radius * std::cos(angle1);
+        const float x = spawnRadius * std::sin(angle1) * std::cos(angle2);
+        const float y = spawnRadius * std::sin(angle1) * std::sin(angle2);
+        const float z = spawnRadius * std::cos(angle1);
         particle.position = glm::vec3(x, y, z) + position;
         particle.velocity = glm::vec3(0.0F, 0.0F, 0.0F);
     }

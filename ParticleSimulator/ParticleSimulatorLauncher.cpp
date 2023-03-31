@@ -372,6 +372,9 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::Text("Spawn position:");
         ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->particleSimulatorTf.position));
 
+        ImGui::Text("Spawn radius:");
+        ImGui::DragFloat("##spawnRadius", &scene->particleSimulatorTf.spawnRadius, 0.1F, 0.1F, 100.0F);
+
         ImGui::Text("Toggle pause:");
         ImGui::SameLine();
         ImGui::Button(scene->getIsPaused() ? "Resume##TogglePAuseBtn" : "Pause##TogglePAuseBtn");

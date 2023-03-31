@@ -33,6 +33,9 @@ private:
     float distanceOffset = 100.0F;
 
 public:
+    float spawnRadius = 1.0F;
+
+public:
     explicit ParticleSimulator(int particleCount = 100000);
 
     ParticleSimulator(const ParticleSimulator&) = delete;
@@ -47,7 +50,9 @@ public:
 
     void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) override;
 
-public:
+    void reset();
+
+private:
     void randomizeParticles();
 
 public:

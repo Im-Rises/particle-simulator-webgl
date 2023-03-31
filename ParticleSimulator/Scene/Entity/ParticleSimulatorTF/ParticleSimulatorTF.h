@@ -33,6 +33,9 @@ class ParticleSimulatorTF : public Entity {
     float isPaused = 0.0F;
 
 public:
+    float spawnRadius = 1.0F;
+
+public:
     explicit ParticleSimulatorTF(int particlesCount = 100000);
 
     ParticleSimulatorTF(const ParticleSimulatorTF&) = delete;
@@ -47,7 +50,10 @@ public:
 
     void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) override;
 
-    void randomizeParticles();
+    void reset();
+
+private:
+    void randomizeParticles(std::vector<Particle>& particles);
 
 public:
     void setTarget(const glm::vec3& target);
