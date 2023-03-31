@@ -189,10 +189,6 @@ void ParticleSimulatorTF::randomizeParticles() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void ParticleSimulatorTF::reset() {
-    randomizeParticles();
-}
-
 void ParticleSimulatorTF::setTarget(const glm::vec3& target) {
     pointOfGravity = target;
 }
@@ -211,7 +207,7 @@ void ParticleSimulatorTF::setIsPaused(const bool& value) {
 
 void ParticleSimulatorTF::setParticlesCount(const int& value) {
     particlesCount = value;
-    reset();
+    randomizeParticles();
 }
 
 auto ParticleSimulatorTF::getParticlesCount() const -> size_t {

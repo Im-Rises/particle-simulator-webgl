@@ -20,7 +20,6 @@ private:
     int displayWidth, displayHeight;
 
     std::unique_ptr<Scene> scene;
-    float fixedUpdate = 60.0F;
 
     struct {
         float x = 0.0F;
@@ -31,6 +30,8 @@ private:
 
     float targetDistance = 10.0F;
     glm::vec3 mousePositionWorld;
+
+    constexpr const static int MAX_PARTICLES_COUNT = 10000000;
 
 public:
     ParticleSimulatorLauncher();

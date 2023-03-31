@@ -150,10 +150,6 @@ void ParticleSimulator::randomizeParticles() {
     }
 }
 
-void ParticleSimulator::reset() {
-    randomizeParticles();
-}
-
 void ParticleSimulator::setTarget(const glm::vec3& target) {
     pointOfGravity = target;
 }

@@ -49,8 +49,6 @@ public:
 
     void randomizeParticles();
 
-    void reset();
-
 public:
     void setTarget(const glm::vec3& target);
 

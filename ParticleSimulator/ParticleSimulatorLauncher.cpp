@@ -348,13 +348,18 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 #endif
         ImGui::Begin("Particle simulator settings");
 
+        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Particles settings");
+
         ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulatorTf.getParticlesCount()).c_str());
+        static int particlesCount = static_cast<int>(scene->particleSimulatorTf.getParticlesCount());
+        ImGui::Text("Select particles count:");
+        ImGui::DragInt("##particlesCount", &particlesCount, 1, 1, MAX_PARTICLES_COUNT);
+        ImGui::Button("Validate##ParticlesCountSetterButton");
+        if (ImGui::IsItemClicked())
+        {
+            scene->particleSimulatorTf.setParticlesCount(particlesCount);
+        }
         ImGui::NewLine();
-
-        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Particle settings");
-
-        ImGui::Text("Fixed update frequency:");
-        ImGui::DragFloat("##fixedUpdate", &fixedUpdate, 1.0F, 1.0F, 1000.0F);
 
         ImGui::Text("Reset simulation:");
         ImGui::SameLine();
@@ -365,7 +370,6 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         }
 
         ImGui::Text("Spawn position:");
-        //        ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->particleSimulator.position));
         ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->particleSimulatorTf.position));
 
         ImGui::Text("Toggle pause:");
@@ -407,16 +411,6 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 }
 
 void ParticleSimulatorLauncher::updateGame(float deltaTime) {
-    //    // Fixed update
-    //    const float fixedDeltaTime = 1.0f / fixedUpdate;
-    //    static float accumulator = 0.0f;
-    //    accumulator += deltaTime;
-    //    while (accumulator >= fixedDeltaTime)
-    //    {
-    //        scene->update(fixedDeltaTime);
-    //        accumulator -= fixedDeltaTime;
-    //    }
-
     // Update
     scene->update(deltaTime);
 }
@@ -456,24 +450,6 @@ void ParticleSimulatorLauncher::centerWindow() {
     auto yPos = (mode->height - displayHeight) / 2;
     glfwSetWindowPos(window, xPos, yPos);
 }
-
-// void ParticleSimulatorLauncher::toggleFullscreen() {
-//     if (isFullscreen)
-//     {
-//         glfwSetWindowMonitor(window, nullptr, 0, 0, windowWidth, windowHeight, 0);
-//         centerWindow();
-//         isFullscreen = false;
-//     }
-//     else
-//     {
-//         windowWidth = displayWidth;
-//         windowHeight = displayHeight;
-//         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-//         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-//         glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-//         isFullscreen = true;
-//     }
-//}
 
 void ParticleSimulatorLauncher::resetScene() {
     scene->reset();
