@@ -171,7 +171,9 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    //    glEnable(GL_MULTISAMPLE);
     //    glEnable(GL_POINT_SMOOTH); // Deprecated
+    //    glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
     //    glPointSize(1.0f); // Not working in OpenGL ES 3.0
 }
 
@@ -290,7 +292,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
 #endif
         ImGui::Begin("Camera settings");
-        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "View settings");
+        //        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "View settings");
         //        static bool wireframe = false;
         //        ImGui::Checkbox("Wireframe", &wireframe);
         //        if (wireframe)
@@ -303,7 +305,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         //        }
         //        ImGui::NewLine();
 
-        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Camera settings");
+        //        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Camera settings");
 
         ImGui::Text("Position:");
         ImGui::DragFloat3("##position", reinterpret_cast<float*>(&scene->camera.position));
@@ -345,11 +347,10 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 #endif
         ImGui::Begin("Particle simulator settings");
 
-        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Particles settings");
+        //        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Particles settings");
 
         ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulatorTf.getParticlesCount()).c_str());
         static int particlesCount = static_cast<int>(scene->particleSimulatorTf.getParticlesCount());
-        ImGui::Text("Select particles count:");
         ImGui::DragInt("##particlesCount", &particlesCount, 1, 1, MAX_PARTICLES_COUNT);
         ImGui::Button("Validate##ParticlesCountSetterButton");
         if (ImGui::IsItemClicked())
@@ -359,26 +360,27 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::NewLine();
 
         ImGui::Text("Reset simulation:");
-        ImGui::SameLine();
         ImGui::Button("Reset##ResetBtn");
         if (ImGui::IsItemClicked())
         {
             resetScene();
         }
-
-        ImGui::Text("Spawn position:");
-        ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->particleSimulatorTf.position));
-
-        ImGui::Text("Spawn radius:");
-        ImGui::DragFloat("##spawnRadius", &scene->particleSimulatorTf.spawnRadius, 0.1F, 0.1F, 100.0F);
+        ImGui::NewLine();
 
         ImGui::Text("Toggle pause:");
-        ImGui::SameLine();
         ImGui::Button(scene->getIsPaused() ? "Resume##TogglePAuseBtn" : "Pause##TogglePAuseBtn");
         if (ImGui::IsItemClicked())
         {
             scene->togglePause();
         }
+        ImGui::NewLine();
+
+        ImGui::Text("Spawn position:");
+        ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->particleSimulatorTf.position));
+        ImGui::NewLine();
+
+        ImGui::Text("Spawn radius:");
+        ImGui::DragFloat("##spawnRadius", &scene->particleSimulatorTf.spawnRadius, 0.1F, 0.1F, 100.0F);
 
         ImGui::End();
     }

@@ -43,7 +43,7 @@ public:
 
     ~ParticleSimulatorLauncher();
 
-private:
+public:
     void start();
 
 private:
