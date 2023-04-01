@@ -114,7 +114,7 @@ void ParticleSimulatorTF::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraPro
     shader.setFloat("u_deltaTime", deltaTime);
     shader.setVec3("u_pointOfGravity", pointOfGravity);
     shader.setFloat("u_isTargeting", isTargeting);
-    shader.setFloat("u_isRunning", !isPaused);
+    shader.setFloat("u_isRunning", static_cast<float>(!isPaused));
 
     glBindVertexArray(currentVAO);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, currentTFBO);
@@ -190,10 +190,6 @@ void ParticleSimulatorTF::setIsTargeting(const bool& value) {
 
 auto ParticleSimulatorTF::getIsTargeting() const -> bool {
     return isTargeting != 0.0F;
-}
-
-void ParticleSimulatorTF::setIsPaused(const bool& value) {
-    isPaused = static_cast<float>(value);
 }
 
 void ParticleSimulatorTF::setParticlesCount(const int& value) {

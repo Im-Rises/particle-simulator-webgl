@@ -117,9 +117,6 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     //        std::cout << "touchEnd callback not set" << std::endl;
 #endif
 
-    // Center window
-    centerWindow();
-
 #ifdef __EMSCRIPTEN__
     // Initialize OpenGL loader
     if (gladLoadGLES2Loader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == 0)
@@ -444,14 +441,6 @@ void ParticleSimulatorLauncher::updateScreen() {
     }
 
     glfwSwapBuffers(window);
-}
-
-void ParticleSimulatorLauncher::centerWindow() {
-    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-    auto xPos = (mode->width - displayWidth) / 2;
-    auto yPos = (mode->height - displayHeight) / 2;
-    glfwSetWindowPos(window, xPos, yPos);
 }
 
 void ParticleSimulatorLauncher::resetScene() {

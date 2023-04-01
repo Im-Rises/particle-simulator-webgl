@@ -43,6 +43,7 @@ public:
 
     ~ParticleSimulatorLauncher();
 
+private:
     void start();
 
 private:
@@ -55,14 +56,9 @@ private:
     void updateScreen();
 
 public:
-    //    void toggleFullscreen();
-
     void resetScene();
 
     void toggleScenePause();
-
-private:
-    void centerWindow();
 
 private:
     static void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);

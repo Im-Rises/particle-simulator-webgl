@@ -16,6 +16,8 @@ public:
     //    Cube cube;
     ParticleSimulatorTF particleSimulatorTf;
 
+    //    std::vector<Entity*> entities;
+
 public:
     Scene(int display_w, int display_h);
 
@@ -31,7 +33,8 @@ public:
     void reset();
 
 public:
-    [[nodiscard]] auto getIsPaused() const -> bool { return isPaused; }
+    [[nodiscard]] auto getIsPaused() const -> bool;
+
 };
 
 #endif // SCENE_H

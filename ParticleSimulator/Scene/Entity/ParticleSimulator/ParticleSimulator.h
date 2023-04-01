@@ -24,7 +24,6 @@ private:
 
     glm::vec3 pointOfGravity;
 
-    float isPaused = 0.0F;
     float isTargeting = 0.0F;
 
     float gravity = 1000.0F;
@@ -61,8 +60,6 @@ public:
     void setIsTargeting(const bool& value);
 
     [[nodiscard]] auto getIsTargeting() const -> bool;
-
-    void setIsPaused(const bool& value);
 
     void setParticlesCount(const size_t& count);
 
