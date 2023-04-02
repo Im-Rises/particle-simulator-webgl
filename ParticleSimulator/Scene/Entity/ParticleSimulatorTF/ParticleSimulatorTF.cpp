@@ -25,6 +25,7 @@ const float G = 1000.0f;
 const float m1 = 1000.0f;
 const float m2 = 1.0f;
 const float distanceOffset = 100.0f;
+const float damping = 0.99f;
 
 void main()
 {
@@ -37,7 +38,7 @@ void main()
     vec3 velocity = a_vel + acceleration * u_deltaTime;
 
     out_pos = position;
-    out_vel = velocity;
+    out_vel = velocity * damping;
 
     gl_Position = u_mvp * vec4(position, 1.0);
 
