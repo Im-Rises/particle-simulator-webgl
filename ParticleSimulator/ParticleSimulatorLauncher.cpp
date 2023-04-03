@@ -308,6 +308,14 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::Text("Position:");
         ImGui::DragFloat3("##position", reinterpret_cast<float*>(&scene->camera.position));
 
+        ImGui::Text("Reset position:");
+        ImGui::DragFloat3("##resetPosition", reinterpret_cast<float*>(&scene->camera.initPosition));
+        ImGui::Button("Reset position");
+        if (ImGui::IsItemClicked())
+        {
+            scene->camera.reset();
+        }
+
         ImGui::NewLine();
         ImGui::Text("Pitch:");
         ImGui::Checkbox("Pitch constrained", &scene->camera.constrainPitch);
@@ -409,6 +417,14 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     }
 
     ImGui::Render();
+
+    // Prevent ImGui from stealing focus on start
+    static bool disableImGuiFocusOnStart = true;
+    if (disableImGuiFocusOnStart)
+    {
+        ImGui::SetWindowFocus(nullptr);
+        disableImGuiFocusOnStart = false;
+    }
 }
 
 void ParticleSimulatorLauncher::updateGame(float deltaTime) {

@@ -23,9 +23,8 @@ This version is displaying 100 000 particles less than the desktop version.
   in the C++ code)
 - &#9744; Update ParticleSimulator project with this code
 - &#9744; Correct the UI not working correctly when toggling fullscreen (maybe it's because of the library Itself)
-- &#9744; For this version use BoyBaykiller's shader force calculation method
-- &#9744; For the sun version use nopjian's shader force calculation method (and force the target to be set at each
-  frame the click only change the location of the target)
+  frame the click only change the location of the target
+- &#9744; Correct the app lagging when not touching the screen in mobile
 
 ---
 

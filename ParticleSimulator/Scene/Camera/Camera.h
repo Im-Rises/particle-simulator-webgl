@@ -23,9 +23,12 @@ public:
 
     // Position and rotation of the camera
     bool constrainPitch = true;
-    float yaw = -90.0F;
-    float pitch = 0.0F;
-    glm::vec3 position = glm::vec3(0.0F, 0.0F, 10.0F);
+    float initialYaw = -90.0F;
+    float yaw;
+    float initialPitch = 0.0F;
+    float pitch;
+    glm::vec3 initPosition = glm::vec3(0.0F, 0.0F, 10.0F);
+    glm::vec3 position;
 
     // Movement buffer to take into account the deltaTime
     glm::vec3 movementBuffer;
@@ -34,7 +37,7 @@ public:
 public:
     Camera(int display_w, int display_h);
 
-    //    ~Camera();
+    void reset();
 
 public:
     void update(float deltaTime);

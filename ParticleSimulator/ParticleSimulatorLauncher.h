@@ -10,7 +10,7 @@ class Scene;
 struct GLFWwindow;
 
 constexpr std::string_view PROJECT_NAME = "Particle Simulator 3D";
-constexpr std::string_view PROJECT_VERSION = "2.1.1";
+constexpr std::string_view PROJECT_VERSION = "2.1.2";
 constexpr std::string_view PROJECT_GITHUB = "https://github.com/Im-Rises/ParticleSimulator";
 constexpr std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
