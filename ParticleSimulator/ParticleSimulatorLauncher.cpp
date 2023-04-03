@@ -305,8 +305,6 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         //        }
         //        ImGui::NewLine();
 
-        //        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Camera settings");
-
         ImGui::Text("Position:");
         ImGui::DragFloat3("##position", reinterpret_cast<float*>(&scene->camera.position));
 
@@ -347,8 +345,6 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 #endif
         ImGui::Begin("Particle simulator settings");
 
-        //        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Particles settings");
-
         ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulatorTf.getParticlesCount()).c_str());
         static int particlesCount = static_cast<int>(scene->particleSimulatorTf.getParticlesCount());
         ImGui::DragInt("##particlesCount", &particlesCount, 1, 1, MAX_PARTICLES_COUNT);
@@ -381,6 +377,10 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 
         ImGui::Text("Spawn radius:");
         ImGui::DragFloat("##spawnRadius", &scene->particleSimulatorTf.spawnRadius, 0.1F, 0.1F, 100.0F);
+        ImGui::NewLine();
+
+        ImGui::Text("Damping:");
+        ImGui::DragFloat("##damping", &scene->particleSimulatorTf.damping, 0.1F, 0.0F, 1.0F);
 
         ImGui::End();
     }
@@ -393,7 +393,6 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 #endif
         ImGui::Begin("Mouse controls");
 
-        //        ImGui::Text("Is targeting: %s", scene->particleSimulator.getIsTargeting() ? "true" : "false");
         ImGui::Text("Is targeting: %s", scene->particleSimulatorTf.getIsTargeting() ? "true" : "false");
 
         ImGui::Text("Mouse position world:");

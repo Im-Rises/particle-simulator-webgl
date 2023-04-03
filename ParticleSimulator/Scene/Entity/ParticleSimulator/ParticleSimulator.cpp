@@ -101,6 +101,9 @@ void ParticleSimulator::update(const float& deltaTime) {
 
         // Calculate the velocity
         particle.velocity += acceleration * deltaTime;
+
+        // Damp the velocity
+        particle.velocity *= damping;
     }
 }
 

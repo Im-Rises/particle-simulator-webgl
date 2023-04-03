@@ -32,7 +32,8 @@ class ParticleSimulatorTF : public Entity {
     float isTargeting = 0.0F;
 
 public:
-    float spawnRadius = 1.0F;
+    float spawnRadius = 2.0F;
+    float damping = 0.99F;
 
 public:
     explicit ParticleSimulatorTF(int particlesCount = 100000);

@@ -32,7 +32,8 @@ private:
     float distanceOffset = 100.0F;
 
 public:
-    float spawnRadius = 1.0F;
+    float spawnRadius = 2.0F;
+    float damping = 0.99F;
 
 public:
     explicit ParticleSimulator(int particleCount = 100000);
