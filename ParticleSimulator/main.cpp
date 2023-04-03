@@ -23,7 +23,7 @@ auto main(int argc, char* argv[]) -> int {
     (void)argc;
     (void)argv;
     std::cout << PROJECT_NAME << " " << PROJECT_VERSION << std::endl
-              << PROJECT_GITHUB << std::endl
+              << PROJECT_LINK << std::endl
               << PROJECT_AUTHOR << "\n"
               << std::endl;
     ParticleSimulatorLauncher particleEmissionLauncher;
