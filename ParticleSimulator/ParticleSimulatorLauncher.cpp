@@ -272,7 +272,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     {
 #ifdef __EMSCRIPTEN__
         static bool isCollapsed = true;
-        ImGui::SetNextWindowPos(ImVec2(-static_cast<float>(displayWidth) / 2, (-static_cast<float>(displayHeight) / 2)), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Once);
         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
 #endif
         ImGui::Begin("Window info");
@@ -288,7 +288,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     {
 #ifdef __EMSCRIPTEN__
         static bool isCollapsed = true;
-        ImGui::SetNextWindowPos(ImVec2(-static_cast<float>(displayWidth) / 2, (-static_cast<float>(displayHeight) / 2) + 20), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Once);
         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
 #endif
         ImGui::Begin("Camera settings");
@@ -340,7 +340,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     {
 #ifdef __EMSCRIPTEN__
         static bool isCollapsed = true;
-        ImGui::SetNextWindowPos(ImVec2(-static_cast<float>(displayWidth) / 2, (-static_cast<float>(displayHeight) / 2) + 40), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(0, 40), ImGuiCond_Once);
         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
 #endif
         ImGui::Begin("Particle simulator settings");
@@ -388,7 +388,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     {
 #ifdef __EMSCRIPTEN__
         static bool isCollapsed = true;
-        ImGui::SetNextWindowPos(ImVec2(-static_cast<float>(displayWidth) / 2, (-static_cast<float>(displayHeight) / 2) + 60), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(0, 60), ImGuiCond_Once);
         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
 #endif
         ImGui::Begin("Mouse controls");
