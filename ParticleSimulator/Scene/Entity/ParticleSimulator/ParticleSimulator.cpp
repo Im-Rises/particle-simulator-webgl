@@ -81,8 +81,9 @@ ParticleSimulator::~ParticleSimulator() {
 }
 
 void ParticleSimulator::update(const float& deltaTime) {
-    if (isPaused == 1.0F)
+    if (isPaused)
         return;
+    
     for (auto& particle : particles)
     {
         // Calculate the distance between the particle and the point of gravity
@@ -100,6 +101,9 @@ void ParticleSimulator::update(const float& deltaTime) {
 
         // Calculate the velocity
         particle.velocity += acceleration * deltaTime;
+
+        // Damp the velocity
+        particle.velocity *= damping;
     }
 }
 
@@ -162,10 +166,6 @@ void ParticleSimulator::setIsTargeting(const bool& value) {
 
 auto ParticleSimulator::getIsTargeting() const -> bool {
     return isTargeting == 1.0F;
-}
-
-void ParticleSimulator::setIsPaused(const bool& value) {
-    isPaused = value ? 1.0F : 0.0F;
 }
 
 void ParticleSimulator::setParticlesCount(const size_t& count) {

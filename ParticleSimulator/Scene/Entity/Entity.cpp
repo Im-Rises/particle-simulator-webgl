@@ -29,3 +29,11 @@ void Entity::updateModelMatrix() {
     modelMatrix = glm::rotate(modelMatrix, glm::radians(rotation.z), glm::vec3(0.0F, 0.0F, 1.0F));
     modelMatrix = glm::scale(modelMatrix, scale);
 }
+
+void Entity::setIsPaused(bool isPaused) {
+    this->isPaused = isPaused;
+}
+
+[[maybe_unused]] bool Entity::getIsPaused() const {
+    return isPaused;
+}

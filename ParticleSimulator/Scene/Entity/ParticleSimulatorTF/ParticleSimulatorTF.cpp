@@ -18,6 +18,7 @@ out vec3 v_vel;
 uniform mat4 u_mvp;
 uniform float u_deltaTime;
 uniform vec3 u_pointOfGravity;
+uniform float u_damping;
 uniform float u_isTargeting;
 uniform float u_isRunning;
 
@@ -37,7 +38,10 @@ void main()
     vec3 velocity = a_vel + acceleration * u_deltaTime;
 
     out_pos = position;
-    out_vel = velocity;
+
+//    out_vel = velocity * u_damping;
+//    out_vel = velocity * (u_isRunning == 1.0 ? 1.0 : u_damping);
+    out_vel = mix(velocity, velocity * u_damping, u_isRunning);
 
     gl_Position = u_mvp * vec4(position, 1.0);
 
@@ -113,8 +117,9 @@ void ParticleSimulatorTF::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraPro
     shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
     shader.setFloat("u_deltaTime", deltaTime);
     shader.setVec3("u_pointOfGravity", pointOfGravity);
+    shader.setFloat("u_damping", damping);
     shader.setFloat("u_isTargeting", isTargeting);
-    shader.setFloat("u_isRunning", !isPaused);
+    shader.setFloat("u_isRunning", static_cast<float>(!isPaused));
 
     glBindVertexArray(currentVAO);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, currentTFBO);
@@ -190,10 +195,6 @@ void ParticleSimulatorTF::setIsTargeting(const bool& value) {
 
 auto ParticleSimulatorTF::getIsTargeting() const -> bool {
     return isTargeting != 0.0F;
-}
-
-void ParticleSimulatorTF::setIsPaused(const bool& value) {
-    isPaused = static_cast<float>(value);
 }
 
 void ParticleSimulatorTF::setParticlesCount(const int& value) {

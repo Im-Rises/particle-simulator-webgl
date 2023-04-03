@@ -25,15 +25,15 @@ class ParticleSimulatorTF : public Entity {
     GLuint currentVAO;
     GLuint currentTFBO;
 
-    int particlesCount = 100;
+    int particlesCount;
 
     float deltaTime = 0.0F;
     glm::vec3 pointOfGravity = glm::vec3(0.0F, 0.0F, 0.0F);
     float isTargeting = 0.0F;
-    float isPaused = 0.0F;
 
 public:
-    float spawnRadius = 1.0F;
+    float spawnRadius = 2.0F;
+    float damping = 0.99F;
 
 public:
     explicit ParticleSimulatorTF(int particlesCount = 100000);
@@ -61,8 +61,6 @@ public:
     void setIsTargeting(const bool& value);
 
     [[nodiscard]] auto getIsTargeting() const -> bool;
-
-    void setIsPaused(const bool& value);
 
     void setParticlesCount(const int& value);
 
