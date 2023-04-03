@@ -1,11 +1,20 @@
 #include "Camera.h"
 
 Camera::Camera(int display_w, int display_h) {
+    position = initPosition;
+    yaw = initialYaw;
+    pitch = initialPitch;
     updateViewMatrix();
     updateProjectionMatrix(display_w, display_h);
 }
 
-// Camera::~Camera() = default;
+void Camera::reset() {
+    position = initPosition;
+    yaw = initialYaw;
+    pitch = initialPitch;
+    processMouseMovement(0.0F, 0.0F);
+}
+
 
 void Camera::update(float deltaTime) {
     position += movementBuffer * movementSpeed * deltaTime;

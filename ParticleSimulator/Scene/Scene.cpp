@@ -26,6 +26,7 @@ void Scene::togglePause() {
 }
 
 void Scene::reset() {
+    camera.reset();
     particleSimulatorTf.reset();
 }
 
