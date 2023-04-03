@@ -417,6 +417,14 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     }
 
     ImGui::Render();
+
+    // Prevent ImGui from stealing focus on start
+    static bool disableImGuiFocusOnStart = true;
+    if (disableImGuiFocusOnStart)
+    {
+        ImGui::SetWindowFocus(nullptr);
+        disableImGuiFocusOnStart = false;
+    }
 }
 
 void ParticleSimulatorLauncher::updateGame(float deltaTime) {
