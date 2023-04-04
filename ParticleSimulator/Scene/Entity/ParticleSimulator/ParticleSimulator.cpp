@@ -91,10 +91,10 @@ void ParticleSimulator::update(const float& deltaTime) {
         const float rSquared = glm::dot(r, r) + distanceOffset;
 
         // Calculate the force
-        const glm::vec3 force = ((gravity * massParticles * massAttractor * glm::normalize(r)) / rSquared) * isAttracting;
+        const glm::vec3 force = ((gravity * particleMass * attractorMass * glm::normalize(r)) / rSquared) * isAttracting;
 
         // Calculate the acceleration
-        const glm::vec3 acceleration = force / massParticles;
+        const glm::vec3 acceleration = force / particleMass;
 
         // Calculate the position
         particle.position += particle.velocity * deltaTime + 0.5F * acceleration * deltaTime * deltaTime;
