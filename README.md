@@ -19,12 +19,13 @@ This version is displaying 100 000 particles less than the desktop version.
 
 ## Todo
 
-- &#x2612; Use Emscripten to get touch screen events for mobile devices (not working, cannot set up the event listener
-  in the C++ code)
 - &#9744; Update ParticleSimulator project with this code
-- &#9744; Correct the UI not working correctly when toggling fullscreen (maybe it's because of the library Itself)
-  frame the click only change the location of the target
+- &#9744; Correct the UI not working correctly when toggling fullscreen
 - &#9744; Correct the app lagging when not touching the screen in mobile
+- &#9744; Correct the drag on mobile devices (Use Emscripten to get touch screen events for mobile devices (not working,
+  cannot set up the event listener
+  in the C++ code)
+- &#9744; Add a way to controls the mass of the particles and the gravity
 
 ---
 

@@ -28,25 +28,6 @@
 #ifdef __EMSCRIPTEN__
 #include "imgui/libs/emscripten/emscripten_mainloop_stub.h"
 #include <emscripten/html5.h>
-
-// EM_BOOL touchStart(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
-//     // Handle touch start event here
-//     return EM_TRUE; // Return true to allow the event to propagate
-// }
-//
-// EM_BOOL touchMove(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
-//     // Handle touch move event here
-//     //    for (int i = 0; i < touchEvent->numTouches; i++)
-//     //    {
-//     //        std::cout << "Touch " << i << " x: " << touchEvent->touches[i].canvasX << " y: " << touchEvent->touches[i].canvasY << std::endl;
-//     //    }
-//     return EM_TRUE; // Return true to allow the event to propagate
-// }
-//
-// EM_BOOL touchEnd(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
-//     // Handle touch end event here
-//     return EM_TRUE; // Return true to allow the event to propagate
-// }
 #endif
 
 static void glfw_error_callback(int error, const char* description) {
@@ -84,10 +65,8 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     emscripten_get_canvas_element_size("#canvas", &displayWidth, &displayHeight);
 #else
     // According to init windowSize
-    //    displayWidth = windowWidth;
-    //    displayHeight = windowHeight;
-    displayWidth = 1080;
-    displayHeight = 720;
+    displayWidth = windowWidth;
+    displayHeight = windowHeight;
 #endif
 
     // Create window with graphics context
@@ -100,22 +79,6 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     // Callbacks
     glfwSetWindowUserPointer(window, this);
     glfwSetKeyCallback(window, InputManager::key_callback);
-#ifdef __EMSCRIPTEN__
-    //    if (emscripten_set_touchstart_callback("#canvas", NULL, EM_FALSE, touchStart))
-    //        std::cout << "touchStart callback set" << std::endl;
-    //    else
-    //        std::cout << "touchStart callback not set" << std::endl;
-    //
-    //    if (emscripten_set_touchmove_callback("#canvas", NULL, EM_FALSE, touchMove))
-    //        std::cout << "touchMove callback set" << std::endl;
-    //    else
-    //        std::cout << "touchMove callback not set" << std::endl;
-    //
-    //    if (emscripten_set_touchend_callback("#canvas", NULL, EM_FALSE, touchEnd))
-    //        std::cout << "touchEnd callback set" << std::endl;
-    //    else
-    //        std::cout << "touchEnd callback not set" << std::endl;
-#endif
 
 #ifdef __EMSCRIPTEN__
     // Initialize OpenGL loader
@@ -256,11 +219,11 @@ void ParticleSimulatorLauncher::handleInputs() {
         scene->camera.processMouseMovement(static_cast<float>(mouseDeltaX), static_cast<float>(mouseDeltaY));
     }
 
-    // Read mouse inputs and update particle simulator target
-    bool const isTargeting = InputManager::isKeyMouseSetTargetPressed(window);
-    scene->particleSimulatorTf.setIsTargeting(isTargeting);
+    // Read mouse inputs and update particle simulator attractor
+    bool const isAttracting = InputManager::isKeyMouseSetAttractorPressed(window);
+    scene->particleSimulatorTf.setIsAttracting(isAttracting);
     mousePositionWorld = projectMouse(mouseX, mouseY);
-    scene->particleSimulatorTf.setTarget(mousePositionWorld);
+    scene->particleSimulatorTf.setAttractorPosition(mousePositionWorld);
 }
 
 void ParticleSimulatorLauncher::handleUi(float deltaTime) {
@@ -272,10 +235,14 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     {
 #ifdef __EMSCRIPTEN__
         static bool isCollapsed = true;
-        ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(5, 5), ImGuiCond_Once);
         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
 #endif
-        ImGui::Begin("Window info");
+        ImGui::Begin("Information");
+        ImGui::Text("Author: %s", PROJECT_AUTHOR.data());
+        ImGui::Text("Project: %s", PROJECT_NAME.data());
+        ImGui::Text("Version: %s", PROJECT_VERSION.data());
+        ImGui::Text("Author: %s", PROJECT_AUTHOR.data());
         ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0F / deltaTime);
         ImGui::Text("Window width: %d", displayWidth);
         ImGui::Text("Window height: %d", displayHeight);
@@ -288,7 +255,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     {
 #ifdef __EMSCRIPTEN__
         static bool isCollapsed = true;
-        ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(5, 25), ImGuiCond_Once);
         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
 #endif
         ImGui::Begin("Camera settings");
@@ -348,7 +315,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     {
 #ifdef __EMSCRIPTEN__
         static bool isCollapsed = true;
-        ImGui::SetNextWindowPos(ImVec2(0, 40), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(5, 45), ImGuiCond_Once);
         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
 #endif
         ImGui::Begin("Particle simulator settings");
@@ -387,8 +354,23 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::DragFloat("##spawnRadius", &scene->particleSimulatorTf.spawnRadius, 0.1F, 0.1F, 100.0F);
         ImGui::NewLine();
 
+        ImGui::Text("Particle mass:");
+        ImGui::DragFloat("##particleMass", &scene->particleSimulatorTf.particleMass, 0.1F, 0.1F, 100.0F);
+        ImGui::NewLine();
+
+        ImGui::Text("Attractor mass:");
+        ImGui::DragFloat("##attractorMass", &scene->particleSimulatorTf.attractorMass, 0.1F, 0.1F, 100.0F);
+        ImGui::NewLine();
+
+        ImGui::Text("Gravity:");
+        ImGui::DragFloat("##gravity", &scene->particleSimulatorTf.gravity, 0.1F, 0.1F, 100.0F);
+        ImGui::NewLine();
+
+        ImGui::Text("Distance offset:");
+        ImGui::DragFloat("##distanceOffset", &scene->particleSimulatorTf.distanceOffset, 0.1F, 0.1F, 100.0F);
+
         ImGui::Text("Damping:");
-        ImGui::DragFloat("##damping", &scene->particleSimulatorTf.damping, 0.1F, 0.0F, 1.0F);
+        ImGui::DragFloat("##damping", &scene->particleSimulatorTf.damping, 0.0F, 0.0F, 1.0F);
 
         ImGui::End();
     }
@@ -396,12 +378,12 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     {
 #ifdef __EMSCRIPTEN__
         static bool isCollapsed = true;
-        ImGui::SetNextWindowPos(ImVec2(0, 60), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(5, 65), ImGuiCond_Once);
         ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
 #endif
         ImGui::Begin("Mouse controls");
 
-        ImGui::Text("Is targeting: %s", scene->particleSimulatorTf.getIsTargeting() ? "true" : "false");
+        ImGui::Text("Is attracting: %s", scene->particleSimulatorTf.getIsAttracting() ? "true" : "false");
 
         ImGui::Text("Mouse position world:");
         ImGui::Text("X: %f", mousePositionWorld.x);
@@ -410,8 +392,8 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::SameLine();
         ImGui::Text("Z: %f", mousePositionWorld.z);
 
-        ImGui::Text("Target distance:");
-        ImGui::DragFloat("##targetDistance", &targetDistance, 0.1F, 0.0F, 100.0F);
+        ImGui::Text("Attractor distance from camera:");
+        ImGui::DragFloat("##attractorDistance", &attractorDistance, 0.1F, 0.0F, 100.0F);
 
         ImGui::End();
     }
@@ -428,7 +410,6 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 }
 
 void ParticleSimulatorLauncher::updateGame(float deltaTime) {
-    // Update
     scene->update(deltaTime);
 }
 
@@ -448,7 +429,7 @@ void ParticleSimulatorLauncher::updateScreen() {
 
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-    ImGuiIO const& io = ImGui::GetIO();
+    const ImGuiIO& io = ImGui::GetIO();
     if ((io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) != 0)
     {
         GLFWwindow* backup_current_context = glfwGetCurrentContext();
@@ -499,7 +480,7 @@ auto ParticleSimulatorLauncher::projectMouse(const double& xMouse, const double&
     glm::vec3 const camera_to_mouse = glm::normalize(glm::vec3(mouse_world) - scene->camera.position);
 
     // Use the direction to update the position of an object in the 3D environment
-    return scene->camera.position + camera_to_mouse * targetDistance;
+    return scene->camera.position + camera_to_mouse * attractorDistance;
 }
 
 auto ParticleSimulatorLauncher::getOpenGLVendor() -> std::string_view {

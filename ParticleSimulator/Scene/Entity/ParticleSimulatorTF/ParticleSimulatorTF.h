@@ -28,12 +28,17 @@ class ParticleSimulatorTF : public Entity {
     int particlesCount;
 
     float deltaTime = 0.0F;
-    glm::vec3 pointOfGravity = glm::vec3(0.0F, 0.0F, 0.0F);
-    float isTargeting = 0.0F;
+    glm::vec3 attractorPosition = glm::vec3(0.0F, 0.0F, 0.0F);
+    float isAttracting = 0.0F;
 
 public:
     float spawnRadius = 2.0F;
+
     float damping = 0.99F;
+    float particleMass = 50.0F;
+    float attractorMass = 250.0F;
+    float gravity = 1.0F;
+    float distanceOffset = 10.0F;
 
 public:
     explicit ParticleSimulatorTF(int particlesCount = 100000);
@@ -56,11 +61,11 @@ private:
     void randomizeParticles(std::vector<Particle>& particles);
 
 public:
-    void setTarget(const glm::vec3& target);
+    void setAttractorPosition(const glm::vec3& pos);
 
-    void setIsTargeting(const bool& value);
+    void setIsAttracting(const bool& value);
 
-    [[nodiscard]] auto getIsTargeting() const -> bool;
+    [[nodiscard]] auto getIsAttracting() const -> bool;
 
     void setParticlesCount(const int& value);
 

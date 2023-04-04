@@ -22,18 +22,18 @@ private:
 
     std::vector<Particle> particles;
 
-    glm::vec3 pointOfGravity;
+    glm::vec3 attractorPosition;
 
-    float isTargeting = 0.0F;
-
-    float gravity = 1000.0F;
-    float m1 = 1000.0F;
-    float m2 = 1.0F;
-    float distanceOffset = 100.0F;
+    float isAttracting = 0.0F;
 
 public:
     float spawnRadius = 2.0F;
+
     float damping = 0.99F;
+    float gravity = 1000.0F;
+    float massParticles = 1000.0F;
+    float massAttractor = 1.0F;
+    float distanceOffset = 10.0F;
 
 public:
     explicit ParticleSimulator(int particleCount = 100000);
@@ -56,11 +56,11 @@ private:
     void randomizeParticles();
 
 public:
-    void setTarget(const glm::vec3& target);
+    void setAttractor(const glm::vec3& pos);
 
-    void setIsTargeting(const bool& value);
+    void setIsAttracting(const bool& value);
 
-    [[nodiscard]] auto getIsTargeting() const -> bool;
+    [[nodiscard]] auto getIsAttracting() const -> bool;
 
     void setParticlesCount(const size_t& count);
 

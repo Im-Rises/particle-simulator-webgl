@@ -10,13 +10,15 @@ class Scene;
 struct GLFWwindow;
 
 constexpr std::string_view PROJECT_NAME = "Particle Simulator 3D";
-constexpr std::string_view PROJECT_VERSION = "2.1.2";
-constexpr std::string_view PROJECT_GITHUB = "https://github.com/Im-Rises/ParticleSimulator";
+constexpr std::string_view PROJECT_VERSION = "2.2.0";
+constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/ParticleSimulator";
 constexpr std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
 class ParticleSimulatorLauncher {
 private:
     GLFWwindow* window;
+    int windowWidth = 1280;
+    int windowHeight = 720;
     int displayWidth, displayHeight;
 
     std::unique_ptr<Scene> scene;
@@ -28,10 +30,10 @@ private:
         float w = 1.0F;
     } clear_color;
 
-    float targetDistance = 10.0F;
+    float attractorDistance = 10.0F;
     glm::vec3 mousePositionWorld;
 
-    constexpr const static int MAX_PARTICLES_COUNT = 10000000;
+    constexpr static int MAX_PARTICLES_COUNT = 10000000;
 
 public:
     ParticleSimulatorLauncher();
