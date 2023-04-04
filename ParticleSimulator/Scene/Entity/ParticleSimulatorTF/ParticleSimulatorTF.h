@@ -35,8 +35,8 @@ public:
     float spawnRadius = 2.0F;
 
     float damping = 0.99F;
-    float massParticle = 50.0F;
-    float massAttractor = 250.0F;
+    float particleMass = 50.0F;
+    float attractorMass = 250.0F;
     float gravity = 1.0F;
     float distanceOffset = 10.0F;
 

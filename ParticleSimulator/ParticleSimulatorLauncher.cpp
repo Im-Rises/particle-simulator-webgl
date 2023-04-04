@@ -354,6 +354,21 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::DragFloat("##spawnRadius", &scene->particleSimulatorTf.spawnRadius, 0.1F, 0.1F, 100.0F);
         ImGui::NewLine();
 
+        ImGui::Text("Particle mass:");
+        ImGui::DragFloat("##particleMass", &scene->particleSimulatorTf.particleMass, 0.1F, 0.1F, 100.0F);
+        ImGui::NewLine();
+
+        ImGui::Text("Attractor mass:");
+        ImGui::DragFloat("##attractorMass", &scene->particleSimulatorTf.attractorMass, 0.1F, 0.1F, 100.0F);
+        ImGui::NewLine();
+
+        ImGui::Text("Gravity:");
+        ImGui::DragFloat("##gravity", &scene->particleSimulatorTf.gravity, 0.1F, 0.1F, 100.0F);
+        ImGui::NewLine();
+
+        ImGui::Text("Distance offset:");
+        ImGui::DragFloat("##distanceOffset", &scene->particleSimulatorTf.distanceOffset, 0.1F, 0.1F, 100.0F);
+
         ImGui::Text("Damping:");
         ImGui::DragFloat("##damping", &scene->particleSimulatorTf.damping, 0.0F, 0.0F, 1.0F);
 

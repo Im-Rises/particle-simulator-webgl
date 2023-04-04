@@ -19,21 +19,20 @@ uniform mat4 u_mvp;
 uniform float u_deltaTime;
 uniform vec3 u_attractorPosition;
 uniform float u_damping;
+uniform float u_attractorMass;
+uniform float u_particleMass;
+uniform float u_gravity;
+uniform float u_distanceOffset;
 uniform float u_isAttracting;
 uniform float u_isRunning;
-
-const float G = 1.0f;
-const float m1 = 50.0f;
-const float m2 = 250.0f;
-const float distanceOffset = 5.0f;
 
 void main()
 {
     vec3 r = u_attractorPosition - a_pos;
-    float rSquared = dot(r, r) + distanceOffset;
-    vec3 force = (G * m1 * m2 * normalize(r) / rSquared) * u_isAttracting * u_isRunning;
+    float rSquared = dot(r, r) + u_distanceOffset;
+    vec3 force = (u_gravity * u_attractorMass * u_particleMass * normalize(r) / rSquared) * u_isAttracting * u_isRunning;
 
-    vec3 acceleration = force / m1;
+    vec3 acceleration = force / u_particleMass;
     vec3 position = a_pos + (a_vel * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
     vec3 velocity = a_vel + acceleration * u_deltaTime;
 
@@ -120,6 +119,10 @@ void ParticleSimulatorTF::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraPro
     shader.setFloat("u_damping", damping);
     shader.setFloat("u_isAttracting", isAttracting);
     shader.setFloat("u_isRunning", static_cast<float>(!isPaused));
+    shader.setFloat("u_attractorMass", attractorMass);
+    shader.setFloat("u_particleMass", particleMass);
+    shader.setFloat("u_gravity", gravity);
+    shader.setFloat("u_distanceOffset", distanceOffset);
 
     glBindVertexArray(currentVAO);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, currentTFBO);
