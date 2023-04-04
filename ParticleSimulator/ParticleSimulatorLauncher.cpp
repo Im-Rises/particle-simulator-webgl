@@ -219,11 +219,11 @@ void ParticleSimulatorLauncher::handleInputs() {
         scene->camera.processMouseMovement(static_cast<float>(mouseDeltaX), static_cast<float>(mouseDeltaY));
     }
 
-    // Read mouse inputs and update particle simulator target
-    bool const isTargeting = InputManager::isKeyMouseSetTargetPressed(window);
-    scene->particleSimulatorTf.setIsTargeting(isTargeting);
+    // Read mouse inputs and update particle simulator attractor
+    bool const isAttracting = InputManager::isKeyMouseSetAttractorPressed(window);
+    scene->particleSimulatorTf.setIsAttracting(isAttracting);
     mousePositionWorld = projectMouse(mouseX, mouseY);
-    scene->particleSimulatorTf.setTarget(mousePositionWorld);
+    scene->particleSimulatorTf.setAttractorPosition(mousePositionWorld);
 }
 
 void ParticleSimulatorLauncher::handleUi(float deltaTime) {
@@ -355,7 +355,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::NewLine();
 
         ImGui::Text("Damping:");
-        ImGui::DragFloat("##damping", &scene->particleSimulatorTf.damping, 0.1F, 0.0F, 1.0F);
+        ImGui::DragFloat("##damping", &scene->particleSimulatorTf.damping, 0.0F, 0.0F, 1.0F);
 
         ImGui::End();
     }
@@ -368,7 +368,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 #endif
         ImGui::Begin("Mouse controls");
 
-        ImGui::Text("Is targeting: %s", scene->particleSimulatorTf.getIsTargeting() ? "true" : "false");
+        ImGui::Text("Is attracting: %s", scene->particleSimulatorTf.getIsAttracting() ? "true" : "false");
 
         ImGui::Text("Mouse position world:");
         ImGui::Text("X: %f", mousePositionWorld.x);
@@ -377,8 +377,8 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::SameLine();
         ImGui::Text("Z: %f", mousePositionWorld.z);
 
-        ImGui::Text("Target distance:");
-        ImGui::DragFloat("##targetDistance", &targetDistance, 0.1F, 0.0F, 100.0F);
+        ImGui::Text("Attractor distance from camera:");
+        ImGui::DragFloat("##attractorDistance", &attractorDistance, 0.1F, 0.0F, 100.0F);
 
         ImGui::End();
     }
@@ -465,7 +465,7 @@ auto ParticleSimulatorLauncher::projectMouse(const double& xMouse, const double&
     glm::vec3 const camera_to_mouse = glm::normalize(glm::vec3(mouse_world) - scene->camera.position);
 
     // Use the direction to update the position of an object in the 3D environment
-    return scene->camera.position + camera_to_mouse * targetDistance;
+    return scene->camera.position + camera_to_mouse * attractorDistance;
 }
 
 auto ParticleSimulatorLauncher::getOpenGLVendor() -> std::string_view {

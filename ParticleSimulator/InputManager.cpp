@@ -66,7 +66,7 @@ auto InputManager::isKeyMouseMovementPressed(GLFWwindow* window) -> bool {
     return glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS;
 }
 
-auto InputManager::isKeyMouseSetTargetPressed(GLFWwindow* window) -> bool {
+auto InputManager::isKeyMouseSetAttractorPressed(GLFWwindow* window) -> bool {
     return glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
 }
 

@@ -30,10 +30,10 @@ private:
         float w = 1.0F;
     } clear_color;
 
-    float targetDistance = 10.0F;
+    float attractorDistance = 10.0F;
     glm::vec3 mousePositionWorld;
 
-    constexpr const static int MAX_PARTICLES_COUNT = 10000000;
+    constexpr static int MAX_PARTICLES_COUNT = 10000000;
 
 public:
     ParticleSimulatorLauncher();

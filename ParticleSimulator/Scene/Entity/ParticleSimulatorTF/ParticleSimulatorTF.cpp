@@ -17,21 +17,21 @@ out vec3 v_vel;
 
 uniform mat4 u_mvp;
 uniform float u_deltaTime;
-uniform vec3 u_pointOfGravity;
+uniform vec3 u_attractorPosition;
 uniform float u_damping;
-uniform float u_isTargeting;
+uniform float u_isAttracting;
 uniform float u_isRunning;
 
-const float G = 1000.0f;
-const float m1 = 1000.0f;
-const float m2 = 1.0f;
-const float distanceOffset = 100.0f;
+const float G = 1.0f;
+const float m1 = 50.0f;
+const float m2 = 250.0f;
+const float distanceOffset = 5.0f;
 
 void main()
 {
-    vec3 r = u_pointOfGravity - a_pos;
+    vec3 r = u_attractorPosition - a_pos;
     float rSquared = dot(r, r) + distanceOffset;
-    vec3 force = (G * m1 * m2 * normalize(r) / rSquared) * u_isTargeting * u_isRunning;
+    vec3 force = (G * m1 * m2 * normalize(r) / rSquared) * u_isAttracting * u_isRunning;
 
     vec3 acceleration = force / m1;
     vec3 position = a_pos + (a_vel * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
@@ -116,9 +116,9 @@ void ParticleSimulatorTF::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraPro
     shader.use();
     shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
     shader.setFloat("u_deltaTime", deltaTime);
-    shader.setVec3("u_pointOfGravity", pointOfGravity);
+    shader.setVec3("u_attractorPosition", attractorPosition);
     shader.setFloat("u_damping", damping);
-    shader.setFloat("u_isTargeting", isTargeting);
+    shader.setFloat("u_isAttracting", isAttracting);
     shader.setFloat("u_isRunning", static_cast<float>(!isPaused));
 
     glBindVertexArray(currentVAO);
@@ -185,16 +185,16 @@ void ParticleSimulatorTF::randomizeParticles(std::vector<Particle>& particles) {
     }
 }
 
-void ParticleSimulatorTF::setTarget(const glm::vec3& target) {
-    pointOfGravity = target;
+void ParticleSimulatorTF::setAttractorPosition(const glm::vec3& pos) {
+    attractorPosition = pos;
 }
 
-void ParticleSimulatorTF::setIsTargeting(const bool& value) {
-    isTargeting = static_cast<float>(value);
+void ParticleSimulatorTF::setIsAttracting(const bool& value) {
+    isAttracting = static_cast<float>(value);
 }
 
-auto ParticleSimulatorTF::getIsTargeting() const -> bool {
-    return isTargeting != 0.0F;
+auto ParticleSimulatorTF::getIsAttracting() const -> bool {
+    return isAttracting != 0.0F;
 }
 
 void ParticleSimulatorTF::setParticlesCount(const int& value) {

@@ -83,18 +83,18 @@ ParticleSimulator::~ParticleSimulator() {
 void ParticleSimulator::update(const float& deltaTime) {
     if (isPaused)
         return;
-    
+
     for (auto& particle : particles)
     {
         // Calculate the distance between the particle and the point of gravity
-        const glm::vec3 r = pointOfGravity - particle.position;
+        const glm::vec3 r = attractorPosition - particle.position;
         const float rSquared = glm::dot(r, r) + distanceOffset;
 
         // Calculate the force
-        const glm::vec3 force = ((gravity * m1 * m2 * glm::normalize(r)) / rSquared) * isTargeting;
+        const glm::vec3 force = ((gravity * massParticles * massAttractor * glm::normalize(r)) / rSquared) * isAttracting;
 
         // Calculate the acceleration
-        const glm::vec3 acceleration = force / m1;
+        const glm::vec3 acceleration = force / massParticles;
 
         // Calculate the position
         particle.position += particle.velocity * deltaTime + 0.5F * acceleration * deltaTime * deltaTime;
@@ -156,16 +156,16 @@ void ParticleSimulator::randomizeParticles() {
     }
 }
 
-void ParticleSimulator::setTarget(const glm::vec3& target) {
-    pointOfGravity = target;
+void ParticleSimulator::setAttractor(const glm::vec3& pos) {
+    attractorPosition = pos;
 }
 
-void ParticleSimulator::setIsTargeting(const bool& value) {
-    isTargeting = value ? 1.0F : 0.0F;
+void ParticleSimulator::setIsAttracting(const bool& value) {
+    isAttracting = value ? 1.0F : 0.0F;
 }
 
-auto ParticleSimulator::getIsTargeting() const -> bool {
-    return isTargeting == 1.0F;
+auto ParticleSimulator::getIsAttracting() const -> bool {
+    return isAttracting == 1.0F;
 }
 
 void ParticleSimulator::setParticlesCount(const size_t& count) {

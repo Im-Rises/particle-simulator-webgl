@@ -25,6 +25,7 @@ This version is displaying 100 000 particles less than the desktop version.
 - &#9744; Correct the drag on mobile devices (Use Emscripten to get touch screen events for mobile devices (not working,
   cannot set up the event listener
   in the C++ code)
+- &#9744; Add a way to controls the mass of the particles and the gravity
 
 ---
 
