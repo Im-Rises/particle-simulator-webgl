@@ -28,6 +28,26 @@
 #ifdef __EMSCRIPTEN__
 #include "imgui/libs/emscripten/emscripten_mainloop_stub.h"
 #include <emscripten/html5.h>
+
+// Define emsccripten callback touch start
+EM_BOOL touchStart_callback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
+    std::cout << "touchStart_callback" << std::endl;
+    //    int* testEmscripten = (int*)userData;
+    //    *testEmscripten = 1;
+    return EM_TRUE; // Return true to allow the event to propagate
+}
+
+// Define emsccripten callback touch move
+EM_BOOL touchMove_callback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
+    std::cout << "touchMove_callback" << std::endl;
+    return EM_TRUE; // Return true to allow the event to propagate
+}
+
+// Define emsccripten callback touch end
+EM_BOOL touchEnd_callback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
+    std::cout << "touchEnd_callback" << std::endl;
+    return EM_TRUE; // Return true to allow the event to propagate
+}
 #endif
 
 static void glfw_error_callback(int error, const char* description) {
@@ -117,6 +137,13 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
+
+#ifdef __EMSCRIPTEN__
+    // Register emscripten callbacks
+    emscripten_set_touchstart_callback("#canvas", nullptr, true, touchStart_callback);
+    emscripten_set_touchmove_callback("#canvas", nullptr, true, touchMove_callback);
+    emscripten_set_touchend_callback("#canvas", nullptr, true, touchEnd_callback);
+#endif
 
     // Same line as above but with C++ string
     std::cout << "OpenGL vendor: " << getOpenGLVendor() << std::endl

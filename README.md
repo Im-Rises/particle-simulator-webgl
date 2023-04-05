@@ -23,9 +23,7 @@ This version is displaying 100 000 particles less than the desktop version.
 - &#9744; Update ParticleSimulator project with this code
 - &#9744; Correct the UI not working correctly when toggling fullscreen
 - &#9744; Correct the app lagging when not touching the screen in mobile
-- &#9744; Correct the drag on mobile devices (Use Emscripten to get touch screen events for mobile devices (not working,
-  cannot set up the event listener
-  in the C++ code)
+- &#9744; Add drag for mobile devices
 
 ---
 
