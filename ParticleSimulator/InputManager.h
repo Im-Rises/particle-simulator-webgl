@@ -1,6 +1,11 @@
 #ifndef INPUT_MANAGER_H
 #define INPUT_MANAGER_H
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#endif
+
 struct GLFWwindow;
 
 class InputManager {
@@ -34,6 +39,27 @@ public:
     static auto isKeyMouseMovementPressed(GLFWwindow* window) -> bool;
 
     static auto isKeyMouseSetAttractorPressed(GLFWwindow* window) -> bool;
+
+public:
+    /*
+     * Functions for Emscripten drag
+     */
+
+#ifdef __EMSCRIPTEN__
+    struct DragMovementData {
+        float dragX = 0.0F;
+        float dragY = 0.0F;
+        bool isUsingDrag = false;
+    };
+
+    static InputManager::DragMovementData dragMovementData;
+
+    static EM_BOOL touchEnd_callback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData);
+
+    static EM_BOOL touchStart_callback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData);
+
+    static EM_BOOL touchMove_callback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData);
+#endif
 };
 
 #endif // INPUT_MANAGER_H

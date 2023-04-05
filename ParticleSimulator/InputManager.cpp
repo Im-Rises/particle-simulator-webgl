@@ -73,3 +73,32 @@ auto InputManager::isKeyMouseSetAttractorPressed(GLFWwindow* window) -> bool {
 void InputManager::getMousePosition(GLFWwindow* window, double& xPos, double& yPos) {
     glfwGetCursorPos(window, &xPos, &yPos);
 }
+
+
+#ifdef __EMSCRIPTEN__
+InputManager::DragMovementData InputManager::dragMovementData = { 0.0F, 0.0F, false };
+
+// Define emsccripten callback touch start
+EM_BOOL InputManager::touchStart_callback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
+    DragMovementData* dragMoveDataBuffer = (DragMovementData*)userData;
+    dragMoveDataBuffer->isUsingDrag = true;
+    dragMoveDataBuffer->dragX = touchEvent->touches[0].targetX;
+    dragMoveDataBuffer->dragY = touchEvent->touches[0].targetY;
+    return EM_TRUE; // Return true to allow the event to propagate
+}
+
+// Define emsccripten callback touch move
+EM_BOOL InputManager::touchMove_callback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
+    DragMovementData* dragMoveDataBuffer = (DragMovementData*)userData;
+    dragMoveDataBuffer->dragX = touchEvent->touches[0].targetX;
+    dragMoveDataBuffer->dragY = touchEvent->touches[0].targetY;
+    return EM_TRUE; // Return true to allow the event to propagate
+}
+
+// Define emsccripten callback touch end
+EM_BOOL InputManager::touchEnd_callback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
+    DragMovementData* dragMoveDataBuffer = (DragMovementData*)userData;
+    dragMoveDataBuffer->isUsingDrag = false;
+    return EM_TRUE; // Return true to allow the event to propagate
+}
+#endif

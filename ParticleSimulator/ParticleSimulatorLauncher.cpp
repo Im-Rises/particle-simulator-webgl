@@ -28,30 +28,6 @@
 #ifdef __EMSCRIPTEN__
 #include "imgui/libs/emscripten/emscripten_mainloop_stub.h"
 #include <emscripten/html5.h>
-
-// Define emsccripten callback touch start
-EM_BOOL touchStart_callback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
-    DragMovementData* dragMoveDataBuffer = (DragMovementData*)userData;
-    dragMoveDataBuffer->isUsingDrag = true;
-    dragMoveDataBuffer->dragX = touchEvent->touches[0].targetX;
-    dragMoveDataBuffer->dragY = touchEvent->touches[0].targetY;
-    return EM_TRUE; // Return true to allow the event to propagate
-}
-
-// Define emsccripten callback touch move
-EM_BOOL touchMove_callback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
-    DragMovementData* dragMoveDataBuffer = (DragMovementData*)userData;
-    dragMoveDataBuffer->dragX = touchEvent->touches[0].targetX;
-    dragMoveDataBuffer->dragY = touchEvent->touches[0].targetY;
-    return EM_TRUE; // Return true to allow the event to propagate
-}
-
-// Define emsccripten callback touch end
-EM_BOOL touchEnd_callback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
-    DragMovementData* dragMoveDataBuffer = (DragMovementData*)userData;
-    dragMoveDataBuffer->isUsingDrag = false;
-    return EM_TRUE; // Return true to allow the event to propagate
-}
 #endif
 
 static void glfw_error_callback(int error, const char* description) {
@@ -144,9 +120,9 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
 
 #ifdef __EMSCRIPTEN__
     // Register emscripten callbacks
-    emscripten_set_touchstart_callback("#canvas", (void*)&dragMovementData, true, touchStart_callback);
-    emscripten_set_touchmove_callback("#canvas", (void*)&dragMovementData, true, touchMove_callback);
-    emscripten_set_touchend_callback("#canvas", (void*)&dragMovementData, true, touchEnd_callback);
+    emscripten_set_touchstart_callback("#canvas", (void*)&InputManager::dragMovementData, true, InputManager::touchStart_callback);
+    emscripten_set_touchmove_callback("#canvas", (void*)&InputManager::dragMovementData, true, InputManager::touchMove_callback);
+    emscripten_set_touchend_callback("#canvas", (void*)&InputManager::dragMovementData, true, InputManager::touchEnd_callback);
 #endif
 
     // Same line as above but with C++ string
@@ -239,10 +215,10 @@ void ParticleSimulatorLauncher::handleInputs() {
     // Get mouse position or drag position
     double posX = 0, posY = 0;
 #ifdef __EMSCRIPTEN__
-    if (dragMovementData.isUsingDrag)
+    if (InputManager::dragMovementData.isUsingDrag)
     {
-        posX = dragMovementData.dragX;
-        posY = dragMovementData.dragY;
+        posX = InputManager::dragMovementData.dragX;
+        posY = InputManager::dragMovementData.dragY;
     }
     else
     {
