@@ -34,6 +34,6 @@ void Entity::setIsPaused(bool isPaused) {
     this->isPaused = isPaused;
 }
 
-[[maybe_unused]] bool Entity::getIsPaused() const {
+[[maybe_unused]] auto Entity::getIsPaused() const -> bool {
     return isPaused;
 }
