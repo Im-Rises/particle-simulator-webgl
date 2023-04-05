@@ -2,8 +2,8 @@
 #define SCENE_H
 
 #include "Camera/Camera.h"
-#include "Entity/ParticleSimulator/ParticleSimulator.h"
-#include "Entity/Cube/Cube.h"
+// #include "Entity/ParticleSimulator/ParticleSimulator.h"
+// #include "Entity/Cube/Cube.h"
 #include "Entity/ParticleSimulatorTF/ParticleSimulatorTF.h"
 
 class Scene {
@@ -34,7 +34,6 @@ public:
 
 public:
     [[nodiscard]] auto getIsPaused() const -> bool;
-
 };
 
 #endif // SCENE_H

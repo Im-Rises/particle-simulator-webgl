@@ -118,6 +118,13 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
+#ifdef __EMSCRIPTEN__
+    // Register emscripten callbacks
+    emscripten_set_touchstart_callback("#canvas", (void*)&InputManager::dragMovementData, true, InputManager::touchStart_callback);
+    emscripten_set_touchmove_callback("#canvas", (void*)&InputManager::dragMovementData, true, InputManager::touchMove_callback);
+    emscripten_set_touchend_callback("#canvas", (void*)&InputManager::dragMovementData, true, InputManager::touchEnd_callback);
+#endif
+
     // Same line as above but with C++ string
     std::cout << "OpenGL vendor: " << getOpenGLVendor() << std::endl
               << "OpenGL version: " << getOpenGLVersion() << std::endl
@@ -205,13 +212,25 @@ void ParticleSimulatorLauncher::handleInputs() {
         scene->camera.moveDown();
 
     /* Read and update mouse controls */
-    // Get mouse position
-    double mouseX = 0, mouseY = 0;
-    InputManager::getMousePosition(window, mouseX, mouseY);
+    // Get mouse position or drag position
+    double posX = 0, posY = 0;
+#ifdef __EMSCRIPTEN__
+    if (InputManager::dragMovementData.isUsingDrag)
+    {
+        posX = InputManager::dragMovementData.dragX;
+        posY = InputManager::dragMovementData.dragY;
+    }
+    else
+    {
+#endif
+        InputManager::getMousePosition(window, posX, posY);
+#ifdef __EMSCRIPTEN__
+    }
+#endif
 
-    // Get mouse delta
+    // Get movement delta
     double mouseDeltaX = 0, mouseDeltaY = 0;
-    calculateMouseMovement(mouseX, mouseY, mouseDeltaX, mouseDeltaY);
+    calculateMouseMovement(posX, posY, mouseDeltaX, mouseDeltaY);
 
     // Read mouse inputs and update camera
     if (InputManager::isKeyMouseMovementPressed(window))
@@ -219,10 +238,10 @@ void ParticleSimulatorLauncher::handleInputs() {
         scene->camera.processMouseMovement(static_cast<float>(mouseDeltaX), static_cast<float>(mouseDeltaY));
     }
 
-    // Read mouse inputs and update particle simulator attractor
+    // Update particle simulator attractor if mouse is pressed or dragging
     bool const isAttracting = InputManager::isKeyMouseSetAttractorPressed(window);
     scene->particleSimulatorTf.setIsAttracting(isAttracting);
-    mousePositionWorld = projectMouse(mouseX, mouseY);
+    mousePositionWorld = projectMouse(posX, posY);
     scene->particleSimulatorTf.setAttractorPosition(mousePositionWorld);
 }
 
@@ -368,6 +387,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 
         ImGui::Text("Distance offset:");
         ImGui::DragFloat("##distanceOffset", &scene->particleSimulatorTf.distanceOffset, 0.1F, 0.1F, 100.0F);
+        ImGui::NewLine();
 
         ImGui::Text("Damping:");
         ImGui::DragFloat("##damping", &scene->particleSimulatorTf.damping, 0.0F, 0.0F, 1.0F);

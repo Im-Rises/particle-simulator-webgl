@@ -17,21 +17,19 @@ This version is displaying 100 000 particles less than the desktop version.
 
 ## 🚀🚀[you can try the webgl build online by clicking here](https://im-rises.github.io/particle-simulator-webgl/) 🚀🚀
 
+<!--
 ## Todo
 
 - &#9744; Update ParticleSimulator project with this code
 - &#9744; Correct the UI not working correctly when toggling fullscreen
 - &#9744; Correct the app lagging when not touching the screen in mobile
-- &#9744; Correct the drag on mobile devices (Use Emscripten to get touch screen events for mobile devices (not working,
-  cannot set up the event listener
-  in the C++ code)
-- &#9744; Add a way to controls the mass of the particles and the gravity
 
 ---
 
 - &#9744; means that the feature is not implemented yet
 - &#x2612; means that the feature is having issues
 - &#9745; means that the feature is implemented
+-->
 
 ## Images
 
