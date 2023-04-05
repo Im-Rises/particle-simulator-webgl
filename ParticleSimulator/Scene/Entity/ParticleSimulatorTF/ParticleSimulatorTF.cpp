@@ -5,7 +5,8 @@
 const char* const ParticleSimulatorTF::VertexShaderSource =
     R"(#version 300 es
 
-precision highp float;
+precision mediump float;
+//precision highp float;
 
 in vec3 a_pos;
 in vec3 a_vel;
@@ -51,7 +52,8 @@ void main()
 const char* const ParticleSimulatorTF::FragmentShaderSource =
     R"(#version 300 es
 
-precision highp float;
+precision mediump float;
+//precision highp float;
 
 in vec3 v_vel;
 
@@ -60,7 +62,7 @@ out vec4 o_fragColor;
 void main()
 {
     vec3 v_color = vec3(min(v_vel.y, 0.8f), max(v_vel.x, 0.5f), min(v_vel.z, 0.5f));
-    o_fragColor = vec4(v_color, 1.0f);
+    o_fragColor = vec4(v_color, 0.8f);
 }
 )";
 
