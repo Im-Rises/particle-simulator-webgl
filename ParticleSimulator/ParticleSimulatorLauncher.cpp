@@ -31,21 +31,25 @@
 
 // Define emsccripten callback touch start
 EM_BOOL touchStart_callback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
-    std::cout << "touchStart_callback" << std::endl;
-    //    int* testEmscripten = (int*)userData;
-    //    *testEmscripten = 1;
+    DragMovementData* dragMoveDataBuffer = (DragMovementData*)userData;
+    dragMoveDataBuffer->isUsingDrag = true;
+    dragMoveDataBuffer->dragX = touchEvent->touches[0].targetX;
+    dragMoveDataBuffer->dragY = touchEvent->touches[0].targetY;
     return EM_TRUE; // Return true to allow the event to propagate
 }
 
 // Define emsccripten callback touch move
 EM_BOOL touchMove_callback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
-    std::cout << "touchMove_callback" << std::endl;
+    DragMovementData* dragMoveDataBuffer = (DragMovementData*)userData;
+    dragMoveDataBuffer->dragX = touchEvent->touches[0].targetX;
+    dragMoveDataBuffer->dragY = touchEvent->touches[0].targetY;
     return EM_TRUE; // Return true to allow the event to propagate
 }
 
 // Define emsccripten callback touch end
 EM_BOOL touchEnd_callback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData) {
-    std::cout << "touchEnd_callback" << std::endl;
+    DragMovementData* dragMoveDataBuffer = (DragMovementData*)userData;
+    dragMoveDataBuffer->isUsingDrag = false;
     return EM_TRUE; // Return true to allow the event to propagate
 }
 #endif
@@ -140,9 +144,9 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
 
 #ifdef __EMSCRIPTEN__
     // Register emscripten callbacks
-    emscripten_set_touchstart_callback("#canvas", nullptr, true, touchStart_callback);
-    emscripten_set_touchmove_callback("#canvas", nullptr, true, touchMove_callback);
-    emscripten_set_touchend_callback("#canvas", nullptr, true, touchEnd_callback);
+    emscripten_set_touchstart_callback("#canvas", (void*)&dragMovementData, true, touchStart_callback);
+    emscripten_set_touchmove_callback("#canvas", (void*)&dragMovementData, true, touchMove_callback);
+    emscripten_set_touchend_callback("#canvas", (void*)&dragMovementData, true, touchEnd_callback);
 #endif
 
     // Same line as above but with C++ string
@@ -232,13 +236,25 @@ void ParticleSimulatorLauncher::handleInputs() {
         scene->camera.moveDown();
 
     /* Read and update mouse controls */
-    // Get mouse position
-    double mouseX = 0, mouseY = 0;
-    InputManager::getMousePosition(window, mouseX, mouseY);
+    // Get mouse position or drag position
+    double posX = 0, posY = 0;
+#ifdef __EMSCRIPTEN__
+    if (dragMovementData.isUsingDrag)
+    {
+        posX = dragMovementData.dragX;
+        posY = dragMovementData.dragY;
+    }
+    else
+    {
+#endif
+        InputManager::getMousePosition(window, posX, posY);
+#ifdef __EMSCRIPTEN__
+    }
+#endif
 
-    // Get mouse delta
+    // Get movement delta
     double mouseDeltaX = 0, mouseDeltaY = 0;
-    calculateMouseMovement(mouseX, mouseY, mouseDeltaX, mouseDeltaY);
+    calculateMouseMovement(posX, posY, mouseDeltaX, mouseDeltaY);
 
     // Read mouse inputs and update camera
     if (InputManager::isKeyMouseMovementPressed(window))
@@ -246,10 +262,10 @@ void ParticleSimulatorLauncher::handleInputs() {
         scene->camera.processMouseMovement(static_cast<float>(mouseDeltaX), static_cast<float>(mouseDeltaY));
     }
 
-    // Read mouse inputs and update particle simulator attractor
+    // Update particle simulator attractor if mouse is pressed or dragging
     bool const isAttracting = InputManager::isKeyMouseSetAttractorPressed(window);
     scene->particleSimulatorTf.setIsAttracting(isAttracting);
-    mousePositionWorld = projectMouse(mouseX, mouseY);
+    mousePositionWorld = projectMouse(posX, posY);
     scene->particleSimulatorTf.setAttractorPosition(mousePositionWorld);
 }
 

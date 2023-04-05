@@ -22,9 +22,9 @@ __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
 auto main(int argc, char* argv[]) -> int {
     (void)argc;
     (void)argv;
-    std::cout << PROJECT_NAME << " " << PROJECT_VERSION << std::endl
-              << PROJECT_LINK << std::endl
-              << PROJECT_AUTHOR << "\n"
+    std::cout << ParticleSimulatorLauncher::PROJECT_NAME << " " << ParticleSimulatorLauncher::PROJECT_VERSION << std::endl
+              << ParticleSimulatorLauncher::PROJECT_LINK << std::endl
+              << ParticleSimulatorLauncher::PROJECT_AUTHOR << "\n"
               << std::endl;
     ParticleSimulatorLauncher particleEmissionLauncher;
     particleEmissionLauncher.start();

@@ -9,12 +9,21 @@ class Scene;
 
 struct GLFWwindow;
 
-constexpr std::string_view PROJECT_NAME = "Particle Simulator 3D";
-constexpr std::string_view PROJECT_VERSION = "2.2.0";
-constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/ParticleSimulator";
-constexpr std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
+#ifdef __EMSCRIPTEN__
+struct DragMovementData {
+    float dragX = 0.0F;
+    float dragY = 0.0F;
+    bool isUsingDrag = false;
+};
+#endif
 
 class ParticleSimulatorLauncher {
+public:
+    static constexpr std::string_view PROJECT_NAME = "Particle Simulator 3D";
+    static constexpr std::string_view PROJECT_VERSION = "2.2.0";
+    static constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/ParticleSimulator";
+    static constexpr std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
+
 private:
     GLFWwindow* window;
     int windowWidth = 1280;
@@ -34,6 +43,10 @@ private:
     glm::vec3 mousePositionWorld;
 
     constexpr static int MAX_PARTICLES_COUNT = 10000000;
+
+#ifdef __EMSCRIPTEN__
+    DragMovementData dragMovementData;
+#endif
 
 public:
     ParticleSimulatorLauncher();
