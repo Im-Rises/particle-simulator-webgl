@@ -56,7 +56,7 @@ private:
     void randomizeParticles();
 
 public:
-    void setAttractor(const glm::vec3& pos);
+    void setAttractorPosition(const glm::vec3& pos);
 
     void setIsAttracting(const bool& value);
 
