@@ -17,7 +17,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
-#include <cmath>
+
 #include "Scene/Scene.h"
 #include <iostream>
 
