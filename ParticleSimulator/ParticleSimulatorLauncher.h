@@ -11,8 +11,8 @@ struct GLFWwindow;
 
 class ParticleSimulatorLauncher {
 public:
-    static constexpr std::string_view PROJECT_NAME = "Particle Simulator 3D";
-    static constexpr std::string_view PROJECT_VERSION = "3.0.1";
+    static constexpr std::string_view PROJECT_NAME = "Particle Simulator 3D WebGL";
+    static constexpr std::string_view PROJECT_VERSION = "3.0.0";
     static constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/particle-simulator-webgl";
     static constexpr std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
@@ -21,6 +21,7 @@ private:
     int windowWidth = 1280;
     int windowHeight = 720;
     int displayWidth, displayHeight;
+    int windowPosX, windowPosY;
 
     std::unique_ptr<Scene> scene;
 
@@ -34,14 +35,23 @@ private:
     float attractorDistance = 10.0F;
     glm::vec3 mousePositionWorld;
 
-    constexpr static int MAX_PARTICLES_COUNT = 10000000;
+    static constexpr int MAX_PARTICLES_COUNT = 10000000;
+
+#ifndef __EMSCRIPTEN__
+    bool isFullscreen = false;
+#endif
+
+    static constexpr int FRAME_PER_SECOND = 60;
 
 public:
     ParticleSimulatorLauncher();
 
     ParticleSimulatorLauncher(const ParticleSimulatorLauncher&) = delete;
+
     auto operator=(const ParticleSimulatorLauncher&) -> ParticleSimulatorLauncher& = delete;
+
     ParticleSimulatorLauncher(ParticleSimulatorLauncher&&) = delete;
+
     auto operator=(ParticleSimulatorLauncher&&) -> ParticleSimulatorLauncher& = delete;
 
     ~ParticleSimulatorLauncher();
@@ -62,6 +72,16 @@ public:
     void resetScene();
 
     void toggleScenePause();
+
+    void updateViewport();
+
+    void centerWindow();
+
+    void toggleFullscreen();
+
+    void clearScreen() const;
+
+    [[nodiscard]] auto isMinimized() const -> bool;
 
 private:
     static void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);

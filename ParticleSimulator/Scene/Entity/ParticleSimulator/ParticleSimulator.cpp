@@ -3,6 +3,8 @@
 #include <random>
 #include <iostream>
 
+#include "../../../Utility/piDeclaration.h"
+
 const char* const ParticleSimulator::VertexShaderSource =
     R"(#version 300 es
 

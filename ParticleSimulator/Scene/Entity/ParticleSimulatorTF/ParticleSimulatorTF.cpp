@@ -2,6 +2,8 @@
 
 #include <random>
 
+#include "../../../Utility/piDeclaration.h"
+
 const char* const ParticleSimulatorTF::VertexShaderSource =
     R"(#version 300 es
 
