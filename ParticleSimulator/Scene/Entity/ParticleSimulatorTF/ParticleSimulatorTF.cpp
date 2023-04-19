@@ -5,8 +5,7 @@
 const char* const ParticleSimulatorTF::VertexShaderSource =
     R"(#version 300 es
 
-precision mediump float;
-//precision highp float;
+precision highp float;
 
 in vec3 a_pos;
 in vec3 a_vel;
@@ -52,8 +51,7 @@ void main()
 const char* const ParticleSimulatorTF::FragmentShaderSource =
     R"(#version 300 es
 
-precision mediump float;
-//precision highp float;
+precision highp float;
 
 in vec3 v_vel;
 
