@@ -156,7 +156,7 @@ void ParticleSimulator::randomizeParticles() {
     }
 }
 
-void ParticleSimulator::setAttractor(const glm::vec3& pos) {
+void ParticleSimulator::setAttractorPosition(const glm::vec3& pos) {
     attractorPosition = pos;
 }
 

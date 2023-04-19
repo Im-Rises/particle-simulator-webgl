@@ -10,12 +10,18 @@
 
 ## Description
 
-This is a particle simulator written in C++ and compiled to WebGL using
+This is a particle simulator written in C++ and compiled to WebGL2 using
 Emscripten. It is a port of my particle simulator written in C++ and OpenGL which can be
 found [here](https://github.com/Im-Rises/ParticleSimulator).
-This version is displaying 100 000 particles less than the desktop version.
+This version is displaying 1 000 000 particles (which can be changed using the integrated UI).
+On the contrary of the Desktop version, this version is using a Transform Feedback buffering instead of a SSBO, WebGL2
+is limited to OpenGL ES 3.0 which doesn't support SSBOs.
 
 ## 🚀🚀[you can try the webgl build online by clicking here](https://im-rises.github.io/particle-simulator-webgl/) 🚀🚀
+
+> **Note**  
+> The website work for desktop and mobile, but on mobile you won't be able to use the UI to change the simulation
+> parameters.
 
 <!--
 ## Todo
@@ -89,14 +95,14 @@ Then open your browser and go to this address:
 
 The speed and some parameters can be modified directly in the ImGui windows.
 
-| Action              | Key                                 |
-|---------------------|-------------------------------------|
-| Translate camera    | (WASD) or (↑ ← ↓ →)                 |
-| Pause/Resume        | P                                   |
-| Move up/down camera | (Space/Shift) or (Page up/down)     |
-| Rotate camera       | Right Mouse Button + Mouse movement |
-| Fullscreen          | F11                                 |
-| Drag particles      | Left Mouse Button + Mouse movement  |
+| Action              | Key                                                |
+|---------------------|----------------------------------------------------|
+| Translate camera    | (WASD) or (↑ ← ↓ →)                                |
+| Pause/Resume        | P                                                  |
+| Move up/down camera | (Space/Shift) or (Page up/down)                    |
+| Rotate camera       | Right Mouse Button + Mouse movement                |
+| Fullscreen          | F11                                                |
+| Drag particles      | Left Mouse Button + Mouse movement or Touch screen |
 
 > **Note**
 > The translation commands are set for QWERTY keyboard layout.
@@ -157,24 +163,11 @@ OpenGL ES 3.0 Reference Pages:
 Wikipedia (OpenGL versions):  
 <https://en.wikipedia.org/wiki/OpenGL_Shading_Language>
 
-<!--
-pwambach (WebGL 2 Particles):  
-<https://github.com/pwambach/webgl2-particles/tree/gh-pages>
-
-webglsamples:  
-http://webglsamples.org/WebGL2Samples/#transform_feedback_separated_2
--->
-
 codepen (WebGL 2 Particles):  
 <https://codepen.io/stopyransky/pen/gBoQoO>
 
-<!--
-ogldev (WebGL 2 Particles):  
-<https://ogldev.org/www/tutorial28/tutorial28.html>
--->
-
 nopjiap (WebGL 2 Particles):  
-<https://github.com/nopjia/particles-mrt/blob/master/app/shaders/particleCompute.fs>
+<https://github.com/nopjia/particles-mrt>
 
 ## Contributors
 
