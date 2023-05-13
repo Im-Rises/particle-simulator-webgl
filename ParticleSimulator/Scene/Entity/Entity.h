@@ -21,9 +21,6 @@ protected:
 public:
     Entity(const std::string& vertexSource, const std::string& fragmentSource);
 
-    Entity(const std::string& vertexSource, const std::string& fragmentSource,
-        const std::vector<std::string>& varyings);
-
     Entity(const Entity&) = delete;
     auto operator=(const Entity&) -> Entity& = delete;
     Entity(Entity&&) = delete;

@@ -2,7 +2,12 @@
 #define SCENE_H
 
 #include "Camera/Camera.h"
+
+#ifdef __EMSCRIPTEN__
 #include "Entity/ParticleSimulatorTF/ParticleSimulatorTF.h"
+#else
+#include "Entity/ParticleSimulatorSSBO/ParticleSimulatorSSBO.h"
+#endif
 
 class Scene {
 private:
@@ -10,7 +15,11 @@ private:
 
 public:
     Camera camera;
-    ParticleSimulatorTF particleSimulatorTf;
+#ifdef __EMSCRIPTEN__
+    ParticleSimulatorTF particleSimulator;
+#else
+    ParticleSimulatorSSBO particleSimulator;
+#endif
 
     //    std::vector<Entity*> entities;
 

@@ -23,20 +23,6 @@ is limited to OpenGL ES 3.0 which doesn't support SSBOs.
 > The website work for desktop and mobile, but on mobile you won't be able to use the UI to change the simulation
 > parameters.
 
-<!--
-## Todo
-
-- &#9744; Update ParticleSimulator project with this code
-- &#9744; Correct the UI not working correctly when toggling fullscreen
-- &#9744; Correct the app lagging when not touching the screen in mobile
-
----
-
-- &#9744; means that the feature is not implemented yet
-- &#x2612; means that the feature is having issues
-- &#9745; means that the feature is implemented
--->
-
 ## Images
 
 ![Screenshot 1](https://user-images.githubusercontent.com/59691442/225486502-770ec82b-562a-452b-9ef2-f2a68c6fef18.png)
