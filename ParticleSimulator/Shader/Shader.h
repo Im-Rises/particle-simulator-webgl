@@ -2,19 +2,18 @@
 #define SHADER_H
 
 #include <string>
-#include <vector>
 
 #include <glm/glm.hpp>
+#include <vector>
 
 class Shader {
 private:
     unsigned int ID;
 
 public:
-    Shader(const char* vertexSource, const char* fragmentSource);
+    Shader(const char* vertexPath, const char* fragmentPath, bool isPath = true);
 
-    Shader(const char* vertexSource, const char* fragmentSource,
-        const std::vector<std::string>& varyings);
+    Shader(const char* vertexSource, const char* fragmentSource, const std::vector<std::string>& varyings, bool isPath = true);
 
     Shader(const Shader&) = delete;
     auto operator=(const Shader&) -> Shader& = delete;
@@ -22,6 +21,14 @@ public:
     auto operator=(Shader&&) -> Shader& = delete;
 
     virtual ~Shader();
+
+    void compileFromFiles(const char* vertexPath, const char* fragmentPath);
+
+    void compileFromFiles(const char* vertexPath, const char* fragmentPath, const std::vector<std::string>& varyings);
+
+    void compile(const char* vertexSource, const char* fragmentSource);
+
+    void compile(const char* vertexSource, const char* fragmentSource, const std::vector<std::string>& varyings);
 
     static void checkCompileErrors(unsigned int shader, const std::string& type);
 
@@ -55,5 +62,6 @@ public:
 
     [[maybe_unused]] void setMat4(const std::string& name, const glm::mat4& mat) const;
 };
+
 
 #endif // SHADER_H

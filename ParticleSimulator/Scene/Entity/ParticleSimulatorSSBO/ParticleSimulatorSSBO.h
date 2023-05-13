@@ -1,5 +1,5 @@
-#ifndef PARTICLE_SIMULATOR_H
-#define PARTICLE_SIMULATOR_H
+#ifndef PARTICLE_SIMULATOR_SSBO_H
+#define PARTICLE_SIMULATOR_SSBO_H
 
 #include <array>
 
@@ -7,11 +7,12 @@
 #include <vector>
 #include "../Entity.h"
 
-
 class ParticleSimulatorSSBO : public Entity {
 private:
     GLuint VAO;
     GLuint ssbo;
+
+    Shader shader;
 
     // Can't use directly vec3 in SSBO (indexed by 4 bytes not 3): https://computergraphics.stackexchange.com/questions/5810/shader-storage-buffer-indexing-by-4-bytes-instead-of-3
     struct Particle {
@@ -71,4 +72,4 @@ public:
     [[nodiscard]] auto getParticlesCount() const -> size_t;
 };
 
-#endif // PARTICLE_SIMULATOR_H
+#endif // PARTICLE_SIMULATOR_SSBO_H

@@ -1,5 +1,5 @@
-#ifndef TRANSFORM_FEEDBACK_H
-#define TRANSFORM_FEEDBACK_H
+#ifndef PARTICLE_SIMULATOR_TF_H
+#define PARTICLE_SIMULATOR_TF_H
 
 #include <array>
 
@@ -10,6 +10,8 @@
 class ParticleSimulatorTF : public Entity {
     static const char* const VertexShaderSource;
     static const char* const FragmentShaderSource;
+
+    Shader shader;
 
     GLuint VAO[2];
     GLuint TFBO[2];
@@ -73,4 +75,4 @@ public:
 };
 
 
-#endif // TRANSFORM_FEEDBACK_H
+#endif // PARTICLE_SIMULATOR_TF_H

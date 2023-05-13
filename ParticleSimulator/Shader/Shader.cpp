@@ -1,11 +1,116 @@
 #include "Shader.h"
 
 #include <glad/glad.h>
-
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <array>
 
-Shader::Shader(const char* vertexSource, const char* fragmentSource) {
+Shader::Shader(const char* vertexPath, const char* fragmentPath, bool isPath) {
+    if (isPath)
+    {
+        compileFromFiles(vertexPath, fragmentPath);
+    }
+    else
+    {
+        compile(vertexPath, fragmentPath);
+    }
+}
+
+Shader::Shader(const char* vertexSource, const char* fragmentSource, const std::vector<std::string>& varyings, bool isPath) {
+    if (isPath)
+    {
+        compileFromFiles(vertexSource, fragmentSource, varyings);
+    }
+    else
+    {
+        compile(vertexSource, fragmentSource, varyings);
+    }
+}
+
+Shader::~Shader() {
+    glDeleteProgram(ID);
+}
+
+void Shader::compileFromFiles(const char* vertexPath, const char* fragmentPath) {
+    // Retrieve the vertex/fragment source code from filePath
+    std::ifstream vShaderFile;
+    std::ifstream fShaderFile;
+
+    // ensure stream objects can throw exceptions:
+    vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    try
+    {
+        // open files
+        vShaderFile.open(vertexPath);
+        fShaderFile.open(fragmentPath);
+        std::stringstream vShaderStream;
+        std::stringstream fShaderStream;
+
+        // read file's buffer contents into streams
+        vShaderStream << vShaderFile.rdbuf();
+        fShaderStream << fShaderFile.rdbuf();
+
+        // close file handlers
+        vShaderFile.close();
+        fShaderFile.close();
+
+        // convert stream into string and create shader
+        std::string const vertexCodeStr = vShaderStream.str();
+        const char* vertexCode = vertexCodeStr.c_str();
+
+        std::string const fragmentCodeStr = fShaderStream.str();
+        const char* fragmentCode = fragmentCodeStr.c_str();
+
+        compile(vertexCode, fragmentCode);
+    }
+    catch (std::ifstream::failure& e)
+    {
+        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ: " << e.what() << std::endl;
+    }
+}
+
+void Shader::compileFromFiles(const char* vertexPath, const char* fragmentPath, const std::vector<std::string>& varyings) {
+    // Retrieve the vertex/fragment source code from filePath
+    std::ifstream vShaderFile;
+    std::ifstream fShaderFile;
+
+    // ensure stream objects can throw exceptions:
+    vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    try
+    {
+        // open files
+        vShaderFile.open(vertexPath);
+        fShaderFile.open(fragmentPath);
+        std::stringstream vShaderStream;
+        std::stringstream fShaderStream;
+
+        // read file's buffer contents into streams
+        vShaderStream << vShaderFile.rdbuf();
+        fShaderStream << fShaderFile.rdbuf();
+
+        // close file handlers
+        vShaderFile.close();
+        fShaderFile.close();
+
+        // convert stream into string and create shader
+        std::string const vertexCodeStr = vShaderStream.str();
+        const char* vertexCode = vertexCodeStr.c_str();
+
+        std::string const fragmentCodeStr = fShaderStream.str();
+        const char* fragmentCode = fragmentCodeStr.c_str();
+
+        compile(vertexCode, fragmentCode, varyings);
+    }
+    catch (std::ifstream::failure& e)
+    {
+        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ: " << e.what() << std::endl;
+    }
+}
+
+void Shader::compile(const char* vertexSource, const char* fragmentSource) {
     const GLuint vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vertexSource, nullptr);
     glCompileShader(vertex);
@@ -26,7 +131,7 @@ Shader::Shader(const char* vertexSource, const char* fragmentSource) {
     glDeleteShader(fragment);
 }
 
-Shader::Shader(const char* vertexSource, const char* fragmentSource, const std::vector<std::string>& varyings) {
+void Shader::compile(const char* vertexSource, const char* fragmentSource, const std::vector<std::string>& varyings) {
     std::vector<const char*> varyingsCStr;
     for (const std::string& varying : varyings)
     {
@@ -53,11 +158,6 @@ Shader::Shader(const char* vertexSource, const char* fragmentSource, const std::
     glDeleteShader(vertex);
     glDeleteShader(fragment);
 }
-
-Shader::~Shader() {
-    glDeleteProgram(ID);
-}
-
 
 void Shader::checkCompileErrors(unsigned int shader, const std::string& type) {
     int success = 0;
