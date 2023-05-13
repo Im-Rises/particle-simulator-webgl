@@ -11,6 +11,7 @@ web/*.js.mem
 web/*.wasm
 [Mm]akefile
 *.cbp
+ParticleSimulator/particle-simulator-webgl
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,intellij+all,cmake
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,intellij+all,cmake
