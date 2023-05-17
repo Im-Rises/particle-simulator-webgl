@@ -7,47 +7,47 @@
 const char* const ParticleSimulatorTF::VertexShaderSource =
     R"(#version 300 es
 
-        precision highp float;
+      precision highp float;
 
-        in vec3 a_pos;
-        in vec3 a_vel;
+      in vec3 a_pos;
+      in vec3 a_vel;
 
-        out vec3 out_pos;
-        out vec3 out_vel;
+      out vec3 out_pos;
+      out vec3 out_vel;
 
-        out vec3 v_vel;
+      out vec3 v_vel;
 
-        uniform mat4 u_mvp;
-        uniform float u_deltaTime;
-        uniform vec3 u_attractorPosition;
-        uniform float u_damping;
-        uniform float u_attractorMass;
-        uniform float u_particleMass;
-        uniform float u_gravity;
-        uniform float u_distanceOffset;
-        uniform float u_isAttracting;
-        uniform float u_isRunning;
+      uniform mat4 u_mvp;
+      uniform float u_deltaTime;
+      uniform vec3 u_attractorPosition;
+      uniform float u_damping;
+      uniform float u_attractorMass;
+      uniform float u_particleMass;
+      uniform float u_gravity;
+      uniform float u_softening;
+      uniform float u_isAttracting;
+      uniform float u_isRunning;
 
-        void main()
-        {
-            vec3 r = u_attractorPosition - a_pos;
-            float rSquared = dot(r, r) + u_distanceOffset;
-            vec3 force = (u_gravity * u_attractorMass * u_particleMass * normalize(r) / rSquared) * u_isAttracting * u_isRunning;
+    void main()
+    {
+        vec3 r = u_attractorPosition - a_pos;
+        float rSquared = dot(r, r) + u_softening;
+        vec3 force = (u_gravity * u_attractorMass * u_particleMass * normalize(r) / rSquared) * u_isAttracting * u_isRunning;
 
-            vec3 acceleration = force / u_particleMass;
-            vec3 position = a_pos + (a_vel * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
-            vec3 velocity = a_vel + acceleration * u_deltaTime;
+        vec3 acceleration = force / u_particleMass;
+        vec3 position = a_pos + (a_vel * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
+        vec3 velocity = a_vel + acceleration * u_deltaTime;
 
-            out_pos = position;
+        out_pos = position;
 
-            //    out_vel = velocity * u_damping;
-            //    out_vel = velocity * (u_isRunning == 1.0 ? 1.0 : u_damping);
-            out_vel = mix(velocity, velocity * u_damping, u_isRunning);
+        //    out_vel = velocity * u_damping;
+        //    out_vel = velocity * (u_isRunning == 1.0 ? 1.0 : u_damping);
+        out_vel = mix(velocity, velocity * u_damping, u_isRunning);
 
-            gl_Position = u_mvp * vec4(position, 1.0);
+        gl_Position = u_mvp * vec4(position, 1.0);
 
-            v_vel = velocity;
-        }
+        v_vel = velocity;
+    }
 )";
 
 const char* const ParticleSimulatorTF::FragmentShaderSource =
@@ -124,7 +124,7 @@ void ParticleSimulatorTF::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraPro
     shader.setFloat("u_attractorMass", attractorMass);
     shader.setFloat("u_particleMass", particleMass);
     shader.setFloat("u_gravity", gravity);
-    shader.setFloat("u_distanceOffset", distanceOffset);
+    shader.setFloat("u_softening", softening);
 
     glBindVertexArray(currentVAO);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, currentTFBO);

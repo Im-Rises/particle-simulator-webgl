@@ -7,6 +7,8 @@
 #include "Entity/ParticleSimulatorTF/ParticleSimulatorTF.h"
 #else
 #include "Entity/ParticleSimulatorSSBO/ParticleSimulatorSSBO.h"
+#include "Entity/ParticleSimulatorTF/ParticleSimulatorTF.h"
+
 #endif
 
 class Scene {
