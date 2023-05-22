@@ -11,6 +11,8 @@ private:
     static const char* const VertexShaderSource;
     static const char* const FragmentShaderSource;
 
+    Shader shader;
+
     GLuint VAO, VBO;
 
     struct Particle {
@@ -33,7 +35,7 @@ public:
     float particleMass = 50.0F;
     float attractorMass = 250.0F;
     float gravity = 1.0F;
-    float distanceOffset = 10.0F;
+    float softening = 10.0F;
 
 public:
     explicit ParticleSimulator(int particleCount = 100000);

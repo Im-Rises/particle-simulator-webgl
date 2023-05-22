@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: mymindstorm/setup-emsdk@v11
+        with:
+          version: 3.1.37
 
       - name: Verify
         run: emcc -v

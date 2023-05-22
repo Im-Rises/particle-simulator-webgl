@@ -1,48 +1,45 @@
 #include "ParticleSimulator.h"
 
 #include <random>
-#include <iostream>
 
 #include "../../../Utility/piDeclaration.h"
 
 const char* const ParticleSimulator::VertexShaderSource =
     R"(#version 300 es
 
-precision highp float;
+        precision highp float;
 
-layout(location = 0) in vec3 a_position;
-layout(location = 1) in vec3 a_velocity;
+        layout(location = 0) in vec3 a_position;
+        layout(location = 1) in vec3 a_velocity;
 
-uniform mat4 u_mvp;
+        uniform mat4 u_mvp;
 
-out vec3 v_velocity;
+        out vec3 v_velocity;
 
-void main()
-{
-    gl_Position = u_mvp * vec4(a_position, 1.0);
-    v_velocity = a_velocity;
-    gl_PointSize = 1.0f;
-}
+        void main()
+        {
+            gl_Position = u_mvp * vec4(a_position, 1.0);
+            v_velocity = a_velocity;
+            gl_PointSize = 1.0f;
+        }
 )";
 
 const char* const ParticleSimulator::FragmentShaderSource =
     R"(#version 300 es
 
-precision highp float;
+        precision highp float;
 
-in vec3 v_velocity;
+        in vec3 v_velocity;
 
-out vec4 o_fragColor;
+        out vec4 o_fragColor;
 
-void main() {
-    vec3 v_color = vec3(min(v_velocity.y, 0.8f), max(v_velocity.x, 0.5f), min(v_velocity.z, 0.5f));
-    o_fragColor = vec4(v_color, 1.0f);
-}
+        void main() {
+            vec3 v_color = vec3(min(v_velocity.y, 0.8f), max(v_velocity.x, 0.5f), min(v_velocity.z, 0.5f));
+            o_fragColor = vec4(v_color, 1.0f);
+        }
 )";
 
-ParticleSimulator::ParticleSimulator(int particleCount) : Entity(VertexShaderSource, FragmentShaderSource) {
-    position = glm::vec3(6.0F, 0.0F, 0.0F);
-
+ParticleSimulator::ParticleSimulator(int particleCount) : shader(VertexShaderSource, FragmentShaderSource, false) {
     // Resize the particles vector
     particles.resize(particleCount);
 
@@ -90,7 +87,7 @@ void ParticleSimulator::update(const float& deltaTime) {
     {
         // Calculate the distance between the particle and the point of gravity
         const glm::vec3 r = attractorPosition - particle.position;
-        const float rSquared = glm::dot(r, r) + distanceOffset;
+        const float rSquared = glm::dot(r, r) + softening;
 
         // Calculate the force
         const glm::vec3 force = ((gravity * particleMass * attractorMass * glm::normalize(r)) / rSquared) * isAttracting;
@@ -143,7 +140,6 @@ void ParticleSimulator::randomizeParticles() {
     // Init the random engine
     std::mt19937 randomEngine;
     std::uniform_real_distribution<float> randomFloats(0.0F, 2.0F * M_PI);
-    std::uniform_real_distribution<float> const randomFloats2(-1.0F, 1.0F);
 
     // Init the particles as a sphere
     for (auto& particle : particles)

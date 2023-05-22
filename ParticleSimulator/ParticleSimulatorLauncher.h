@@ -1,5 +1,5 @@
-#ifndef PARTICLE_EMISSION_H
-#define PARTICLE_EMISSION_H
+#ifndef PARTICLE_SIMULATOR_LAUNCHER_H
+#define PARTICLE_SIMULATOR_LAUNCHER_H
 
 #include <memory>
 #include <string_view>
@@ -11,15 +11,17 @@ struct GLFWwindow;
 
 class ParticleSimulatorLauncher {
 public:
-    static constexpr std::string_view PROJECT_NAME = "Particle Simulator 3D WebGL";
-    static constexpr std::string_view PROJECT_VERSION = "3.0.0";
+    static constexpr std::string_view PROJECT_NAME = "Particle Simulator 3D";
+    static constexpr std::string_view PROJECT_VERSION = "2.1.1";
     static constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/particle-simulator-webgl";
     static constexpr std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
 private:
     GLFWwindow* window;
+
     int windowWidth = 1280;
     int windowHeight = 720;
+
     int displayWidth, displayHeight;
     int windowPosX, windowPosY;
 
@@ -104,4 +106,4 @@ private:
     static auto getGLMVersion() -> std::string;
 };
 
-#endif // PARTICLE_EMISSION_H
+#endif // PARTICLE_SIMULATOR_LAUNCHER_H

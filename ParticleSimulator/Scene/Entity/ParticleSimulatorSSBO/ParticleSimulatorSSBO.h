@@ -1,31 +1,28 @@
-#ifndef PARTICLE_SIMULATOR_TF_H
-#define PARTICLE_SIMULATOR_TF_H
+#ifndef PARTICLE_SIMULATOR_SSBO_H
+#define PARTICLE_SIMULATOR_SSBO_H
 
 #include <array>
 
 #include <glad/glad.h>
-
+#include <vector>
 #include "../Entity.h"
 
-class ParticleSimulatorTF : public Entity {
-    static const char* const VertexShaderSource;
-    static const char* const FragmentShaderSource;
+class ParticleSimulatorSSBO : public Entity {
+private:
+    GLuint VAO;
+    GLuint ssbo;
 
     Shader shader;
 
-    GLuint VAO[2];
-    GLuint TFBO[2];
-    GLuint VBO[2];
-
+    // Can't use directly vec3 in SSBO (indexed by 4 bytes not 3): https://computergraphics.stackexchange.com/questions/5810/shader-storage-buffer-indexing-by-4-bytes-instead-of-3
     struct Particle {
         glm::vec3 position;
+        [[maybe_unused]] float offset1{};
         glm::vec3 velocity;
+        [[maybe_unused]] float offset2{};
 
-        Particle() : position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F, 0.0F, 0.0F)) {}
+        Particle() : position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F)) {}
     };
-
-    GLuint currentVAO;
-    GLuint currentTFBO;
 
     int particlesCount;
 
@@ -42,15 +39,16 @@ public:
     float gravity = 1.0F;
     float softening = 10.0F;
 
+
 public:
-    explicit ParticleSimulatorTF(int particlesCount = 100000);
+    explicit ParticleSimulatorSSBO(int particlesCount = 1000000);
 
-    ParticleSimulatorTF(const ParticleSimulatorTF&) = delete;
-    auto operator=(const ParticleSimulatorTF&) -> ParticleSimulatorTF& = delete;
-    ParticleSimulatorTF(ParticleSimulatorTF&&) = delete;
-    auto operator=(ParticleSimulatorTF&&) -> ParticleSimulatorTF& = delete;
+    ParticleSimulatorSSBO(const ParticleSimulatorSSBO&) = delete;
+    auto operator=(const ParticleSimulatorSSBO&) -> ParticleSimulatorSSBO& = delete;
+    ParticleSimulatorSSBO(ParticleSimulatorSSBO&&) = delete;
+    auto operator=(ParticleSimulatorSSBO&&) -> ParticleSimulatorSSBO& = delete;
 
-    ~ParticleSimulatorTF() override;
+    ~ParticleSimulatorSSBO() override;
 
 public:
     void update(const float& deltaTime) override;
@@ -74,5 +72,4 @@ public:
     [[nodiscard]] auto getParticlesCount() const -> size_t;
 };
 
-
-#endif // PARTICLE_SIMULATOR_TF_H
+#endif // PARTICLE_SIMULATOR_SSBO_H
