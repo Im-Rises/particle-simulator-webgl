@@ -32,6 +32,16 @@ is limited to OpenGL ES 3.0 which doesn't support SSBOs.
 
 https://user-images.githubusercontent.com/59691442/225486109-9fb793d5-878f-430b-b418-938535038aed.mp4
 
+## Dependencies
+
+- OpenGL version: 4.6.0
+- GLSL version: 4.60
+- GLFW version: 3.3.8
+- Glad version: 0.1.36
+- ImGui version: 1.89.6 WIP
+- GLM version: 0.9.8
+- Emscripten: 3.1.37
+
 ## Building
 
 To build the project, you need to use a UNIX system, like Ubuntu or if you're on Windows you can use WSL.
