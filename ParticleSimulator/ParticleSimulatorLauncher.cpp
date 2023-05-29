@@ -229,6 +229,8 @@ void ParticleSimulatorLauncher::start() {
 
         deltaTime = std::chrono::duration<float>(currentTime - previousTime).count();
 
+        auto startMs = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now());
+
         handleInputs();
 
         handleUi(deltaTime);
@@ -237,11 +239,10 @@ void ParticleSimulatorLauncher::start() {
 
         updateScreen();
 
-        float const delay = fixedDeltaTime - deltaTime;
-        if (delay > 0.0F)
-        {
-            std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(delay * 1000.0F)));
-        }
+        auto endMs = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now());
+        auto delayMs = fixedDeltaTime - std::chrono::duration_cast<std::chrono::duration<float>>(endMs - startMs).count();
+        if (delayMs > 0.0F)
+            std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(delayMs * 1000.0F)));
 
         previousTime = currentTime;
     }
