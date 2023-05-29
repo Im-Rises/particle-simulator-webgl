@@ -13,7 +13,7 @@ class ParticleSimulatorLauncher {
 public:
     static constexpr std::string_view PROJECT_NAME = "Particle Simulator 3D";
     static constexpr std::string_view PROJECT_VERSION = "2.1.1";
-    static constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/particle-simulator-webgl";
+    static constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/ParticleSimulator";
     static constexpr std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
 private:
@@ -24,6 +24,8 @@ private:
 
     int displayWidth, displayHeight;
     int windowPosX, windowPosY;
+
+    float fixedDeltaTime = 1.0F / 60.0F;
 
     std::unique_ptr<Scene> scene;
 
@@ -42,8 +44,6 @@ private:
 #ifndef __EMSCRIPTEN__
     bool isFullscreen = false;
 #endif
-
-    static constexpr int FRAME_PER_SECOND = 60;
 
 public:
     ParticleSimulatorLauncher();
@@ -66,6 +66,7 @@ private:
 
     void handleUi(float deltaTime);
 
+    void fixedUpdateGame(float deltaTime);
     void updateGame(float deltaTime);
 
     void updateScreen();
