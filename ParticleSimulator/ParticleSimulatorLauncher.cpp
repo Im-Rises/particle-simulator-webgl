@@ -242,7 +242,11 @@ void ParticleSimulatorLauncher::start() {
         auto endMs = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now());
         auto delayMs = fixedDeltaTime - std::chrono::duration_cast<std::chrono::duration<float>>(endMs - startMs).count();
         if (delayMs > 0.0F)
+#ifdef _WIN32
+            std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(delayMs * 500.0F))); // Windows is slow so we need to divide by 2 the delay
+#else
             std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(delayMs * 1000.0F)));
+#endif
 
         previousTime = currentTime;
     }
