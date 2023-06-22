@@ -91,14 +91,15 @@ Then open your browser and go to this address:
 
 The speed and some parameters can be modified directly in the ImGui windows.
 
-| Action              | Key                                                |
-|---------------------|----------------------------------------------------|
-| Translate camera    | (WASD) or (↑ ← ↓ →)                                |
-| Pause/Resume        | P                                                  |
-| Move up/down camera | (Space/Shift) or (Page up/down)                    |
-| Rotate camera       | Right Mouse Button + Mouse movement                |
-| Fullscreen          | F11                                                |
-| Drag particles      | Left Mouse Button + Mouse movement or Touch screen |
+| Action                   | Key                                                |
+|--------------------------|----------------------------------------------------|
+| Translate camera         | WASD (← → ↑ ↓)                                     |
+| Pause/Resume             | P                                                  |
+| Move up/down camera      | SPACE/SHIFT                                        |
+| Rotate camera            | Right Mouse Button + Mouse movement                |
+| Toggle UI visible/hidden | F1                                                 |
+| Fullscreen               | F11                                                |
+| Drag particles           | Left Mouse Button + Mouse movement OR Touch screen |
 
 > **Note**
 > The translation commands are set for QWERTY keyboard layout.
