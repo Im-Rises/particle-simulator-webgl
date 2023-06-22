@@ -46,7 +46,7 @@ private:
     float pointSize = 1.0F;
     bool isFullscreen = false;
 #endif
-    bool isUiVisible = true;
+    bool isUiVisible = false;
 
 public:
     ParticleSimulatorLauncher();
